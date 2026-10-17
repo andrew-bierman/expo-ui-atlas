@@ -13,20 +13,30 @@ Prepared October 17, 2026. This is a submission runbook, not a record of Apple a
 | Store build | No iOS EAS builds returned for the linked project during this audit; no standalone release archive verified |
 | Device coverage | iPhone simulator / Expo Go verified; standalone physical iPhone and iPad checks still required |
 | Public URLs | Canonical public-repo URLs and GitHub Issues contact prepared; become reachable after merge/publication; bundled in-app access implemented |
-| Listing | Copy and reviewer walkthrough prepared in [metadata.md](metadata.md); screenshots and App Store Connect fields still required |
+| Listing | App Store Connect record `6824046567` created; version 1.0.0 copy, subtitle, Developer Tools category, 4+ rating, free pricing, worldwide availability and manual release saved; screenshots, review contact and final declarations remain |
 | Third-party content | App and Expo documentation notices are bundled; installed production dependency notices are exportable offline; unresolved/native archive notice review remains |
+
+## App Store Connect setup receipt — October 17, 2026
+
+The app record exists under Bierman Collective LLC with limited app access. Version 1.0.0 is **Prepare for Submission**, with manual release selected and sign-in requirements disabled. Description, promotional text, keywords, copyright and reviewer walkthrough are saved. App Information has the subtitle “Explore native UI controls,” Developer Tools as the primary category, and the calculated 4+ age rating. Pricing is free in all storefronts; availability is configured for all 175 countries/regions on release. Apple Silicon Mac and Vision Pro availability are disabled for the initial iPhone/iPad release.
+
+TestFlight beta description, reviewer walkthrough, marketing URL and privacy URL drafts are saved; beta feedback and review contacts remain pending.
+
+Support, marketing and privacy URLs point to the planned GitHub repository pages. They remain release blockers while the repository is private. Privacy-label publication, content-rights declaration and owner review contact remain outstanding. No version has been submitted to App Review or released.
+
+EAS can read the new record with its existing managed App Store Connect API key; it returned no TestFlight builds. The first cloud build attempts stopped during signing setup, before creating an archive. The available EAS distribution certificates were expired; no certificate was revoked or reused. Apple ID authentication returned an account-lock error despite an active browser session. Avoid repeated login retries: finish signing setup through the authenticated Apple Developer portal or after the owner resolves the account lock. Keep CSR/private keys, certificate bundles and provisioning profiles outside version control. Remote build numbers may have advanced during failed setup attempts; inspect the eventual archive rather than assuming a particular build number.
 
 ## 1. Finish the release inputs
 
 - Confirm the App Store name is available. This is an independent developer utility, not an official Expo or Apple product. Obtain permission for third-party branding where needed; an attribution sentence does not grant trademark rights. See [Apple 4.1 and 5.2](https://developer.apple.com/app-store/review/guidelines/).
 - Publish the [privacy policy](../privacy.md) and [support page](../support.md) at the [proposed public GitHub URLs](open-source.md). Guide now provides bundled offline access to both pages. Verify the external URLs in a signed-out browser after the files reach public main; until then, the configured GitHub links are not release-ready. Apple requires both the metadata URL and in-app access: [5.1.1](https://developer.apple.com/app-store/review/guidelines/#privacy).
 - Follow the [public repository checklist](open-source.md), including the personal Apple-login email still present in old history, before changing repository visibility.
-- Confirm distribution rights/notices for bundled documentation, dependencies, fonts and artwork. The Docs sheet includes the Expo documentation notice; verify it remains in the final binary. Do not add a license to the original app source without the owner's decision.
+- Confirm distribution rights/notices for bundled documentation, dependencies, fonts and artwork. The Docs sheet includes the Expo documentation notice; verify it remains in the final binary. The original app source is MIT-licensed; preserve its license and bundled third-party notices.
 - Choose price, storefronts, copyright holder, reviewer contact name/email/phone, and App Store Connect age-rating answers. Never put signing keys, Apple passwords or private contact fields into source control.
 
 ## 2. Create or select the App Store Connect record
 
-In [App Store Connect](https://appstoreconnect.apple.com), create an iOS app using the existing bundle ID, English (U.S.), and a unique SKU such as `expo-ui-atlas-ios`. Preserve an existing record if one exists. Copy its numeric **Apple ID** into `submit.production.ios.ascAppId` in `eas.json` so later uploads target that exact record. This ID is not the bundle identifier or Apple account email.
+The existing [Expo UI Atlas record](https://appstoreconnect.apple.com/apps/6824046567/distribution) uses Apple ID `6824046567`, team `666HGMV2LU`, English (U.S.) and SKU `expo-ui-atlas-ios`. Preserve it. Both submit profiles target this record through `submit.testflight.ios` in `eas.json`; production inherits those identifiers. The numeric Apple ID is not the bundle identifier or Apple account email.
 
 Complete App Information, Developer Tools category, age-rating questionnaire, pricing/availability, content-rights answers, and applicable agreements/tax/banking setup. iPad support is currently enabled; keep it and test it rather than silently disabling an advertised platform.
 
