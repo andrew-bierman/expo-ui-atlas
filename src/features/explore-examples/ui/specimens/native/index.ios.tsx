@@ -10,6 +10,7 @@ import {
   Ranges,
   Switches,
 } from './swiftui/controls';
+import { swiftuiControls } from './swiftui/controls-schema';
 import { Links, Navigation, Split, Tabs } from './swiftui/navigation';
 import { Dialogs, Form, Lists, Menus, Sheets } from './swiftui/presentation';
 import {
@@ -47,7 +48,9 @@ const specimen = (
   description: string,
   component: Example['component'],
   code: string,
-): Example[] => [{ id, title, description, component, code }];
+): Example[] => [
+  { id, title, description, component, code, controls: swiftuiControls[id] },
+];
 export const nativeExamples: ExampleRegistry = {
   'swiftui-buttons': specimen(
     'styles',

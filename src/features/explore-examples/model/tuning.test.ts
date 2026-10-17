@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test';
-import { defaultTuning, type TuningControl, updateTuning } from './tuning';
+import type { TuningControl } from './tuning';
+import { defaultTuning, updateTuning } from './tuning-values';
 
 const controls: TuningControl[] = [
   {
@@ -35,4 +36,20 @@ test('numeric tuning clamps and snaps to supported increments without mutating o
   expect(updateTuning(controls, values, 'size', -20).size).toBe(10);
   expect(updateTuning(controls, values, 'size', 27).size).toBe(25);
   expect(values.size).toBe(20);
+});
+test('JSON configurations validate known controls and do not accept arbitrary native props', async () => {
+  const { parseTuning } = await import('./tuning-values');
+  expect(parseTuning(controls, '{')).toEqual({ error: 'Enter valid JSON.' });
+  expect(parseTuning(controls, '[]')).toEqual({
+    error: 'Use a JSON object of control values.',
+  });
+  expect(parseTuning(controls, '{"nativeSecret":true}')).toEqual({
+    error: 'Unknown control: nativeSecret',
+  });
+  expect(parseTuning(controls, '{"style":"wrong"}')).toEqual({
+    error: 'Invalid value for style',
+  });
+  expect(parseTuning(controls, '{"style":"text","size":27}')).toEqual({
+    values: { style: 'text', size: 25, enabled: true },
+  });
 });

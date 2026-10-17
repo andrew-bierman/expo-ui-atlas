@@ -1,4 +1,8 @@
 import type { ExampleRegistry } from '../../../model/types';
+import {
+  composeControls,
+  composeDescriptions,
+} from './compose/controls-schema';
 import * as Core from './compose/core';
 import * as Experience from './compose/experience';
 
@@ -35,9 +39,9 @@ export const nativeExamples: ExampleRegistry = Object.fromEntries(
     [
       {
         id: `${id}-playground`,
-        title: 'Native playground',
-        description:
-          'Interact with the Android controls below. Reset restores the initial state.',
+        title: composeDescriptions[id][0],
+        description: composeDescriptions[id][1],
+        controls: composeControls[`compose-${id}`],
         component,
       },
     ],

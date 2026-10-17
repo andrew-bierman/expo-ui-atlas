@@ -15,27 +15,37 @@ import {
 import { useState } from 'react';
 import { Text as RNText, View } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Typography() {
   const t = useTheme();
-  const [large, setLarge] = useState(false);
+  const [fontSize, setFontSize] = useTunedState<number>('fontSize', 28);
+  const content = useKnob('text', 'The great outdoors');
+  const weight = useKnob<
+    '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900'
+  >('weight', '700');
+  const family = useKnob('fontFamily', 'system');
+  const tracking = useKnob('tracking', 0);
+  const lineLimit = useKnob('lineLimit', 1);
   return (
     <Stage>
       <Text
         textStyle={{
-          fontSize: large ? 36 : 28,
-          fontWeight: '700',
+          fontSize,
+          fontWeight: weight,
+          fontFamily: family === 'system' ? undefined : family,
+          letterSpacing: tracking,
           color: t.accent,
         }}
       >
-        The great outdoors
+        {content}
       </Text>
       <Text textStyle={{ fontSize: 16, color: t.muted, lineHeight: 24 }}>
         Native text with custom size, weight, color, and line height.
       </Text>
       <Text
-        numberOfLines={1}
+        numberOfLines={lineLimit}
         style={{ width: 220 }}
         textStyle={{ fontSize: 14, color: t.text }}
       >
@@ -45,36 +55,39 @@ export function Typography() {
       <Button
         label="Toggle title size"
         variant="outlined"
-        onPress={() => setLarge((v) => !v)}
+        onPress={() => setFontSize((v) => (v === 28 ? 36 : 28))}
       />
     </Stage>
   );
 }
 export function Layouts() {
-  const [spacing, setSpacing] = useState(8);
+  const [spacing, setSpacing] = useTunedState<number>('spacing', 8);
+  const alignment = useKnob<'start' | 'center' | 'end'>('alignment', 'center');
+  const rowWidth = useKnob('rowWidth', 250);
+  const cellPadding = useKnob('cellPadding', 12);
   return (
     <Stage>
-      <Row spacing={spacing} alignment="center">
+      <Row spacing={spacing} alignment={alignment}>
         <Text
-          style={{ backgroundColor: '#dce8da', padding: 12 }}
+          style={{ backgroundColor: '#dce8da', padding: cellPadding }}
           textStyle={{ color: '#163d29' }}
         >
           A
         </Text>
         <Text
-          style={{ backgroundColor: '#eddbc8', padding: 20 }}
+          style={{ backgroundColor: '#eddbc8', padding: cellPadding + 8 }}
           textStyle={{ color: '#513321' }}
         >
           B
         </Text>
         <Text
-          style={{ backgroundColor: '#dedcf0', padding: 12 }}
+          style={{ backgroundColor: '#dedcf0', padding: cellPadding }}
           textStyle={{ color: '#3b3157' }}
         >
           C
         </Text>
       </Row>
-      <Row style={{ width: 250 }}>
+      <Row style={{ width: rowWidth }}>
         <Text>Start</Text>
         <Spacer flexible />
         <Text>End</Text>
@@ -89,11 +102,14 @@ export function Layouts() {
   );
 }
 export function Disclosure() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useTunedState<boolean>('expanded', false);
+  const label = useKnob('label', 'What’s inside the pack?');
+  const fontSize = useKnob('fontSize', 16);
   return (
     <Stage>
       <Collapsible
-        label="What’s inside the pack?"
+        label={label}
+        labelStyle={{ fontSize }}
         isOpen={open}
         onOpenChange={setOpen}
       >
@@ -112,28 +128,30 @@ export function Disclosure() {
 }
 export function SettingsForm() {
   const t = useTheme();
+  const height = useKnob('height', 320);
+  const uppercase = useKnob('uppercase', false);
+  const showFooter = useKnob('showFooter', true);
   const [wifi, setWifi] = useState(true);
   const [offline, setOffline] = useState(false);
   return (
     <SpecimenHost
-      style={{ height: 320, width: '100%' }}
+      style={{ height, width: '100%' }}
       ignoreSafeArea="all"
       colorScheme={t.dark ? 'dark' : 'light'}
     >
       <FieldGroup>
-        <FieldGroup.Section title="Connection">
-          <FieldGroup.SectionHeader>
-            <Text>Connection preferences</Text>
-          </FieldGroup.SectionHeader>
+        <FieldGroup.Section title="Connection" titleUppercase={uppercase}>
           <Switch label="Use Wi-Fi" value={wifi} onValueChange={setWifi} />
           <Switch
             label="Offline maps"
             value={offline}
             onValueChange={setOffline}
           />
-          <FieldGroup.SectionFooter>
-            <Text>Changes apply to this specimen only.</Text>
-          </FieldGroup.SectionFooter>
+          {showFooter && (
+            <FieldGroup.SectionFooter>
+              <Text>Changes apply to this specimen only.</Text>
+            </FieldGroup.SectionFooter>
+          )}
         </FieldGroup.Section>
         <FieldGroup.Section title="Status">
           <Text>{wifi ? 'Wi-Fi available' : 'Wi-Fi disabled'}</Text>
@@ -145,28 +163,43 @@ export function SettingsForm() {
 export function Lists() {
   const t = useTheme();
   const [selected, setSelected] = useState('None');
+  const rows = useKnob('rows', 3);
+  const height = useKnob('height', 260);
+  const leading = useKnob('leading', true);
+  const trailing = useKnob('trailing', true);
+  const supporting = useKnob('supporting', true);
   return (
     <View style={{ gap: 12 }}>
       <RNText style={{ color: t.text }}>Last opened: {selected}</RNText>
       <SpecimenHost
-        style={{ height: 260, width: '100%' }}
+        style={{ height, width: '100%' }}
         ignoreSafeArea="all"
         colorScheme={t.dark ? 'dark' : 'light'}
       >
         <List>
-          {['Alpine trail', 'River crossing', 'Forest loop'].map((name, i) => (
+          {Array.from(
+            { length: rows },
+            (_, i) =>
+              `${['Alpine trail', 'River crossing', 'Forest loop'][i % 3]} ${i + 1}`,
+          ).map((name, i) => (
             <ListItem
               key={name}
               onPress={() => setSelected(name)}
-              supportingText={`${i + 2} km · Tap to select`}
+              supportingText={
+                supporting ? `${i + 2} km · Tap to select` : undefined
+              }
             >
               <Text>{name}</Text>
-              <ListItem.Leading>
-                <Text>{String(i + 1).padStart(2, '0')}</Text>
-              </ListItem.Leading>
-              <ListItem.Trailing>
-                <Text>{selected === name ? '✓' : '→'}</Text>
-              </ListItem.Trailing>
+              {leading && (
+                <ListItem.Leading>
+                  <Text>{String(i + 1).padStart(2, '0')}</Text>
+                </ListItem.Leading>
+              )}
+              {trailing && (
+                <ListItem.Trailing>
+                  <Text>{selected === name ? '✓' : '→'}</Text>
+                </ListItem.Trailing>
+              )}
             </ListItem>
           ))}
         </List>
@@ -175,39 +208,58 @@ export function Lists() {
   );
 }
 export function Scrolling() {
+  const direction = useKnob<'horizontal' | 'vertical'>(
+    'scrollDirection',
+    'horizontal',
+  );
+  const indicators = useKnob('indicators', true);
+  const cards = useKnob('cards', 5);
+  const cardWidth = useKnob('cardWidth', 150);
+  const cardHeight = useKnob('cardHeight', 150);
+  const Container = direction === 'horizontal' ? Row : Column;
   return (
     <SpecimenHost style={{ height: 180, width: '100%' }} ignoreSafeArea="all">
-      <ScrollView direction="horizontal">
-        <Row spacing={12}>
-          {['Forest', 'Ocean', 'Desert', 'Mountain', 'Tundra'].map((name) => (
-            <Column
-              key={name}
-              spacing={12}
-              style={{
-                width: 150,
-                height: 150,
-                borderRadius: 18,
-                padding: 18,
-                backgroundColor: '#e5efdf',
-              }}
-            >
-              <Text textStyle={{ color: '#246b4d', fontSize: 20 }}>{name}</Text>
-              <Text textStyle={{ color: '#395e4a' }}>Swipe to explore →</Text>
-            </Column>
-          ))}
-        </Row>
+      <ScrollView direction={direction} showsIndicators={indicators}>
+        <Container spacing={12}>
+          {Array.from({ length: cards }, (_, i) => `Landscape ${i + 1}`).map(
+            (name) => (
+              <Column
+                key={name}
+                spacing={12}
+                style={{
+                  width: cardWidth,
+                  height: cardHeight,
+                  borderRadius: 18,
+                  padding: 18,
+                  backgroundColor: '#e5efdf',
+                }}
+              >
+                <Text textStyle={{ color: '#246b4d', fontSize: 20 }}>
+                  {name}
+                </Text>
+                <Text textStyle={{ color: '#395e4a' }}>Swipe to explore →</Text>
+              </Column>
+            ),
+          )}
+        </Container>
       </ScrollView>
     </SpecimenHost>
   );
 }
 export function Interop() {
   const t = useTheme();
+  const bridgePadding = useKnob('bridgePadding', 18);
+  const bridgeRadius = useKnob('bridgeRadius', 16);
   return (
     <Stage>
       <Text>Native Expo UI above</Text>
       <RNHostView matchContents={{ vertical: true }}>
         <View
-          style={{ backgroundColor: t.soft, padding: 18, borderRadius: 16 }}
+          style={{
+            backgroundColor: t.soft,
+            padding: bridgePadding,
+            borderRadius: bridgeRadius,
+          }}
         >
           <RNText style={{ color: t.text, fontSize: 15 }}>
             This card is a React Native View inside RNHostView.

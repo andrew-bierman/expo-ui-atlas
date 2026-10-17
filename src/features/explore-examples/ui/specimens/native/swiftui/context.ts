@@ -4,7 +4,7 @@ export const swiftuiContextNotes = {
   ArrangementView:
     'Requires iOS 27.1+. Below that version its children render without an adaptive container.',
   ConcentricRectangle:
-    'Concentric corners require iOS 26+ and derive their geometry from an enclosing container shape. EdgeCornerStyle supplies fixed or concentric corner configurations.',
+    'Live in Shape geometry: iOS 26+ concentric corners derive from a container shape; EdgeCornerStyle switches between fixed and concentric corner configurations. The concentric shape is empty on older OS versions, while the other shapes remain live.',
   withAnimation:
     'Native animation transactions require a worklet body mutating useNativeState values. Ordinary React state specimens use controlled event callbacks; worklet orchestration is not exercised here.',
   useWorkletCallback:

@@ -1,12 +1,55 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { Text as RNText, View } from 'react-native';
+import { useKnob, useTunedState } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
+import { choices, useChoice } from './controls-schema';
 export function Typography() {
   const [large, setLarge] = useState(false);
+  const text = useKnob('text', 'Native typography');
+  const dateText = useChoice(
+    'dateText',
+    ['timer', 'relative', 'offset', 'date', 'time'] as const,
+    'date',
+  );
+  const truncation = useChoice(
+    'truncation',
+    ['head', 'middle', 'tail'] as const,
+    'tail',
+  );
+  const lines = useKnob('lines', 3);
+  const textAlignment = useChoice(
+    'textAlignment',
+    choices.alignment,
+    'leading',
+  );
+  const [referenceDate] = useState(() => new Date());
+  const effect = useChoice('effect', choices.effect, 'none');
+  const effectSpeed = useKnob('effectSpeed', 1);
+  const trigger = S.useNativeState<number | string | boolean>(0);
+  const animationCount = useRef(0);
+  const symbolModifiers =
+    effect === 'none'
+      ? []
+      : [
+          M.symbolEffect(
+            { effect },
+            { value: trigger, options: { speed: effectSpeed } },
+          ),
+        ];
+  const textStyle = useChoice('textStyle', choices.textStyle, 'title2');
+  const weight = useChoice('weight', choices.weight, 'bold');
+  const design = useChoice('design', choices.design, 'serif');
+  const italic = useKnob('italic', false);
+  const selectable = useKnob('selectable', true);
+  const labelStyle = useChoice('labelStyle', choices.label, 'automatic');
+  const symbol = useChoice('symbol', choices.symbol, 'heart.fill');
+  const symbolSize = useKnob('symbolSize', 32);
+  const variable = useKnob('variable', 0.5);
+  const kerning = useKnob('kerning', 0);
   return (
-    <SpecimenHost style={{ height: 310 }}>
+    <SpecimenHost style={{ height: 370 }}>
       <S.VStack
         alignment="leading"
         spacing={16}
@@ -15,22 +58,42 @@ export function Typography() {
         <S.Text
           modifiers={[
             M.font({
-              textStyle: large ? 'largeTitle' : 'title2',
-              weight: 'bold',
-              design: 'serif',
+              textStyle: large ? 'largeTitle' : textStyle,
+              weight,
+              design,
             }),
+            M.kerning(kerning),
+            M.truncationMode(truncation),
+            M.lineLimit(lines),
+            M.multilineTextAlignment(textAlignment),
+            M.textSelection(selectable),
+            ...(italic ? [M.italic()] : []),
           ]}
         >
-          Native typography
+          {text}
         </S.Text>
         <S.Text markdownEnabled>
           **Bold**, *italic*, and [links](https://expo.dev) in Markdown.
         </S.Text>
-        <S.Label title="SF Symbols + text" systemImage="sparkles" />
+        <S.Label
+          title="SF Symbols + text"
+          systemImage="sparkles"
+          modifiers={[M.labelStyle(labelStyle)]}
+        />
         <S.HStack spacing={20}>
-          <S.Image systemName="heart.fill" color="#ad4b2c" size={32} />
-          <S.Image systemName="wifi" variableValue={0.5} size={32} />
-          <S.Text date={new Date()} dateStyle="date" />
+          <S.Image
+            systemName={symbol}
+            modifiers={symbolModifiers}
+            color="#ad4b2c"
+            size={symbolSize}
+            variableValue={variable}
+          />
+          <S.Image
+            systemName="wifi"
+            variableValue={variable}
+            size={symbolSize}
+          />
+          <S.Text date={referenceDate} dateStyle={dateText} />
         </S.HStack>
         <S.Text
           modifiers={[
@@ -41,20 +104,32 @@ export function Typography() {
           Selectable monospaced text
         </S.Text>
         <S.Toggle label="Larger title" isOn={large} onIsOnChange={setLarge} />
+        <S.Button
+          label="Replay symbol effect"
+          onPress={() => {
+            const next = ++animationCount.current;
+            trigger.set(next);
+          }}
+        />
       </S.VStack>
     </SpecimenHost>
   );
 }
 export function Empty() {
   const [empty, setEmpty] = useState(true);
+  const title = useKnob('title', 'No saved examples');
+  const description = useKnob(
+    'description',
+    'Save an example to find it here.',
+  );
   return (
     <SpecimenHost style={{ height: 300 }}>
       <S.VStack spacing={10}>
         {empty ? (
           <S.ContentUnavailableView
-            title="No saved examples"
+            title={title}
             systemImage="bookmark"
-            description="Save an example to find it here."
+            description={description}
           />
         ) : (
           <S.Label
@@ -71,7 +146,19 @@ export function Empty() {
   );
 }
 export function Charts() {
-  const [type, setType] = useState<S.ChartType>('bar');
+  const type = useChoice('chartType', choices.chart, 'bar');
+  const point = useChoice('point', choices.point, 'circle');
+  const lineWidth = useKnob('lineWidth', 3);
+  const pointSize = useKnob('pointSize', 30);
+  const dashed = useKnob('dashed', false);
+  const barRadius = useKnob('barRadius', 5);
+  const barWidth = useKnob('barWidth', 24);
+  const innerRadius = useKnob('innerRadius', 0.55);
+  const angularInset = useKnob('angularInset', 3);
+  const pieOpacity = useKnob('pieOpacity', 0.8);
+  const legend = useKnob('legend', true);
+  const animate = useKnob('animate', true);
+  const reference = useKnob('reference', false);
   const [grid, setGrid] = useState(true);
   const [boost, setBoost] = useState(false);
   const data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((x, i) => ({
@@ -81,28 +168,31 @@ export function Charts() {
   return (
     <SpecimenHost style={{ height: 400 }}>
       <S.VStack spacing={16} modifiers={[M.padding({ all: 12 })]}>
-        <S.Picker
-          label="Chart type"
-          selection={type}
-          onSelectionChange={setType}
-        >
-          {(['bar', 'line', 'area', 'point', 'pie', 'rectangle'] as const).map(
-            (v) => (
-              <S.Text key={v} modifiers={[M.tag(v)]}>
-                {v}
-              </S.Text>
-            ),
-          )}
-        </S.Picker>
+        <S.Text>{`Chart: ${type} · tune its native styling below`}</S.Text>
         <S.Chart
           type={type}
           data={data}
           showGrid={grid}
-          showLegend={type === 'pie'}
-          animate
-          barStyle={{ cornerRadius: 5 }}
-          pieStyle={{ innerRadius: 0.55, angularInset: 3 }}
-          lineStyle={{ width: 3, pointStyle: 'circle' }}
+          showLegend={legend}
+          animate={animate}
+          barStyle={{ cornerRadius: barRadius, width: barWidth }}
+          pieStyle={{
+            innerRadius,
+            angularInset,
+            opacity: pieOpacity,
+            cornerRadius: barRadius,
+          }}
+          lineStyle={{
+            width: lineWidth,
+            pointStyle: point,
+            pointSize,
+            dashArray: dashed ? [6, 4] : [],
+          }}
+          pointStyle={{ pointStyle: point, pointSize }}
+          areaStyle={{ color: '#ad4b2c' }}
+          rectangleStyle={{ color: '#ad4b2c', cornerRadius: barRadius }}
+          referenceLines={reference ? [{ x: 'Mon', y: 12 }] : []}
+          ruleStyle={{ lineWidth, dashArray: dashed ? [6, 4] : [] }}
           modifiers={[M.frame({ height: 210 })]}
         />
         <S.HStack spacing={20}>
@@ -115,10 +205,18 @@ export function Charts() {
 }
 export function Layout() {
   const [wide, setWide] = useState(false);
+  const alignment = useChoice('alignment', choices.alignment, 'leading');
+  const spacing = useKnob('spacing', 20);
+  const horizontal = useKnob('gridHorizontal', 24);
+  const vertical = useKnob('gridVertical', 12);
   return (
     <SpecimenHost style={{ height: 280 }}>
-      <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
-        <S.HStack spacing={12}>
+      <S.VStack
+        alignment={alignment}
+        spacing={spacing}
+        modifiers={[M.padding({ all: 12 })]}
+      >
+        <S.HStack spacing={spacing}>
           <S.Label title="Leading" systemImage="circle" />
           <S.Spacer />
           <S.Text>Trailing</S.Text>
@@ -134,7 +232,7 @@ export function Layout() {
           />
           <S.Text>Overlapping ZStack</S.Text>
         </S.ZStack>
-        <S.Grid horizontalSpacing={24} verticalSpacing={12}>
+        <S.Grid horizontalSpacing={horizontal} verticalSpacing={vertical}>
           <S.Grid.Row>
             <S.Text>Renderer</S.Text>
             <S.Text>SwiftUI</S.Text>
@@ -164,11 +262,25 @@ const renderRow = ({ item }: { item: number }) => (
   <S.Label title={`Native row ${item}`} systemImage="square.stack" />
 );
 export function Scrolling() {
+  const spacing = useKnob('spacing', 12);
+  const indicators = useChoice(
+    'indicators',
+    choices.scrollVisibility,
+    'automatic',
+  );
+  const disabled = useKnob('disabled', false);
+  const scrollModifiers = [
+    M.scrollIndicators(indicators),
+    M.scrollDisabled(disabled),
+  ];
   return (
     <SpecimenHost style={{ height: 310 }}>
       <S.VStack spacing={16}>
-        <S.ScrollView axes="horizontal" modifiers={[M.frame({ height: 100 })]}>
-          <S.LazyHStack spacing={12}>
+        <S.ScrollView
+          axes="horizontal"
+          modifiers={[...scrollModifiers, M.frame({ height: 100 })]}
+        >
+          <S.LazyHStack spacing={spacing}>
             <S.LazyHStack.ForEach
               data={scrollItems}
               keyExtractor={itemKey}
@@ -178,8 +290,10 @@ export function Scrolling() {
             </S.LazyHStack.ForEach>
           </S.LazyHStack>
         </S.ScrollView>
-        <S.ScrollView modifiers={[M.frame({ height: 190 })]}>
-          <S.LazyVStack spacing={16}>
+        <S.ScrollView
+          modifiers={[...scrollModifiers, M.frame({ height: 190 })]}
+        >
+          <S.LazyVStack spacing={spacing}>
             <S.LazyVStack.ForEach
               data={scrollItems}
               keyExtractor={itemKey}
@@ -194,27 +308,36 @@ export function Scrolling() {
   );
 }
 export function Shapes() {
-  const [round, setRound] = useState(18);
+  const [radius, setRadius] = useTunedState<number>('radius', 18);
+  const width = useKnob('width', 60);
+  const height = useKnob('height', 60);
+  const capsuleStyle = useChoice(
+    'capsuleStyle',
+    ['continuous', 'circular'] as const,
+    'continuous',
+  );
+  const topTrailing = useKnob('topTrailing', 0);
+  const bottomLeading = useKnob('bottomLeading', 0);
   return (
-    <SpecimenHost style={{ height: 300 }}>
+    <SpecimenHost style={{ height: 480 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.HStack spacing={16}>
           <S.Rectangle
             modifiers={[
-              M.frame({ width: 60, height: 60 }),
+              M.frame({ width, height }),
               M.foregroundStyle('#ad4b2c'),
             ]}
           />
           <S.RoundedRectangle
-            cornerRadius={round}
+            cornerRadius={radius}
             modifiers={[
-              M.frame({ width: 65, height: 60 }),
+              M.frame({ width, height }),
               M.foregroundStyle('#246b4d'),
             ]}
           />
           <S.Circle
             modifiers={[
-              M.frame({ width: 60, height: 60 }),
+              M.frame({ width, height }),
               M.foregroundStyle('#6552a3'),
             ]}
           />
@@ -222,33 +345,64 @@ export function Shapes() {
         <S.HStack spacing={16}>
           <S.Ellipse
             modifiers={[
-              M.frame({ width: 70, height: 40 }),
+              M.frame({ width: width + 10, height: height * 0.67 }),
               M.foregroundStyle('#6552a3'),
             ]}
           />
           <S.Capsule
+            cornerStyle={capsuleStyle}
             modifiers={[
-              M.frame({ width: 70, height: 40 }),
+              M.frame({ width: width + 10, height: height * 0.67 }),
               M.foregroundStyle('#246b4d'),
             ]}
           />
           <S.UnevenRoundedRectangle
-            topLeadingRadius={round}
-            bottomTrailingRadius={round}
+            topLeadingRadius={radius}
+            topTrailingRadius={topTrailing}
+            bottomLeadingRadius={bottomLeading}
+            bottomTrailingRadius={radius}
             modifiers={[
-              M.frame({ width: 60, height: 60 }),
+              M.frame({ width, height }),
               M.foregroundStyle('#ad4b2c'),
             ]}
           />
         </S.HStack>
-        <S.Text>{`Corner radius: ${Math.round(round)}`}</S.Text>
-        <S.Slider value={round} min={0} max={30} onValueChange={setRound} />
+        <S.ZStack
+          modifiers={[
+            M.padding({ all: 10 }),
+            M.background(
+              '#ead7ca',
+              M.shapes.roundedRectangle({ cornerRadius: radius + 10 }),
+            ),
+            M.containerShape(
+              M.shapes.roundedRectangle({ cornerRadius: radius + 10 }),
+            ),
+          ]}
+        >
+          <S.ConcentricRectangle
+            corners={{
+              topLeadingCorner: S.EdgeCornerStyle.concentric(radius),
+              topTrailingCorner: S.EdgeCornerStyle.fixed(topTrailing),
+              bottomLeadingCorner: S.EdgeCornerStyle.fixed(bottomLeading),
+              bottomTrailingCorner: S.EdgeCornerStyle.concentric(radius),
+            }}
+            modifiers={[
+              M.frame({ width: width * 2, height }),
+              M.foregroundStyle('#246b4d'),
+            ]}
+          />
+        </S.ZStack>
+        <S.Text>{`Corner radius: ${Math.round(radius)} · concentric shape requires iOS 26+`}</S.Text>
+        <S.Slider value={radius} min={0} max={40} onValueChange={setRadius} />
       </S.VStack>
     </SpecimenHost>
   );
 }
 export function Layers() {
   const [masked, setMasked] = useState(true);
+  const width = useKnob('width', 220);
+  const height = useKnob('height', 100);
+  const overlay = useKnob('overlay', 'Overlay content');
   return (
     <SpecimenHost style={{ height: 230 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
@@ -257,7 +411,7 @@ export function Layers() {
             <S.Mask>
               <S.Rectangle
                 modifiers={[
-                  M.frame({ width: 220, height: 100 }),
+                  M.frame({ width, height }),
                   M.foregroundStyle('#ad4b2c'),
                 ]}
               />
@@ -272,7 +426,7 @@ export function Layers() {
                   M.font({ weight: 'bold', size: 20 }),
                 ]}
               >
-                Overlay content
+                {overlay}
               </S.Text>
             </S.Overlay.Content>
           </S.Overlay>
@@ -289,7 +443,13 @@ export function Layers() {
   );
 }
 export function Modifiers() {
-  const [amount, setAmount] = useState(0.8);
+  const rotation = useKnob('rotation', 0);
+  const scale = useKnob('scale', 1);
+  const opacity = useKnob('opacity', 1);
+  const blur = useKnob('blur', 0);
+  const shadow = useKnob('shadow', 6);
+  const padding = useKnob('padding', 14);
+  const corner = useKnob('corner', 16);
   const [disabled, setDisabled] = useState(false);
   return (
     <SpecimenHost style={{ height: 310 }}>
@@ -299,17 +459,20 @@ export function Modifiers() {
           systemImage="sparkles"
           modifiers={[
             M.font({ size: 24, weight: 'bold' }),
-            M.padding({ all: 14 }),
+            M.padding({ all: padding }),
             M.background('#ead7ca'),
-            M.cornerRadius(16),
-            M.rotationEffect((amount - 0.5) * 30),
-            M.scaleEffect(0.7 + amount * 0.3),
-            M.opacity(0.3 + amount * 0.7),
-            M.shadow({ radius: 6, y: 3, color: '#00000025' }),
+            M.cornerRadius(corner),
+            M.rotationEffect(rotation),
+            M.scaleEffect(scale),
+            M.opacity(opacity),
+            M.blur(blur),
+            M.shadow({ radius: shadow, y: 3, color: '#00000025' }),
             M.accessibilityLabel('Interactive modifier specimen'),
           ]}
         />
-        <S.Slider value={amount} onValueChange={setAmount} />
+        <S.Text>
+          Adjust rotation, scale, opacity, blur and shadow in the inspector.
+        </S.Text>
         <S.Toggle
           label="Disable action"
           isOn={disabled}
@@ -329,11 +492,15 @@ export function Modifiers() {
 export function Glass() {
   const id = useId();
   const [spacing, setSpacing] = useState(20);
+  const variant = useChoice('glassStyle', choices.glass, 'regular');
+  const interactive = useKnob('interactive', false);
+  const threshold = useKnob('threshold', 30);
+  const padding = useKnob('padding', 20);
   return (
     <SpecimenHost style={{ height: 240 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Namespace id={id}>
-          <S.GlassEffectContainer spacing={30}>
+          <S.GlassEffectContainer spacing={threshold}>
             <S.HStack spacing={spacing}>
               {(['star.fill', 'heart.fill'] as const).map((symbol, i) => (
                 <S.Image
@@ -341,8 +508,8 @@ export function Glass() {
                   systemName={symbol}
                   size={26}
                   modifiers={[
-                    M.padding({ all: 20 }),
-                    M.glassEffect(),
+                    M.padding({ all: padding }),
+                    M.glassEffect({ glass: { variant, interactive } }),
                     M.glassEffectId(`symbol-${i}`, id),
                   ]}
                 />
@@ -357,6 +524,8 @@ export function Glass() {
   );
 }
 export function Interop() {
+  const padding = useKnob('padding', 16);
+  const radius = useKnob('radius', 12);
   return (
     <SpecimenHost style={{ height: 170 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
@@ -364,9 +533,9 @@ export function Interop() {
         <S.RNHostView matchContents>
           <View
             style={{
-              padding: 16,
+              padding,
               backgroundColor: '#ead7ca',
-              borderRadius: 12,
+              borderRadius: radius,
             }}
           >
             <RNText>React Native content via RNHostView</RNText>

@@ -1,6 +1,9 @@
 import { Host, type UniversalHostProps } from '@expo/ui';
 import { useKnob } from '../model/tuning';
-export function SpecimenHost(props: UniversalHostProps) {
+export function SpecimenHost(
+  props: UniversalHostProps & { preserveSeed?: boolean },
+) {
+  const { preserveSeed, ...hostProps } = props;
   const appearance = useKnob<'system' | 'light' | 'dark'>(
     'appearance',
     'system',
@@ -12,9 +15,9 @@ export function SpecimenHost(props: UniversalHostProps) {
   );
   return (
     <Host
-      {...props}
+      {...hostProps}
       colorScheme={appearance === 'system' ? props.colorScheme : appearance}
-      seedColor={props.seedColor ?? accent}
+      seedColor={preserveSeed ? props.seedColor : accent}
       layoutDirection={direction}
     />
   );

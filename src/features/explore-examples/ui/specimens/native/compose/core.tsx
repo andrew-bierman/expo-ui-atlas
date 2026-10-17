@@ -2,6 +2,7 @@ import * as C from '@expo/ui/jetpack-compose';
 import * as M from '@expo/ui/jetpack-compose/modifiers';
 import { type ReactNode, useState } from 'react';
 import { Text as RNText } from 'react-native';
+import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
 
 export function Stage({
@@ -32,20 +33,48 @@ export function Mark() {
   );
 }
 export function Buttons() {
+  const enabled = useKnob('enabled', true);
+  const label = useKnob('label', 'Explore');
+  const padding = useKnob('padding', 16);
+  const custom = useKnob('customColor', false);
+  const radius = useKnob('radius', 24);
   const [count, setCount] = useState(0);
   const click = () => setCount(count + 1);
   return (
-    <Stage height={440}>
+    <Stage height={340 + padding * 7}>
       <C.Text>{`Action count: ${count}`}</C.Text>
       {[
-        C.Button,
-        C.FilledTonalButton,
-        C.OutlinedButton,
-        C.ElevatedButton,
-        C.TextButton,
-      ].map((Button, i) => (
-        <Button key={i} onClick={click}>
-          {['Filled', 'Tonal', 'Outlined', 'Elevated', 'Text'][i]}
+        { name: 'Button', component: C.Button },
+        { name: 'FilledTonalButton', component: C.FilledTonalButton },
+        { name: 'OutlinedButton', component: C.OutlinedButton },
+        { name: 'ElevatedButton', component: C.ElevatedButton },
+        { name: 'TextButton', component: C.TextButton },
+      ].map(({ name, component: Button }, i) => (
+        <Button
+          key={name}
+          onClick={click}
+          enabled={enabled}
+          contentPadding={{
+            start: padding,
+            end: padding,
+            top: padding / 2,
+            bottom: padding / 2,
+          }}
+          shape={C.Shape.RoundedCorner({
+            cornerRadii: {
+              topStart: radius,
+              topEnd: radius,
+              bottomStart: radius,
+              bottomEnd: radius,
+            },
+          })}
+          colors={
+            custom
+              ? { containerColor: '#236b55', contentColor: '#ffffff' }
+              : undefined
+          }
+        >
+          {`${['Filled', 'Tonal', 'Outlined', 'Elevated', 'Text'][i]} · ${label}`}
         </Button>
       ))}
       <C.Button enabled={false}>Disabled</C.Button>
@@ -53,37 +82,62 @@ export function Buttons() {
   );
 }
 export function IconButtons() {
+  const enabled = useKnob('enabled', true);
+  const size = useKnob('size', 48);
+  const custom = useKnob('customColor', false);
   const [n, setN] = useState(0);
   return (
-    <Stage height={170}>
+    <Stage height={250}>
       <C.Text>{`Icon actions: ${n}`}</C.Text>
-      <C.Row horizontalArrangement={{ spacedBy: 8 }}>
+      <C.FlowRow horizontalArrangement={{ spacedBy: 8 }}>
         {[
-          C.IconButton,
-          C.FilledIconButton,
-          C.FilledTonalIconButton,
-          C.OutlinedIconButton,
-        ].map((B, i) => (
-          <B key={i} onClick={() => setN(n + 1)}>
+          { name: 'IconButton', component: C.IconButton },
+          { name: 'FilledIconButton', component: C.FilledIconButton },
+          { name: 'FilledTonalIconButton', component: C.FilledTonalIconButton },
+          { name: 'OutlinedIconButton', component: C.OutlinedIconButton },
+        ].map(({ name, component: B }, i) => (
+          <B
+            key={name}
+            enabled={enabled}
+            modifiers={[M.size(size, size)]}
+            colors={
+              custom
+                ? { containerColor: '#d7efe3', contentColor: '#236b55' }
+                : undefined
+            }
+            onClick={() => setN(n + 1)}
+          >
             <Mark />
           </B>
         ))}
-      </C.Row>
+      </C.FlowRow>
     </Stage>
   );
 }
 export function FloatingActions() {
+  const expanded = useKnob('expanded', true);
+  const custom = useKnob('customColor', false);
   const [n, setN] = useState(0);
   return (
     <Stage height={310}>
       <C.Text>{`Created ${n} items`}</C.Text>
       <C.Row horizontalArrangement={{ spacedBy: 12 }}>
         {[
-          C.SmallFloatingActionButton,
-          C.FloatingActionButton,
-          C.LargeFloatingActionButton,
-        ].map((B, i) => (
-          <B key={i} onClick={() => setN(n + 1)}>
+          {
+            name: 'SmallFloatingActionButton',
+            component: C.SmallFloatingActionButton,
+          },
+          { name: 'FloatingActionButton', component: C.FloatingActionButton },
+          {
+            name: 'LargeFloatingActionButton',
+            component: C.LargeFloatingActionButton,
+          },
+        ].map(({ name, component: B }, i) => (
+          <B
+            key={name}
+            containerColor={custom ? '#d7efe3' : undefined}
+            onClick={() => setN(n + 1)}
+          >
             <B.Icon>
               <Mark />
             </B.Icon>
@@ -91,7 +145,8 @@ export function FloatingActions() {
         ))}
       </C.Row>
       <C.ExtendedFloatingActionButton
-        expanded={n % 2 === 0}
+        containerColor={custom ? '#d7efe3' : undefined}
+        expanded={expanded}
         onClick={() => setN(n + 1)}
       >
         <C.ExtendedFloatingActionButton.Icon>
@@ -105,6 +160,9 @@ export function FloatingActions() {
   );
 }
 export function Selection() {
+  const thumb = useKnob('thumb', true);
+  const custom = useKnob('customColor', false);
+  const enabled = useKnob('enabled', true);
   const [on, setOn] = useState(true);
   const native = C.useNativeState(false);
   const [radio, setRadio] = useState(0);
@@ -112,20 +170,32 @@ export function Selection() {
   return (
     <Stage height={440}>
       <C.Row verticalAlignment="center">
-        <C.Checkbox value={on} onCheckedChange={setOn} />
+        <C.Checkbox enabled={enabled} value={on} onCheckedChange={setOn} />
         <C.Text>Include favorites</C.Text>
-        <C.Switch value={on} onCheckedChange={setOn}>
-          <C.Switch.ThumbContent>
-            <C.Icon
-              source={require('./spark.xml')}
-              size={16}
-              contentDescription="Enabled"
-            />
-          </C.Switch.ThumbContent>
+        <C.Switch
+          colors={
+            custom
+              ? { checkedTrackColor: '#236b55', checkedThumbColor: '#ffffff' }
+              : undefined
+          }
+          enabled={enabled}
+          value={on}
+          onCheckedChange={setOn}
+        >
+          {thumb && (
+            <C.Switch.ThumbContent>
+              <C.Icon
+                source={require('./spark.xml')}
+                size={16}
+                contentDescription="Enabled"
+              />
+            </C.Switch.ThumbContent>
+          )}
         </C.Switch>
       </C.Row>
       <C.Row verticalAlignment="center">
         <C.TriStateCheckbox
+          enabled={enabled}
           state={(['off', 'indeterminate', 'on'] as const)[tri]}
           onClick={() => setTri((tri + 1) % 3)}
         />
@@ -138,6 +208,7 @@ export function Selection() {
         {[0, 1, 2].map((i) => (
           <C.RadioButton
             key={i}
+            enabled={enabled}
             selected={radio === i}
             onClick={() => setRadio(i)}
           />
@@ -153,12 +224,31 @@ export function Selection() {
         verticalArrangement={{ spacedBy: 8 }}
       >
         {[
-          C.ToggleButton,
-          C.IconToggleButton,
-          C.FilledIconToggleButton,
-          C.OutlinedIconToggleButton,
-        ].map((B, i) => (
-          <B key={i} checked={on} onCheckedChange={setOn}>
+          { name: 'ToggleButton', component: C.ToggleButton },
+          { name: 'IconToggleButton', component: C.IconToggleButton },
+          {
+            name: 'FilledIconToggleButton',
+            component: C.FilledIconToggleButton,
+          },
+          {
+            name: 'OutlinedIconToggleButton',
+            component: C.OutlinedIconToggleButton,
+          },
+        ].map(({ name, component: B }, i) => (
+          <B
+            key={name}
+            colors={
+              custom
+                ? {
+                    checkedContainerColor: '#236b55',
+                    checkedContentColor: '#ffffff',
+                  }
+                : undefined
+            }
+            enabled={enabled}
+            checked={on}
+            onCheckedChange={setOn}
+          >
             {i === 0 ? <C.Text>Save</C.Text> : <Mark />}
           </B>
         ))}
@@ -168,6 +258,11 @@ export function Selection() {
   );
 }
 export function Segments() {
+  const enabled = useKnob('enabled', true);
+  const custom = useKnob('customColor', false);
+  const colors = custom
+    ? { activeContainerColor: '#d7efe3', activeContentColor: '#236b55' }
+    : undefined;
   const [single, setSingle] = useState(0);
   const [multi, setMulti] = useState([true, false, false]);
   return (
@@ -176,6 +271,8 @@ export function Segments() {
       <C.SingleChoiceSegmentedButtonRow>
         {['Day', 'Week', 'Month'].map((label, i) => (
           <C.SegmentedButton
+            enabled={enabled}
+            colors={colors}
             key={label}
             selected={single === i}
             onClick={() => setSingle(i)}
@@ -189,6 +286,8 @@ export function Segments() {
       <C.MultiChoiceSegmentedButtonRow>
         {['Walk', 'Bike', 'Train'].map((label, i) => (
           <C.SegmentedButton
+            enabled={enabled}
+            colors={colors}
             key={label}
             checked={multi[i]}
             onCheckedChange={(v) =>
@@ -205,6 +304,9 @@ export function Segments() {
   );
 }
 export function Chips() {
+  const enabled = useKnob('enabled', true);
+  const elevation = useKnob('elevation', 0);
+  const border = useKnob('border', 1);
   const [selected, setSelected] = useState(false);
   const [input, setInput] = useState(true);
   const [message, setMessage] = useState('Choose an action');
@@ -212,7 +314,12 @@ export function Chips() {
     <Stage height={300}>
       <C.Text>{message}</C.Text>
       <C.FlowRow horizontalArrangement={{ spacedBy: 8 }}>
-        <C.AssistChip onClick={() => setMessage('Assistant opened')}>
+        <C.AssistChip
+          enabled={enabled}
+          elevation={elevation}
+          border={{ width: border, color: '#6552a3' }}
+          onClick={() => setMessage('Assistant opened')}
+        >
           <C.AssistChip.Label>
             <C.Text>Assist</C.Text>
           </C.AssistChip.Label>
@@ -221,6 +328,9 @@ export function Chips() {
           </C.AssistChip.LeadingIcon>
         </C.AssistChip>
         <C.FilterChip
+          enabled={enabled}
+          elevation={elevation}
+          border={{ width: border, color: '#6552a3' }}
           selected={selected}
           onClick={() => setSelected(!selected)}
         >
@@ -229,13 +339,20 @@ export function Chips() {
           </C.FilterChip.Label>
         </C.FilterChip>
         {input && (
-          <C.InputChip onClick={() => setInput(false)}>
+          <C.InputChip
+            enabled={enabled}
+            selected={selected}
+            elevation={elevation}
+            onClick={() => setInput(false)}
+          >
             <C.InputChip.Label>
               <C.Text>Tap to remove</C.Text>
             </C.InputChip.Label>
           </C.InputChip>
         )}
         <C.SuggestionChip
+          enabled={enabled}
+          elevation={elevation}
           onClick={() => {
             setInput(true);
             setMessage('Input restored');
@@ -255,38 +372,71 @@ export function Chips() {
   );
 }
 export function Sliders() {
+  const enabled = useKnob('enabled', true);
+  const steps = useKnob('steps', 4);
+  const max = useKnob('maximum', 1);
+  const reverse = useKnob('reverse', true);
+  const limited = useKnob('limited', false);
   const [value, setValue] = useState(0.4);
   return (
     <Stage height={400}>
-      <C.Text>{`Value: ${Math.round(value * 100)}%`}</C.Text>
+      <C.Text>{`Value: ${Math.min(value, max).toFixed(2)} / ${max}`}</C.Text>
       <C.Slider
-        value={value}
+        value={Math.min(value, max)}
+        enabled={enabled}
+        max={max}
         onValueChange={setValue}
         modifiers={[M.fillMaxWidth()]}
       />
       <C.Slider
-        value={value}
-        steps={4}
+        value={Math.min(value, max)}
+        steps={steps}
+        enabled={enabled}
+        max={max}
+        lowerLimit={limited ? max * 0.2 : undefined}
+        upperLimit={limited ? max * 0.8 : undefined}
         onValueChange={setValue}
         modifiers={[M.fillMaxWidth()]}
       />
       <C.Slider value={0.65} enabled={false} modifiers={[M.fillMaxWidth()]} />
       <C.VerticalSlider
-        value={value}
+        value={Math.min(value, max)}
+        enabled={enabled}
+        max={max}
         onValueChange={setValue}
-        reverseDirection
+        reverseDirection={reverse}
         modifiers={[M.height(150)]}
       />
     </Stage>
   );
 }
 export function Fields() {
+  const enabled = useKnob('enabled', true);
+  const readOnly = useKnob('readOnly', false);
+  const singleLine = useKnob('singleLine', true);
+  const lines = useKnob('lines', 3);
+  const isError = useKnob('error', false);
+  const password = useKnob('password', false);
+  const keyboard = useKnob<'text' | 'number' | 'email' | 'phone' | 'uri'>(
+    'keyboard',
+    'text',
+  );
+  const props = {
+    enabled,
+    readOnly,
+    singleLine,
+    minLines: singleLine ? 1 : lines,
+    maxLines: singleLine ? 1 : lines,
+    visualTransformation: password ? ('password' as const) : ('none' as const),
+    keyboardOptions: { keyboardType: keyboard },
+  };
   const [text, setText] = useState('');
   return (
-    <Stage height={350}>
+    <Stage height={singleLine ? 350 : 400 + lines * 75}>
       <C.TextField
+        {...props}
+        isError={isError}
         onValueChange={setText}
-        singleLine
         modifiers={[M.fillMaxWidth()]}
       >
         <C.TextField.Label>
@@ -297,8 +447,8 @@ export function Fields() {
         </C.TextField.SupportingText>
       </C.TextField>
       <C.OutlinedTextField
-        singleLine
-        isError={text.length > 0 && text.length < 3}
+        {...props}
+        isError={isError || (text.length > 0 && text.length < 3)}
         onValueChange={setText}
         modifiers={[M.fillMaxWidth()]}
       >
@@ -307,6 +457,7 @@ export function Fields() {
         </C.OutlinedTextField.Label>
       </C.OutlinedTextField>
       <C.BasicTextField
+        {...props}
         onValueChange={setText}
         modifiers={[M.border(1, '#6552a3'), M.paddingAll(16), M.fillMaxWidth()]}
       />
@@ -319,21 +470,46 @@ export function Fields() {
   );
 }
 export function Progress() {
+  const determinate = useKnob('determinate', true);
+  const width = useKnob('strokeWidth', 4);
+  const gap = useKnob('gap', 4);
+  const cap = useKnob<'round' | 'butt' | 'square'>('cap', 'round');
+  const amplitude = useKnob('amplitude', 1);
+  const wavelength = useKnob('wavelength', 24);
+  const speed = useKnob('speed', 24);
   const [p, setP] = useState(0.35);
   return (
     <Stage height={390}>
       <C.Slider value={p} onValueChange={setP} modifiers={[M.fillMaxWidth()]} />
-      <C.LinearProgressIndicator progress={p} modifiers={[M.fillMaxWidth()]} />
+      <C.LinearProgressIndicator
+        gapSize={gap}
+        strokeCap={cap}
+        progress={determinate ? p : undefined}
+        modifiers={[M.fillMaxWidth()]}
+      />
       <C.LinearWavyProgressIndicator
-        progress={p}
+        amplitude={amplitude}
+        wavelength={wavelength}
+        waveSpeed={speed}
+        progress={determinate ? p : undefined}
         modifiers={[M.fillMaxWidth()]}
       />
       <C.FlowRow
         horizontalArrangement={{ spacedBy: 12 }}
         verticalArrangement={{ spacedBy: 12 }}
       >
-        <C.CircularProgressIndicator progress={p} />
-        <C.CircularWavyProgressIndicator progress={p} />
+        <C.CircularProgressIndicator
+          strokeWidth={width}
+          gapSize={gap}
+          strokeCap={cap}
+          progress={determinate ? p : undefined}
+        />
+        <C.CircularWavyProgressIndicator
+          amplitude={amplitude}
+          wavelength={wavelength}
+          waveSpeed={speed}
+          progress={determinate ? p : undefined}
+        />
         <C.CircularProgressIndicator />
         <C.LoadingIndicator />
         <C.ContainedLoadingIndicator />
@@ -343,20 +519,30 @@ export function Progress() {
   );
 }
 export function Content() {
+  const fontSize = useKnob('fontSize', 24);
+  const family = useKnob<'serif' | 'sans-serif' | 'monospace'>(
+    'family',
+    'serif',
+  );
+  const italic = useKnob('italic', true);
+  const elevation = useKnob('elevation', 6);
+  const text = useKnob('text', 'Material typography');
   const [selected, setSelected] = useState(false);
   return (
     <Stage height={460}>
-      <C.Text style={{ typography: 'headlineSmall' }}>
-        Material typography
-      </C.Text>
-      <C.Text style={{ fontFamily: 'serif', fontStyle: 'italic' }}>
+      <C.Text style={{ fontSize }}>{text}</C.Text>
+      <C.Text
+        style={{ fontFamily: family, fontStyle: italic ? 'italic' : 'normal' }}
+      >
         Serif, italic, native text
       </C.Text>
       <C.Card>
         <C.Text modifiers={[M.paddingAll(12)]}>Filled card</C.Text>
       </C.Card>
-      <C.ElevatedCard elevation={6}>
-        <C.Text modifiers={[M.paddingAll(12)]}>Elevated card · 6 dp</C.Text>
+      <C.ElevatedCard elevation={elevation}>
+        <C.Text
+          modifiers={[M.paddingAll(12)]}
+        >{`Elevated card · ${elevation} dp`}</C.Text>
       </C.ElevatedCard>
       <C.OutlinedCard>
         <C.Text modifiers={[M.paddingAll(12)]}>Outlined card</C.Text>
@@ -391,27 +577,42 @@ export function Content() {
   );
 }
 export function Artwork() {
+  const size = useKnob('size', 64);
+  const scale = useKnob<
+    | 'fit'
+    | 'crop'
+    | 'fillBounds'
+    | 'inside'
+    | 'none'
+    | 'fillWidth'
+    | 'fillHeight'
+  >('scale', 'fit');
+  const vertices = useKnob('vertices', 6);
+  const rounding = useKnob('rounding', 0);
+  const smoothing = useKnob('smoothing', 0);
+  const inner = useKnob('inner', 0.5);
+  const badge = useKnob('badge', '8');
   const [large, setLarge] = useState(false);
   return (
-    <Stage height={300}>
+    <Stage height={400}>
       <C.Button onClick={() => setLarge(!large)}>Change size</C.Button>
       <C.Row horizontalArrangement={{ spacedBy: 12 }}>
         <C.Icon
           source={require('./spark.xml')}
-          size={large ? 56 : 32}
+          size={large ? size : size / 2}
           tint="#a5482c"
           contentDescription="Star vector"
         />
         <C.Image
           source={require('../../../../../../../assets/icon.png')}
-          contentScale="fit"
+          contentScale={scale}
           contentDescription="Expo app icon"
-          modifiers={[M.size(large ? 100 : 64, large ? 100 : 64)]}
+          modifiers={[M.size(size, size * 0.7)]}
         />
         <C.BadgedBox>
           <C.BadgedBox.Badge>
             <C.Badge>
-              <C.Text>8</C.Text>
+              <C.Text>{badge}</C.Text>
             </C.Badge>
           </C.BadgedBox.Badge>
           <C.IconButton onClick={() => setLarge(!large)}>
@@ -420,21 +621,48 @@ export function Artwork() {
         </C.BadgedBox>
       </C.Row>
       <C.Row horizontalArrangement={{ spacedBy: 12 }}>
-        <C.Shape.Star color="#6552a3" modifiers={[M.size(60, 60)]} />
-        <C.Shape.PillStar color="#ae4f32" modifiers={[M.size(60, 60)]} />
+        <C.Shape.Star
+          verticesCount={vertices}
+          innerRadius={inner}
+          cornerRounding={rounding}
+          smoothing={smoothing}
+          color="#6552a3"
+          modifiers={[M.size(60, 60)]}
+        />
+        <C.Shape.PillStar
+          verticesCount={vertices}
+          innerRadius={inner}
+          cornerRounding={rounding}
+          smoothing={smoothing}
+          color="#ae4f32"
+          modifiers={[M.size(60, 60)]}
+        />
         <C.Shape.Polygon
-          verticesCount={6}
+          verticesCount={vertices}
+          cornerRounding={rounding}
+          smoothing={smoothing}
           color="#33775d"
           modifiers={[M.size(60, 60)]}
         />
+      </C.Row>
+      <C.Row horizontalArrangement={{ spacedBy: 12 }}>
+        <C.Shape.Circle color="#6552a3" modifiers={[M.size(60, 60)]} />
+        <C.Shape.Pill color="#ae4f32" modifiers={[M.size(90, 60)]} />
+        <C.Shape.Rectangle color="#33775d" modifiers={[M.size(60, 60)]} />
       </C.Row>
     </Stage>
   );
 }
 export function Layout() {
+  const spacing = useKnob('spacing', 8);
+  const alignment = useKnob<'topStart' | 'center' | 'bottomEnd'>(
+    'alignment',
+    'center',
+  );
+  const height = useKnob('height', 80);
   const [visible, setVisible] = useState(true);
   return (
-    <Stage height={370}>
+    <Stage height={490}>
       <C.Button onClick={() => setVisible(!visible)}>
         Toggle animated panel
       </C.Button>
@@ -448,8 +676,12 @@ export function Layout() {
         )}
       >
         <C.Box
-          contentAlignment="center"
-          modifiers={[M.fillMaxWidth(), M.height(80), M.background('#e8def8')]}
+          contentAlignment={alignment}
+          modifiers={[
+            M.fillMaxWidth(),
+            M.height(height),
+            M.background('#e8def8'),
+          ]}
         >
           <C.Text>Box · centered</C.Text>
         </C.Box>
@@ -461,7 +693,10 @@ export function Layout() {
         <C.Text>End</C.Text>
       </C.Row>
       <C.HorizontalDivider />
-      <C.FlowRow horizontalArrangement={{ spacedBy: 8 }}>
+      <C.FlowRow
+        horizontalArrangement={{ spacedBy: spacing }}
+        verticalArrangement={{ spacedBy: spacing }}
+      >
         {['Flow', 'wraps', 'native', 'children', 'with', 'spacing'].map((s) => (
           <C.Text
             key={s}
@@ -480,10 +715,15 @@ export function Layout() {
   );
 }
 export function Modifiers() {
+  const padding = useKnob('padding', 24);
+  const radius = useKnob('radius', 16);
+  const border = useKnob('border', 1);
+  const rotation = useKnob('rotation', 6);
+  const alpha = useKnob('alpha', 1);
   const [amount, setAmount] = useState(0.3);
   const [first, setFirst] = useState(true);
   return (
-    <Stage height={330}>
+    <Stage height={440}>
       <C.Text>Modifier order changes the painted area.</C.Text>
       <C.Button onClick={() => setFirst(!first)}>
         Swap padding / background
@@ -492,8 +732,8 @@ export function Modifiers() {
         color="#fff"
         modifiers={
           first
-            ? [M.background('#6552a3'), M.paddingAll(24)]
-            : [M.paddingAll(24), M.background('#6552a3')]
+            ? [M.background('#6552a3'), M.paddingAll(padding)]
+            : [M.paddingAll(padding), M.background('#6552a3')]
         }
       >
         Inspect my background
@@ -505,12 +745,12 @@ export function Modifiers() {
       />
       <C.Text
         modifiers={[
-          M.clip(M.Shapes.RoundedCorner(16)),
+          M.clip(M.Shapes.RoundedCorner(radius)),
           M.background('#e8def8'),
-          M.border(1, '#6552a3'),
-          M.paddingAll(16),
-          M.rotate(amount * 20),
-          M.alpha(0.4 + amount * 0.6),
+          M.border(border, '#6552a3'),
+          M.paddingAll(padding),
+          M.rotate(rotation),
+          M.alpha(alpha * (0.4 + amount * 0.6)),
         ]}
       >
         Clip · border · rotate · alpha
@@ -540,10 +780,37 @@ function PaletteContent({
         Host theme · {dark ? 'dark' : 'light'}
       </C.Text>
       <C.Button onClick={onToggle}>Switch theme</C.Button>
-      {(['primary', 'secondary', 'tertiary'] as const).map((role) => (
+      {(
+        [
+          'primary',
+          'secondary',
+          'tertiary',
+          'primaryContainer',
+          'secondaryContainer',
+          'tertiaryContainer',
+          'error',
+          'surfaceVariant',
+        ] as const
+      ).map((role) => (
         <C.Text
           key={role}
-          color={colors.onPrimary}
+          color={
+            role === 'secondary'
+              ? colors.onSecondary
+              : role === 'tertiary'
+                ? colors.onTertiary
+                : role === 'primaryContainer'
+                  ? colors.onPrimaryContainer
+                  : role === 'secondaryContainer'
+                    ? colors.onSecondaryContainer
+                    : role === 'tertiaryContainer'
+                      ? colors.onTertiaryContainer
+                      : role === 'error'
+                        ? colors.onError
+                        : role === 'surfaceVariant'
+                          ? colors.onSurfaceVariant
+                          : colors.onPrimary
+          }
           modifiers={[
             M.fillMaxWidth(),
             M.background(colors[role]),
@@ -557,7 +824,7 @@ function PaletteContent({
         {C.isDynamicColorAvailable
           ? 'Device supports dynamic colors'
           : 'Static baseline on this device'}{' '}
-        · this Host uses a purple seed
+        · use Customize to change the Host seed
       </C.Text>
     </C.Column>
   );
@@ -568,7 +835,7 @@ export function Palette() {
     <SpecimenHost
       seedColor="#6552a3"
       colorScheme={dark ? 'dark' : 'light'}
-      style={{ height: 360, width: '100%' }}
+      style={{ height: 740, width: '100%' }}
     >
       <PaletteContent dark={dark} onToggle={() => setDark(!dark)} />
     </SpecimenHost>

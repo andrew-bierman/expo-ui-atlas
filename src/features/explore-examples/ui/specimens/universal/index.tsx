@@ -1,6 +1,7 @@
+import { Platform } from 'react-native';
 import type { ExampleRegistry } from '../../../model/types';
-import { SpecimenHost } from '../../specimen-host';
 import { Buttons, Pickers, Sliders, TextFields, Toggles } from './controls';
+import { universalControls } from './controls-schema';
 import { Icons } from './icon';
 import { Sheet } from './presentation';
 import {
@@ -18,7 +19,7 @@ export const universalExamples: ExampleRegistry = {
       id: 'variants',
       title: 'An action in four forms',
       description:
-        'Add or remove points, reset the score, and compare a disabled button.',
+        'Try every button variant, a disabled comparison, and live style controls.',
       component: Buttons,
       code: '<SpecimenHost matchContents>\n  <Button label="Add a point" variant="filled"\n    onPress={() => setScore(v => v + 1)} />\n</SpecimenHost>',
     },
@@ -28,7 +29,7 @@ export const universalExamples: ExampleRegistry = {
       id: 'ranges',
       title: 'Find your range',
       description:
-        'Drag both sliders. The second moves in increments of 25; the last stays disabled.',
+        'Drag both sliders. The second uses a configurable step; the last stays disabled.',
       component: Sliders,
       code: '<Slider value={value} onValueChange={setValue}\n  min={0} max={100} step={25} />',
     },
@@ -47,7 +48,7 @@ export const universalExamples: ExampleRegistry = {
       id: 'appearance',
       title: 'One selection, two appearances',
       description:
-        'Both pickers share state. Choose in one and watch the other follow.',
+        'The pickers share state. Choose in one and watch the other follow.',
       component: Pickers,
     },
   ],
@@ -143,3 +144,20 @@ export const universalExamples: ExampleRegistry = {
     },
   ],
 };
+
+for (const [id, examples] of Object.entries(universalExamples)) {
+  for (const example of examples)
+    example.controls = (universalControls[id] ?? []).filter(
+      (control) =>
+        !(
+          id === 'u-icon' &&
+          control.id === 'symbol' &&
+          Platform.OS !== 'ios'
+        ) &&
+        !(
+          id === 'u-fields' &&
+          control.id === 'uppercase' &&
+          Platform.OS !== 'android'
+        ),
+    );
+}

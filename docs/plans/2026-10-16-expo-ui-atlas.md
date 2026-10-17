@@ -100,3 +100,11 @@ Registry tests prove discovery/availability/inventory behavior; TypeScript check
 ## Definition of Done
 
 Private repo exists on the personal account; implementation is committed and pushed on a feature branch with an open PR and CI decided. Requirements are implemented, checks are recorded, coverage/limitations are explicit, docs explain adding examples and running in matching Expo Go, and no abandoned template/experimental code remains.
+
+## Follow-up: native tabs and richer customization
+
+User direction: use Feature-Sliced Design, build the app with Expo UI and Expo Router native tabs, and make variants directly customizable.
+
+Delivered Catalog / Playground / Guide native tabs; universal Expo UI shell controls; typed prop/modifier inspectors across the universal, SwiftUI and Compose families; shared Host environment controls; validated JSON configurations and independent reset. The generated `docs/variants.md` records 277 component-specific controls and remaining specialized-context limits. Component detail routes remain outside the tabs in the root stack.
+
+Validation: Biome and TypeScript pass; 14 Bun tests pass (2,371 assertions), including schema/default/configuration validation and FSD boundaries. Expo Doctor passes 20/20; dependency alignment and all three platform exports pass. Browser checks cover tab switching, live label editing, JSON apply/disabled state, reset, synchronized pickers, and mobile heading clearance. No browser errors observed. Focused correctness review found no actionable defect. Native measurement, keyboards, nested gestures, and OS effects still require device testing; no simulators were operated.

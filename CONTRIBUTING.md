@@ -19,3 +19,11 @@ Avoid `any`, suppression comments, custom native modules, and broad app-level st
 Follow [the architecture contract](docs/architecture.md). Keep route files thin, compose screens in page slices, and keep catalog data in the catalog-entry entity. Consumers import a slice's `index.ts` public API; use relative private imports within the owning slice. A layer can import only lower layers; slices cannot import sibling slices. Shared code cannot know about the catalog or specimens. Add a layer or slice only when an actual responsibility needs it.
 
 `bun test` checks these boundaries. Update renderer-registration source paths when moving a platform entrypoint, and preserve native filename suffixes so Metro continues selecting the supported platform implementation.
+
+## Interactive variants
+
+Define component controls in the family’s `controls-schema.ts` and connect each to a real prop or modifier with `useKnob`. Use `useTunedState<number/boolean/string>` for values that both native interactions and the inspector can change. Its explicit generic prevents literal-only setter inference. Keep schema defaults aligned with specimen fallbacks. Use `SpecimenHost` so shared appearance, seed and direction controls reach native content. Platform-only controls must be filtered on unsupported platforms.
+
+Do not offer controls that only change a caption or silently do nothing. Prefer complete enum choices and meaningful comparisons to one combined “style” switch. Specialized contexts must explain their requirements. Run `bun scripts/variant-report.ts` after updating schemas, then tests and all-platform exports. The schema test verifies enum defaults, unique keys, bounds and JSON round trips.
+
+The app shell uses Expo UI built-ins. React Native remains appropriate for outer safe areas, virtualized catalog layout, and explicit RNHostView islands. Route files stay thin; Catalog, Playground and Guide are separate page slices beneath Expo Router native tabs.

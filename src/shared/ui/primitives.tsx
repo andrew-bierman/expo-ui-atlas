@@ -1,17 +1,35 @@
-import type { PropsWithChildren } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Button, Host, Text } from '@expo/ui';
+
+import { View } from 'react-native';
 import { useTheme } from '../theme';
 export function Body({
   children,
   muted = false,
-}: PropsWithChildren<{ muted?: boolean }>) {
+}: {
+  children: string | number | (string | number)[];
+  muted?: boolean;
+}) {
   const t = useTheme();
+  const content = Array.isArray(children)
+    ? children.join('')
+    : String(children);
   return (
-    <Text
-      style={{ color: muted ? t.muted : t.text, fontSize: 15, lineHeight: 23 }}
+    <Host
+      matchContents={{ vertical: true }}
+      ignoreSafeArea="all"
+      style={{ width: '100%' }}
+      colorScheme={t.dark ? 'dark' : 'light'}
     >
-      {children}
-    </Text>
+      <Text
+        textStyle={{
+          color: muted ? t.muted : t.text,
+          fontSize: 15,
+          lineHeight: 23,
+        }}
+      >
+        {content}
+      </Text>
+    </Host>
   );
 }
 export function Pill({
@@ -25,45 +43,52 @@ export function Pill({
 }) {
   const t = useTheme();
   return (
-    <Pressable
-      accessibilityRole="button"
+    <Host
+      matchContents
+      ignoreSafeArea="all"
+      seedColor={t.accent}
+      colorScheme={t.dark ? 'dark' : 'light'}
+      style={{ minHeight: 44, justifyContent: 'center' }}
       accessibilityState={{ selected }}
-      onPress={onPress}
-      style={({ pressed }) => ({
-        paddingHorizontal: 16,
-        minHeight: 44,
-        justifyContent: 'center',
-        borderRadius: 24,
-        borderWidth: 1,
-        borderColor: selected ? t.accent : t.border,
-        backgroundColor: selected ? t.soft : t.surface,
-        opacity: pressed ? 0.7 : 1,
-      })}
     >
-      <Text
-        style={{
-          fontSize: 13,
-          fontWeight: '600',
-          color: selected ? t.accent : t.muted,
-        }}
-      >
-        {label}
-      </Text>
-    </Pressable>
+      {onPress ? (
+        <Button
+          label={label}
+          variant={selected ? 'filled' : 'outlined'}
+          onPress={onPress}
+        />
+      ) : (
+        <Text
+          textStyle={{ color: t.accent, fontSize: 13, fontWeight: '600' }}
+          style={{ padding: 12, borderRadius: 16, backgroundColor: t.soft }}
+        >
+          {label}
+        </Text>
+      )}
+    </Host>
   );
 }
 export function Notice({
   title,
   children,
-}: PropsWithChildren<{ title: string }>) {
+}: {
+  title: string;
+  children: string | number | (string | number)[];
+}) {
   const t = useTheme();
   return (
     <View
       style={{ padding: 20, gap: 8, borderRadius: 18, backgroundColor: t.soft }}
     >
-      <Text style={{ color: t.text, fontWeight: '700', fontSize: 16 }}>
-        {title}
-      </Text>
+      <Host
+        matchContents={{ vertical: true }}
+        ignoreSafeArea="all"
+        style={{ width: '100%' }}
+      >
+        <Text textStyle={{ color: t.text, fontWeight: '700', fontSize: 16 }}>
+          {title}
+        </Text>
+      </Host>
       <Body muted>{children}</Body>
     </View>
   );

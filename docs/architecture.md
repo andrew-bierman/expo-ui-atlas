@@ -25,3 +25,9 @@ Catalog metadata has no dependency on React components or native renderers. Exam
 `scripts/fsd-boundaries.test.ts` scans local static imports, re-exports, dynamic imports, and require calls. It rejects unknown source layers, upward dependencies, sibling-slice imports, and imports bypassing public entrypoints. Its negative cases verify that prohibited dependency shapes are detected. The repository currently uses relative module paths; extend the resolver before introducing path aliases.
 
 The catalog and export-inventory tests stay colocated with the catalog model. Tooling consumes the entity's public API. Installed third-party skills under `.agents` remain outside app code and outside Biome's formatting scope.
+
+## Native tabs and tuning
+
+`app/(tabs)` composes Catalog, Playground and Guide using `expo-router/native-tabs`. Component details remain a root stack route over the tabs. Page slices import the catalog entity and example feature through public APIs. Shared UI uses the universal Expo UI API; React Native handles outer layout and virtualization.
+
+The example feature owns typed control schemas, validation, live inspector UI and a per-specimen tuning provider. Schemas live beside the relevant family’s renderers and feed both UI and the generated variant matrix. `useKnob` reads supported overrides; `useTunedState` also synchronizes direct interactions back into the inspector. `SpecimenHost` supplies preview environment values to each native host. Platform entrypoints isolate direct SwiftUI and Compose imports.

@@ -1,6 +1,6 @@
 # Expo UI Atlas
 
-A hands-on field guide to Expo UI: **65 collections** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Search by component or behavior, filter by API and category, open live specimens, and reset each experiment independently.
+A hands-on field guide to Expo UI: **65 collections** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Search by component or behavior, filter by API and category, open live specimens, and reset each experiment independently. Built with Expo UI and Expo Router native tabs (Catalog, Playground, Guide).
 
 ## Run
 
@@ -31,14 +31,18 @@ Universal examples use the root `@expo/ui` API; native examples use their direct
 
 See [coverage](docs/coverage.md) for the complete inventory and the distinction between live components, compound slots, utilities, and specialized contexts. Widget-extension APIs cannot be hosted by Expo Go app content. Newer OS effects and worklet orchestration have explicit notes instead of simulated output.
 
+Open **Customize** on a specimen to change real props, enum styles, modifiers, and environment settings. There are **277 component-specific controls** plus five shared preview controls. Edit/apply JSON to reproduce a configuration, or use Reset to restore defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
+
 ## Organization
 
 ```text
 src/app/                         Thin Expo Router routes and app composition
 src/pages/catalog/               Browse page slice (ui)
+src/pages/playground/            Focused component workbench
+src/pages/guide/                 API and usage guidance
 src/pages/catalog-detail/        Detail page slice (ui)
 src/pages/not-found/             Missing-route page slice (ui)
-src/features/explore-examples/   Live specimens and reset/error-boundary UI
+src/features/explore-examples/   Live specimens, typed tuning schemas, inspectors, reset/error UI
 src/entities/catalog-entry/      Catalog model, metadata, inventory, and tests
 src/shared/ui/                   Context-free UI primitives
 src/shared/theme/                Appearance tokens and hook
@@ -60,6 +64,6 @@ bunx expo export --platform all
 
 CI runs formatting/lint, types, tests, dependency alignment, and all-platform bundles. Tests enforce FSD layer/public-API boundaries and catch search/filter errors, missing IDs, platform metadata regressions, SDK export drift, and metadata/renderer registration mismatches.
 
-Initial validation included all three platform bundles and desktop/mobile browser interaction checks. **Native runtime testing remains a device check:** no simulator was operated because another Codex session was using simulators. Bundling and types do not prove native presentation or gesture behavior. Use the checklist in [coverage](docs/coverage.md#device-smoke-checklist).
+Validation includes inspector-schema configuration round trips, all three platform bundles, and desktop/mobile browser interaction checks. **Native runtime testing remains a device check:** no simulator was operated because another Codex session was using simulators. Bundling and types do not prove native presentation or gesture behavior. Use the checklist in [coverage](docs/coverage.md#device-smoke-checklist).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog and [architecture](docs/architecture.md) for Feature-Sliced Design boundaries.

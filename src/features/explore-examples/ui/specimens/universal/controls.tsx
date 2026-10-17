@@ -12,6 +12,7 @@ import {
 import { type PropsWithChildren, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 export function Stage({ children }: PropsWithChildren) {
   const t = useTheme();
@@ -28,62 +29,83 @@ export function Stage({ children }: PropsWithChildren) {
 }
 export function Buttons() {
   const [presses, setPresses] = useState(0);
+  const variant = useKnob<'filled' | 'outlined' | 'text'>('variant', 'filled');
+  const label = useKnob('label', 'Add a point');
+  const enabled = useKnob('enabled', true);
+  const radius = useKnob('radius', 12);
+  const padding = useKnob('padding', 12);
+  const opacity = useKnob('opacity', 1);
   return (
     <Stage>
       <Button
-        label="Filled · add a point"
+        label={label}
+        variant={variant}
+        disabled={!enabled}
+        style={{ borderRadius: radius, padding, opacity }}
         onPress={() => setPresses((v) => v + 1)}
       />
-      <Button
-        label="Outlined · remove a point"
-        variant="outlined"
-        onPress={() => setPresses((v) => v - 1)}
-      />
-      <Button
-        label="Text · start over"
-        variant="text"
-        onPress={() => setPresses(0)}
-      />
+      {(['filled', 'outlined', 'text'] as const).map((v) => (
+        <Button
+          key={v}
+          label={`${v} comparison`}
+          variant={v}
+          onPress={() => setPresses((n) => n + 1)}
+        />
+      ))}
       <Button label="Disabled" disabled />
       <Text>{`Score: ${presses}`}</Text>
     </Stage>
   );
 }
 export function Sliders() {
-  const [value, setValue] = useState(35);
-  const [step, setStep] = useState(50);
+  const [value, setValue] = useTunedState<number>('value', 35);
+  const [stepped, setStepped] = useState(50);
+  const max = useKnob('maximum', 100);
+  const step = useKnob('step', 5);
+  const enabled = useKnob('enabled', true);
   return (
     <Stage>
-      <Text>{`Continuous: ${Math.round(value)}%`}</Text>
+      <Text>{`Continuous: ${Math.round(Math.min(value, max))}`}</Text>
       <Slider
-        value={value}
+        value={Math.min(value, max)}
         onValueChange={setValue}
         min={0}
-        max={100}
+        max={max}
+        disabled={!enabled}
         testID="continuous-slider"
       />
-      <Text>{`Stepped: ${step}% · increments of 25`}</Text>
+      <Text>{`Stepped: ${Math.min(stepped, max)} · increments of ${step}`}</Text>
       <Slider
-        value={step}
-        onValueChange={setStep}
+        value={Math.min(stepped, max)}
+        onValueChange={setStepped}
         min={0}
-        max={100}
-        step={25}
+        max={max}
+        step={step}
+        disabled={!enabled}
       />
-      <Text>Disabled at 60%</Text>
-      <Slider value={60} onValueChange={() => {}} min={0} max={100} disabled />
+      <Text>Disabled comparison</Text>
+      <Slider
+        value={Math.min(60, max)}
+        onValueChange={() => {}}
+        min={0}
+        max={max}
+        disabled
+      />
     </Stage>
   );
 }
 export function Toggles() {
-  const [enabled, setEnabled] = useState(true);
-  const [checked, setChecked] = useState(false);
+  const [enabled, setEnabled] = useTunedState<boolean>('notifications', true);
+  const [checked, setChecked] = useTunedState<boolean>('digest', false);
+  const interactive = useKnob('enabled', true);
+  const label = useKnob('label', 'Enable notifications');
   return (
     <Stage>
       <Switch
-        label="Enable notifications"
+        label={label}
         value={enabled}
         onValueChange={setEnabled}
+        disabled={!interactive}
       />
       <Switch
         label="Disabled switch"
@@ -95,6 +117,7 @@ export function Toggles() {
         label="Include a daily digest"
         value={checked}
         onValueChange={setChecked}
+        disabled={!interactive}
       />
       <Checkbox
         label="Disabled, checked"
@@ -107,23 +130,31 @@ export function Toggles() {
   );
 }
 export function Pickers() {
-  const [value, setValue] = useState('forest');
+  const [value, setValue] = useTunedState('palette', 'forest');
+  const appearance = useKnob<'menu' | 'wheel'>('appearanceMode', 'menu');
+  const enabled = useKnob('enabled', true);
+  const items = [
+    <Picker.Item key="forest" label="Forest" value="forest" />,
+    <Picker.Item key="ocean" label="Ocean" value="ocean" />,
+    <Picker.Item key="sunset" label="Sunset" value="sunset" />,
+  ];
   return (
     <Stage>
       <Text>{`Selected palette: ${value}`}</Text>
-      <Picker selectedValue={value} onValueChange={setValue}>
-        <Picker.Item label="Forest" value="forest" />
-        <Picker.Item label="Ocean" value="ocean" />
-        <Picker.Item label="Sunset" value="sunset" />
+      <Picker
+        selectedValue={value}
+        onValueChange={setValue}
+        appearance={appearance}
+        enabled={enabled}
+      >
+        {items}
       </Picker>
       <Text>Wheel on iOS; native dropdown elsewhere</Text>
       <Picker selectedValue={value} onValueChange={setValue} appearance="wheel">
-        <Picker.Item label="Forest" value="forest" />
-        <Picker.Item label="Ocean" value="ocean" />
-        <Picker.Item label="Sunset" value="sunset" />
+        {items}
       </Picker>
       <Picker selectedValue={value} onValueChange={setValue} enabled={false}>
-        <Picker.Item label="Disabled palette" value={value} />
+        {items}
       </Picker>
     </Stage>
   );
@@ -132,6 +163,24 @@ export function TextFields() {
   const text = useNativeState('');
   const [echo, setEcho] = useState('');
   const [submitted, setSubmitted] = useState('Nothing submitted yet');
+  const editable = useKnob('editable', true);
+  const multiline = useKnob('multiline', false);
+  const secure = useKnob('secure', false);
+  const lines = useKnob('lines', 3);
+  const maxLength = useKnob('maxLength', 60);
+  const fontSize = useKnob('fontSize', 16);
+  const keyboard = useKnob<
+    | 'default'
+    | 'email-address'
+    | 'numeric'
+    | 'phone-pad'
+    | 'url'
+    | 'decimal-pad'
+  >('keyboard', 'default');
+  const capitalize = useKnob<'none' | 'sentences' | 'words' | 'characters'>(
+    'capitalize',
+    'sentences',
+  );
   return (
     <Stage>
       <TextInput
@@ -140,10 +189,17 @@ export function TextFields() {
         onChangeText={setEcho}
         onSubmitEditing={(v) => setSubmitted(v || 'Empty submission')}
         returnKeyType="done"
-        maxLength={60}
+        maxLength={maxLength}
+        editable={editable}
+        multiline={multiline}
+        numberOfLines={lines}
+        secureTextEntry={secure}
+        keyboardType={keyboard}
+        autoCapitalize={capitalize}
+        textStyle={{ fontSize }}
         style={styles.textInput}
       />
-      <Text>{`${echo.length}/60 characters · ${submitted}`}</Text>
+      <Text>{`${echo.length}/${maxLength} characters · ${submitted}`}</Text>
       <TextInput
         placeholder="A few field notes…"
         multiline
@@ -168,7 +224,6 @@ export function TextFields() {
     </Stage>
   );
 }
-
 const styles = StyleSheet.create({
   textInput: {
     padding: 14,

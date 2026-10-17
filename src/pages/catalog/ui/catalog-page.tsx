@@ -5,12 +5,12 @@ import {
   Pressable,
   ScrollView,
   Text,
-  TextInput,
   useWindowDimensions,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
+  type CatalogEntry,
   type Category,
   catalog,
   categories,
@@ -19,7 +19,17 @@ import {
   filterCatalog,
 } from '../../../entities/catalog-entry';
 import { useTheme } from '../../../shared/theme';
-import { Body, Notice, Pill } from '../../../shared/ui';
+import { Body, Notice, Pill, SearchField } from '../../../shared/ui';
+import { CatalogCard } from './catalog-card';
+
+function renderCatalogEntry({ item }: { item: CatalogEntry }) {
+  return (
+    <CatalogCard
+      entry={item}
+      onPress={() => router.push(`/component/${item.id}`)}
+    />
+  );
+}
 export default function Browse() {
   const t = useTheme();
   const { width } = useWindowDimensions();
@@ -133,23 +143,7 @@ export default function Browse() {
               ))}
             </View>
             <View style={{ gap: 14 }}>
-              <TextInput
-                accessibilityLabel="Search components"
-                placeholder="Search components, modifiers, interactions…"
-                placeholderTextColor={t.muted}
-                value={query}
-                onChangeText={setQuery}
-                style={{
-                  backgroundColor: t.surface,
-                  color: t.text,
-                  padding: 18,
-                  borderRadius: 16,
-                  borderWidth: 1,
-                  borderColor: t.border,
-                  fontSize: 16,
-                }}
-                clearButtonMode="while-editing"
-              />
+              <SearchField value={query} onChange={setQuery} />
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -211,59 +205,7 @@ export default function Browse() {
             </View>
           </View>
         }
-        renderItem={({ item }) => (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`${item.name}, ${families[item.family].label}`}
-            onPress={() => router.push(`/component/${item.id}`)}
-            style={({ pressed }) => ({
-              flex: 1,
-              maxWidth: columns > 1 ? `${100 / columns}%` : undefined,
-              marginBottom: 16,
-              padding: 22,
-              backgroundColor: t.surface,
-              borderWidth: 1,
-              borderColor: t.border,
-              borderRadius: 20,
-              gap: 12,
-              opacity: pressed ? 0.7 : 1,
-            })}
-          >
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-            >
-              <Text
-                style={{
-                  color: t.accent,
-                  fontSize: 11,
-                  fontWeight: '800',
-                  letterSpacing: 1,
-                }}
-              >
-                {families[item.family].label.toUpperCase()} /{' '}
-                {item.category.toUpperCase()}
-              </Text>
-              <Text style={{ color: t.muted }}>↗</Text>
-            </View>
-            <Text
-              style={{
-                color: t.text,
-                fontSize: 25,
-                fontWeight: '600',
-                letterSpacing: -0.5,
-              }}
-            >
-              {item.name}
-            </Text>
-            <Body muted>{item.summary}</Body>
-            <Text style={{ color: t.muted, fontSize: 11, marginTop: 8 }}>
-              {item.platforms
-                .map((p) => ({ ios: 'iOS', android: 'Android', web: 'Web' })[p])
-                .join(' + ')}{' '}
-              · {item.exports.length} building blocks
-            </Text>
-          </Pressable>
-        )}
+        renderItem={renderCatalogEntry}
         ListEmptyComponent={
           <Notice title="No specimens found">
             Try a component name like “slider”, or clear the filters to see the
@@ -276,8 +218,8 @@ export default function Browse() {
               Made for curiosity.
             </Text>
             <Body muted>
-              Live specimens use Expo UI. The catalog shell uses React Native.
-              Direct native collections open on their supported platform.
+              Built with Expo UI and Expo Router native tabs. Direct native
+              collections open on their supported platform.
             </Body>
           </View>
         }

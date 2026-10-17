@@ -1,13 +1,35 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
+import { choices, useChoice } from './controls-schema';
 export function Menus() {
   const [result, setResult] = useState('Choose an action');
+  const style = useChoice(
+    'menuStyle',
+    ['automatic', 'button'] as const,
+    'automatic',
+  );
+  const indicator = useChoice('indicator', choices.visibility, 'automatic');
+  const dismiss = useChoice(
+    'dismiss',
+    ['automatic', 'disabled', 'enabled'] as const,
+    'automatic',
+  );
+  const label = useKnob('label', 'Actions');
   return (
     <SpecimenHost style={{ height: 210 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
-        <S.Menu label="Actions" systemImage="ellipsis.circle">
+        <S.Menu
+          label={label}
+          systemImage="ellipsis.circle"
+          modifiers={[
+            M.menuStyle(style),
+            M.menuIndicator(indicator),
+            M.menuActionDismissBehavior(dismiss),
+          ]}
+        >
           <S.Button
             label="Favorite"
             systemImage="star"
@@ -53,15 +75,22 @@ export function Menus() {
 }
 export function Dialogs() {
   const [result, setResult] = useState('No action yet');
+  const title = useKnob('title', 'Reset specimen?');
+  const message = useKnob('message', 'This changes only this example.');
+  const visibility = useChoice(
+    'titleVisibility',
+    choices.visibility,
+    'visible',
+  );
   return (
     <SpecimenHost style={{ height: 200 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
-        <S.Alert title="Reset specimen?">
+        <S.Alert title={title}>
           <S.Alert.Trigger>
             <S.Button label="Show alert" />
           </S.Alert.Trigger>
           <S.Alert.Message>
-            <S.Text>This changes only this example.</S.Text>
+            <S.Text>{message}</S.Text>
           </S.Alert.Message>
           <S.Alert.Actions>
             <S.Button
@@ -74,7 +103,7 @@ export function Dialogs() {
         </S.Alert>
         <S.ConfirmationDialog
           title="Choose a destination"
-          titleVisibility="visible"
+          titleVisibility={visibility}
         >
           <S.ConfirmationDialog.Trigger>
             <S.Button label="Confirmation dialog" />
@@ -96,6 +125,32 @@ export function Dialogs() {
 export function Sheets() {
   const [open, setOpen] = useState(false);
   const [popover, setPopover] = useState(false);
+  const sheetRadius = useKnob('sheetRadius', 24);
+  const sheetSizing = useChoice(
+    'sheetSizing',
+    ['automatic', 'fitted', 'form', 'page'] as const,
+    'automatic',
+  );
+  const backgroundInteraction = useChoice(
+    'backgroundInteraction',
+    ['automatic', 'enabled', 'disabled'] as const,
+    'automatic',
+  );
+  const detent = useChoice('detents', choices.detents, 'medium + large');
+  const fraction = useKnob('fraction', 0.5);
+  const height = useKnob('height', 300);
+  const indicator = useChoice('dragIndicator', choices.visibility, 'visible');
+  const dismissDisabled = useKnob('dismissDisabled', false);
+  const arrow = useChoice('arrow', choices.edge, 'none');
+  const anchor = useChoice('anchor', choices.anchor, 'center');
+  const detents: M.PresentationDetent[] =
+    detent === 'medium + large'
+      ? ['medium', 'large']
+      : detent === 'fraction'
+        ? [{ fraction }]
+        : detent === 'height'
+          ? [{ height }]
+          : [detent];
   return (
     <SpecimenHost style={{ height: 160 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
@@ -111,8 +166,12 @@ export function Sheets() {
         >
           <S.Group
             modifiers={[
-              M.presentationDetents(['medium', 'large']),
-              M.presentationDragIndicator('visible'),
+              M.presentationDetents(detents),
+              M.presentationCornerRadius(sheetRadius),
+              M.presentationSizing(sheetSizing),
+              M.presentationBackgroundInteraction(backgroundInteraction),
+              M.presentationDragIndicator(indicator),
+              M.interactiveDismissDisabled(dismissDisabled),
             ]}
           >
             <S.VStack spacing={24} modifiers={[M.padding({ all: 24 })]}>
@@ -122,13 +181,18 @@ export function Sheets() {
                 A native sheet
               </S.Text>
               <S.Text>
-                Drag the handle to switch between medium and large.
+                Use the inspector to choose sheet heights, then drag the handle.
               </S.Text>
               <S.Button label="Done" onPress={() => setOpen(false)} />
             </S.VStack>
           </S.Group>
         </S.BottomSheet>
-        <S.Popover isPresented={popover} onIsPresentedChange={setPopover}>
+        <S.Popover
+          isPresented={popover}
+          onIsPresentedChange={setPopover}
+          arrowEdge={arrow}
+          attachmentAnchor={anchor}
+        >
           <S.Popover.Trigger>
             <S.Button label="Open popover" onPress={() => setPopover(true)} />
           </S.Popover.Trigger>
@@ -154,9 +218,20 @@ export function Lists() {
   const [expanded, setExpanded] = useState(false);
   const [on, setOn] = useState(true);
   const [status, setStatus] = useState('Swipe the row');
+  const style = useChoice('listStyle', choices.list, 'insetGrouped');
+  const spacing = useKnob('rowSpacing', 0);
+  const separator = useKnob('separator', false);
+  const fullSwipe = useKnob('fullSwipe', false);
+  const backgroundHidden = useKnob('backgroundHidden', false);
   return (
     <SpecimenHost style={{ height: 360 }}>
-      <S.List modifiers={[M.listStyle('insetGrouped')]}>
+      <S.List
+        modifiers={[
+          M.listStyle(style),
+          M.listRowSpacing(spacing),
+          M.scrollContentBackground(backgroundHidden ? 'hidden' : 'visible'),
+        ]}
+      >
         <S.Section
           title="Settings"
           footer={
@@ -177,8 +252,12 @@ export function Lists() {
             </S.LabeledContent>
           </S.DisclosureGroup>
           <S.SwipeActions>
-            <S.Text>{status}</S.Text>
-            <S.SwipeActions.Actions allowsFullSwipe={false}>
+            <S.Text
+              modifiers={[M.listRowSeparator(separator ? 'hidden' : 'visible')]}
+            >
+              {status}
+            </S.Text>
+            <S.SwipeActions.Actions allowsFullSwipe={fullSwipe}>
               <S.Button
                 label="Archive"
                 onPress={() => setStatus('Archived — reset to try again')}
@@ -202,11 +281,14 @@ export function Lists() {
 }
 export function Form() {
   const [on, setOn] = useState(false);
+  const placeholder = useKnob('placeholder', 'Display name');
+  const disabled = useKnob('disabled', false);
+  const size = useChoice('size', choices.controlSize, 'regular');
   return (
     <SpecimenHost style={{ height: 270 }}>
-      <S.Form>
+      <S.Form modifiers={[M.disabled(disabled), M.controlSize(size)]}>
         <S.Section title="Profile">
-          <S.TextField placeholder="Display name" />
+          <S.TextField placeholder={placeholder} />
           <S.Toggle label="Private profile" isOn={on} onIsOnChange={setOn} />
         </S.Section>
         <S.Section title="About">
