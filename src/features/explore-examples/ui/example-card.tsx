@@ -38,16 +38,20 @@ class SpecimenBoundary extends Component<
 export function ExampleCard({
   example,
   index,
+  initialValues = {},
+  customization = true,
 }: {
   example: Example;
   index: number;
+  initialValues?: TuningValues;
+  customization?: boolean;
 }) {
   const t = useTheme();
   const [revision, setRevision] = useState(0);
   const [showCode, setShowCode] = useState(false);
   const [customize, setCustomize] = useState(false);
   const controls = [...(example.controls ?? []), ...environmentControls];
-  const [overrides, setOverrides] = useState<TuningValues>({});
+  const [overrides, setOverrides] = useState<TuningValues>(initialValues);
   const values = { ...defaultTuning(controls), ...overrides };
   const change = (id: string, value: TuningValue) =>
     setOverrides((old) => updateTuning(controls, old, id, value));
@@ -115,15 +119,17 @@ export function ExampleCard({
           borderColor: t.border,
         }}
       >
-        <Pill
-          label="Customize"
-          selected={customize}
-          onPress={() => setCustomize((v) => !v)}
-        />
+        {customization ? (
+          <Pill
+            label="Customize"
+            selected={customize}
+            onPress={() => setCustomize((v) => !v)}
+          />
+        ) : null}
         <Pill
           label="Reset example"
           onPress={() => {
-            setOverrides({});
+            setOverrides(initialValues);
             setRevision((v) => v + 1);
           }}
         />

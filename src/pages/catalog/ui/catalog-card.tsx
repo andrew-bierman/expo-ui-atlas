@@ -1,4 +1,5 @@
 import { Button, Column, Host, Text } from '@expo/ui';
+import { Platform } from 'react-native';
 import { type CatalogEntry, families } from '../../../entities/catalog-entry';
 import { useTheme } from '../../../shared/theme';
 export function CatalogCard({
@@ -21,6 +22,7 @@ export function CatalogCard({
         variant="outlined"
         onPress={onPress}
         style={{
+          height: Platform.OS === 'web' ? 'auto' : undefined,
           padding: 18,
           borderRadius: 20,
           borderWidth: 1,

@@ -42,7 +42,10 @@ export const universalControls: Record<string, TuningControl[]> = {
     range('opacity', 'Opacity', 0.2, 1, 0.1, 1),
   ],
   'u-slider': [
-    range('value', 'Current value', 0, 200, 1, 35),
+    {
+      ...range('value', 'Current value', 0, 200, 1, 35),
+      previewValues: { maximum: 200 },
+    },
     range('maximum', 'Maximum', 10, 200, 10, 100),
     range('step', 'Step increment', 1, 25, 1, 5),
     toggle('enabled', 'Enabled'),
@@ -62,7 +65,10 @@ export const universalControls: Record<string, TuningControl[]> = {
     toggle('editable', 'Editable'),
     toggle('multiline', 'Multiline', false),
     toggle('secure', 'Secure entry', false),
-    range('lines', 'Visible lines', 1, 6, 1, 3),
+    {
+      ...range('lines', 'Visible lines', 1, 6, 1, 3),
+      previewValues: { multiline: true },
+    },
     range('maxLength', 'Character limit', 10, 120, 5, 60),
     range('fontSize', 'Text size', 12, 28, 1, 16),
     select('keyboard', 'Keyboard', [

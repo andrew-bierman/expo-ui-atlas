@@ -31,3 +31,9 @@ The catalog and export-inventory tests stay colocated with the catalog model. To
 `app/(tabs)` composes Catalog, Playground and Guide using `expo-router/native-tabs`. Component details remain a root stack route over the tabs. Page slices import the catalog entity and example feature through public APIs. Shared UI uses the universal Expo UI API; React Native handles outer layout and virtualization.
 
 The example feature owns typed control schemas, validation, live inspector UI and a per-specimen tuning provider. Schemas live beside the relevant family’s renderers and feed both UI and the generated variant matrix. `useKnob` reads supported overrides; `useTunedState` also synchronizes direct interactions back into the inspector. `SpecimenHost` supplies preview environment values to each native host. Platform entrypoints isolate direct SwiftUI and Compose imports.
+
+## Ready-made variants
+
+Component details use the example feature’s virtualized gallery. The default Variants view enumerates each schema’s finite enum cases and boolean states; numeric settings get minimum/default/maximum samples. Each preview has independent state and Reset restores its preset. The optional per-collection Playground retains combined customization and JSON editing. Off-window local interactions may reset under virtualization.
+
+A control’s optional `previewValues` enables prerequisites for its gallery samples, such as choosing a line chart before varying line width. The varied value takes precedence over context. These values do not change the control’s playground default. Continuous combinations and arbitrary text remain playground concerns.

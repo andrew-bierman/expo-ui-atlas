@@ -71,7 +71,10 @@ export const composeControls: Record<string, TuningControl[]> = {
     enabled,
     toggle('readOnly', 'Read only', false),
     toggle('singleLine', 'Single line'),
-    range('lines', 'Multiline line count', 1, 5, 3),
+    {
+      ...range('lines', 'Multiline line count', 1, 5, 3),
+      previewValues: { singleLine: false },
+    },
     toggle('error', 'Error state', false),
     toggle('password', 'Password transformation', false),
     select('keyboard', 'Keyboard type', [

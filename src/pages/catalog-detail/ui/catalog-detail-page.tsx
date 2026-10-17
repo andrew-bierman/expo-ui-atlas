@@ -2,7 +2,7 @@ import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { Linking, Platform, ScrollView, Text, View } from 'react-native';
 import { families, findEntry } from '../../../entities/catalog-entry';
 import {
-  ExampleCard,
+  ExampleGallery,
   nativeExamples,
   universalExamples,
 } from '../../../features/explore-examples';
@@ -31,19 +31,8 @@ export default function Detail() {
   const docs =
     entry.docs ??
     `https://docs.expo.dev/versions/v58.0.0/sdk/ui/${entry.family === 'swiftui' ? 'swift-ui' : entry.family === 'compose' ? 'jetpack-compose' : 'universal'}/`;
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: 20,
-        paddingBottom: 60,
-        maxWidth: 900,
-        width: '100%',
-        alignSelf: 'center',
-        gap: 22,
-      }}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Stack.Screen options={{ title: entry.name }} />
+  const header = (
+    <View style={{ gap: 22 }}>
       <Text
         style={{
           color: t.accent,
@@ -81,29 +70,41 @@ export default function Detail() {
         />
       </View>
       {entry.notes ? <Notice title="Field notes">{entry.notes}</Notice> : null}
-      {!supported ? (
-        <Notice
-          title={`Explore this collection on ${entry.family === 'swiftui' ? 'iOS' : 'Android'}`}
-        >
-          These examples use {families[entry.family].label} directly. Open this
-          app in matching Expo Go on the supported platform to interact with
-          them. Universal examples are available here.
-        </Notice>
-      ) : (
-        examples.map((example, i) => (
-          <ExampleCard
-            key={`${entry.id}-${example.id}`}
-            example={example}
-            index={i}
-          />
-        ))
-      )}
-      <View style={{ gap: 10 }}>
-        <Text style={{ color: t.text, fontWeight: '700' }}>
-          Building blocks in this collection
-        </Text>
-        <Body muted>{entry.exports.join(' · ')}</Body>
-      </View>
+    </View>
+  );
+  const footer = (
+    <View style={{ gap: 10 }}>
+      <Text style={{ color: t.text, fontWeight: '700' }}>
+        Building blocks in this collection
+      </Text>
+      <Body muted>{entry.exports.join(' · ')}</Body>
+    </View>
+  );
+  const content = supported ? (
+    <ExampleGallery
+      key={entry.id}
+      examples={examples}
+      header={header}
+      footer={footer}
+    />
+  ) : (
+    <ScrollView
+      contentContainerStyle={{ padding: 20, paddingBottom: 60, gap: 22 }}
+    >
+      {header}
+      <Notice
+        title={`Explore this collection on ${entry.platforms.map((p) => ({ ios: 'iOS', android: 'Android', web: 'Web' })[p]).join(' or ')}`}
+      >
+        These examples require their supported platform. Open this app in
+        matching Expo Go on that device to explore the live variants.
+      </Notice>
+      {footer}
     </ScrollView>
+  );
+  return (
+    <>
+      <Stack.Screen options={{ title: entry.name }} />
+      {content}
+    </>
   );
 }

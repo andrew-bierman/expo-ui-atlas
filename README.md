@@ -31,7 +31,7 @@ Universal examples use the root `@expo/ui` API; native examples use their direct
 
 See [coverage](docs/coverage.md) for the complete inventory and the distinction between live components, compound slots, utilities, and specialized contexts. Widget-extension APIs cannot be hosted by Expo Go app content. Newer OS effects and worklet orchestration have explicit notes instead of simulated output.
 
-Open **Customize** on a specimen to change real props, enum styles, modifiers, and environment settings. There are **277 component-specific controls** plus five shared preview controls. Edit/apply JSON to reproduce a configuration, or use Reset to restore defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
+Component details open to **Variants**: ready-made live examples for every listed enum choice and on/off state, with minimum/default/maximum samples for numeric settings. Filter by variation group or scroll through them all. **Playground** is optional: open Customize there to combine real props, modifiers, and environment settings. There are **277 component-specific controls** plus five shared preview controls. Edit/apply JSON to reproduce a configuration, or use Reset to restore defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
 
 ## Organization
 

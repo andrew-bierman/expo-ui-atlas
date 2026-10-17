@@ -172,7 +172,10 @@ const text = (
 export const swiftuiControls: Record<string, TuningControl[]> = {
   styles: [
     select('borderShape', 'Button border shape', choices.borderShape),
-    range('borderRadius', 'Button corner radius', 0, 40, 12),
+    {
+      ...range('borderRadius', 'Button corner radius', 0, 40, 12),
+      previewValues: { borderShape: 'roundedRectangle' },
+    },
     select(
       'buttonStyle',
       'Button style · glass requires iOS 26+',
@@ -250,8 +253,14 @@ export const swiftuiControls: Record<string, TuningControl[]> = {
       'disabled',
     ]),
     select('detents', 'Sheet detents', choices.detents),
-    range('fraction', 'Fraction detent', 0.2, 1, 0.5, 0.1),
-    range('height', 'Height detent', 160, 600, 300, 20),
+    {
+      ...range('fraction', 'Fraction detent', 0.2, 1, 0.5, 0.1),
+      previewValues: { detents: 'fraction' },
+    },
+    {
+      ...range('height', 'Height detent', 160, 600, 300, 20),
+      previewValues: { detents: 'height' },
+    },
     select('dragIndicator', 'Drag indicator', choices.visibility, 'visible'),
     toggle('dismissDisabled', 'Prevent swipe dismissal'),
     select('arrow', 'Popover arrow', choices.edge),
@@ -287,7 +296,14 @@ export const swiftuiControls: Record<string, TuningControl[]> = {
   ],
   tabs: [
     select('tabStyle', 'Tab presentation', choices.tabs),
-    select('indexDisplay', 'Page indicator', ['automatic', 'always', 'never']),
+    {
+      ...select('indexDisplay', 'Page indicator', [
+        'automatic',
+        'always',
+        'never',
+      ]),
+      previewValues: { tabStyle: 'page' },
+    },
   ],
   links: [
     select(
@@ -319,7 +335,10 @@ export const swiftuiControls: Record<string, TuningControl[]> = {
       'SF Symbol effect · availability varies by OS',
       choices.effect,
     ),
-    range('effectSpeed', 'Symbol animation speed', 0.2, 3, 1, 0.2),
+    {
+      ...range('effectSpeed', 'Symbol animation speed', 0.2, 3, 1, 0.2),
+      previewValues: { effect: 'bounce' },
+    },
     text('text', 'Text content', 'Native typography'),
     select('textStyle', 'Dynamic text style', choices.textStyle, 'title2'),
     select('weight', 'Font weight', choices.weight, 'bold'),
@@ -342,15 +361,36 @@ export const swiftuiControls: Record<string, TuningControl[]> = {
   ],
   chart: [
     select('chartType', 'Chart type', choices.chart),
-    select('point', 'Point symbol', choices.point),
-    range('lineWidth', 'Line width', 1, 10, 3),
-    range('pointSize', 'Point size', 10, 150, 30, 5),
-    toggle('dashed', 'Dashed line'),
+    {
+      ...select('point', 'Point symbol', choices.point),
+      previewValues: { chartType: 'point' },
+    },
+    {
+      ...range('lineWidth', 'Line width', 1, 10, 3),
+      previewValues: { chartType: 'line' },
+    },
+    {
+      ...range('pointSize', 'Point size', 10, 150, 30, 5),
+      previewValues: { chartType: 'point' },
+    },
+    {
+      ...toggle('dashed', 'Dashed line'),
+      previewValues: { chartType: 'line' },
+    },
     range('barRadius', 'Bar / rectangle corner radius', 0, 20, 5),
     range('barWidth', 'Bar width', 5, 45, 24),
-    range('innerRadius', 'Pie inner radius', 0, 0.9, 0.55, 0.05),
-    range('angularInset', 'Pie slice spacing', 0, 12, 3),
-    range('pieOpacity', 'Pie opacity', 0.1, 1, 0.8, 0.1),
+    {
+      ...range('innerRadius', 'Pie inner radius', 0, 0.9, 0.55, 0.05),
+      previewValues: { chartType: 'pie' },
+    },
+    {
+      ...range('angularInset', 'Pie slice spacing', 0, 12, 3),
+      previewValues: { chartType: 'pie' },
+    },
+    {
+      ...range('pieOpacity', 'Pie opacity', 0.1, 1, 0.8, 0.1),
+      previewValues: { chartType: 'pie' },
+    },
     toggle('legend', 'Show categorical legend', true),
     toggle('animate', 'Animate changes', true),
     toggle('reference', 'Reference rule at 12'),

@@ -58,10 +58,12 @@ export function GuidePage() {
               Try, customize, compare.
             </Text>
             <Text textStyle={{ color: t.muted, fontSize: 16, lineHeight: 25 }}>
-              Open Customize on any specimen. Component controls change actual
-              native props; environment controls change appearance, tint,
-              direction, width, and inset. Edit the JSON to apply a repeatable
-              configuration. Reset restores both props and interaction state.
+              Open a collection to browse ready-made variants without
+              configuration. Switch to Playground when you want to combine
+              settings. Component controls change actual native props;
+              environment controls change appearance, tint, direction, width,
+              and inset. Edit the JSON to apply a repeatable configuration.
+              Reset restores both props and interaction state.
             </Text>
             <Text
               textStyle={{ color: t.text, fontSize: 22, fontWeight: '600' }}

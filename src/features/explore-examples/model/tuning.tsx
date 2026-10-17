@@ -13,6 +13,8 @@ interface BaseControl {
   id: string;
   label: string;
   description?: string;
+  /** Related props needed to make this variation visible in the gallery. */
+  previewValues?: TuningValues;
 }
 export type TuningControl =
   | (BaseControl & { type: 'select'; options: string[]; defaultValue: string })
