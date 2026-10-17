@@ -42,7 +42,7 @@ Suggested walkthrough:
 
 1. Open Catalog. Use search for “Button” or expand Filters to choose Universal / Actions.
 2. Open Button and tap Add a point. The score changes. Tap Reset example to restore it. Scroll to compare the ready-made variations.
-3. Open Customize in the navigation bar. Change controls and preview settings. Apply the shown JSON unchanged or edit supported values; malformed/unsupported values produce a local validation message. Reset restores defaults.
+3. Open Customize in the navigation bar. Change controls and preview settings. Apply the shown JSON unchanged or edit supported values; malformed/unsupported values produce a local validation message. Reset restores defaults. Tap Done to return to the component.
 4. Open Docs to read bundled original SDK-matched reference text in a separate sheet. Close with Done.
 5. Return to Catalog and explore SwiftUI collections such as Swift Charts, menus, forms, and sheets. These are real iOS components; availability can depend on the OS version.
 6. Open a Compose collection to see its explicit Android availability notice. Android-only examples are indexed for cross-platform reference and are intentionally not rendered on iOS.
