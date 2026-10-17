@@ -30,6 +30,7 @@ export const typography = {
 
 export const layout = {
   minTouchTarget: 44,
+  readingWidth: 900,
   hairline: 1,
   fullWidth: '100%',
 } as const;

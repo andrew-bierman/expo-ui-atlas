@@ -6,7 +6,15 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!dist", "!dist-*", "!.expo", "!assets", "!.agents"]
+    "includes": [
+      "**",
+      "!dist",
+      "!dist-*",
+      "!.expo",
+      "!assets",
+      "!.agents",
+      "!src/entities/catalog-entry/data/reference/bundle.json"
+    ]
   },
   "formatter": {
     "enabled": true,

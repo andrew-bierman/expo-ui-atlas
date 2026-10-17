@@ -1,5 +1,6 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
-import { Linking, Platform, ScrollView, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Platform, ScrollView, Text, View } from 'react-native';
 import {
   Family,
   families,
@@ -13,10 +14,17 @@ import {
 } from '../../../features/explore-examples';
 import { useTheme } from '../../../shared/theme';
 import { Body, Notice, Pill } from '../../../shared/ui';
+import { ReferencePanel } from './reference-panel';
+
+enum DetailMode {
+  Examples = 'examples',
+  Reference = 'reference',
+}
 export default function Detail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const entry = findEntry(id);
   const t = useTheme();
+  const [mode, setMode] = useState(DetailMode.Examples);
   if (!entry)
     return (
       <View style={{ padding: 24, gap: 20 }}>
@@ -33,9 +41,6 @@ export default function Detail() {
     (entry.family === Family.Universal ? universalExamples : nativeExamples)[
       entry.id
     ] ?? [];
-  const docs =
-    entry.docs ??
-    `https://docs.expo.dev/versions/v58.0.0/sdk/ui/${entry.family === Family.SwiftUI ? 'swift-ui' : entry.family === Family.Compose ? 'jetpack-compose' : 'universal'}/`;
   const header = (
     <View style={{ gap: 22 }}>
       <Text
@@ -65,14 +70,22 @@ export default function Detail() {
         <Pill
           label={entry.platforms.map((p) => platformLabels[p]).join(' + ')}
         />
+      </View>
+      <View style={{ flexDirection: 'row', gap: 8 }}>
         <Pill
-          label="Official documentation ↗"
-          onPress={() => {
-            void Linking.openURL(docs);
-          }}
+          label="Examples"
+          selected={mode === DetailMode.Examples}
+          onPress={() => setMode(DetailMode.Examples)}
+        />
+        <Pill
+          label="Reference"
+          selected={mode === DetailMode.Reference}
+          onPress={() => setMode(DetailMode.Reference)}
         />
       </View>
-      {entry.notes ? <Notice title="Field notes">{entry.notes}</Notice> : null}
+      {mode === DetailMode.Examples && entry.notes ? (
+        <Notice title="Field notes">{entry.notes}</Notice>
+      ) : null}
     </View>
   );
   const footer = (
@@ -83,27 +96,30 @@ export default function Detail() {
       <Body muted>{entry.exports.join(' · ')}</Body>
     </View>
   );
-  const content = supported ? (
-    <ExampleGallery
-      key={entry.id}
-      examples={examples}
-      header={header}
-      footer={footer}
-    />
-  ) : (
-    <ScrollView
-      contentContainerStyle={{ padding: 20, paddingBottom: 60, gap: 22 }}
-    >
-      {header}
-      <Notice
-        title={`Explore this collection on ${entry.platforms.map((p) => platformLabels[p]).join(' or ')}`}
+  const content =
+    mode === DetailMode.Reference ? (
+      <ReferencePanel key={entry.id} entryId={entry.id} header={header} />
+    ) : supported ? (
+      <ExampleGallery
+        key={entry.id}
+        examples={examples}
+        header={header}
+        footer={footer}
+      />
+    ) : (
+      <ScrollView
+        contentContainerStyle={{ padding: 20, paddingBottom: 60, gap: 22 }}
       >
-        These examples require their supported platform. Open this app in
-        matching Expo Go on that device to explore the live variants.
-      </Notice>
-      {footer}
-    </ScrollView>
-  );
+        {header}
+        <Notice
+          title={`Explore this collection on ${entry.platforms.map((p) => platformLabels[p]).join(' or ')}`}
+        >
+          These examples require their supported platform. Open this app in
+          matching Expo Go on that device to explore the live variants.
+        </Notice>
+        {footer}
+      </ScrollView>
+    );
   return (
     <>
       <Stack.Screen options={{ title: entry.name }} />

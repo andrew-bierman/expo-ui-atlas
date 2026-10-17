@@ -37,3 +37,7 @@ The example feature owns typed control schemas, validation, live inspector UI an
 Component details use the example feature’s virtualized gallery. The default Variants view enumerates each schema’s finite enum cases and boolean states; numeric settings get minimum/default/maximum samples. Each preview has independent state and Reset restores its preset. The optional per-collection Playground retains combined customization and JSON editing. Off-window local interactions may reset under virtualization.
 
 A control’s optional `previewValues` enables prerequisites for its gallery samples, such as choosing a line chart before varying line width. The varied value takes precedence over context. These values do not change the control’s playground default. Continuous combinations and arbitrary text remain playground concerns.
+
+## Offline reference
+
+The catalog entity owns a generated, SDK-matched reference snapshot and pure lookup functions. The catalog detail page composes its Reference panel with a generic Shared Markdown reader. Downloading and discovery are explicit tooling (`bun run docs:sync`); the runtime does not fetch reference text. See `docs/reference.md` for refresh, attribution, link behavior, and offline scope.
