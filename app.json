@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Expo UI Atlas",
+    "slug": "expo-ui-atlas",
+    "scheme": "expo-ui-atlas",
+    "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "ios": { "supportsTablet": true },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#e6f3ec"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router"]
+  }
+}
