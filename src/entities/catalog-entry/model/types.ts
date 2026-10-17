@@ -1,3 +1,5 @@
+import { appConfig } from '../../../shared/config';
+
 export enum Family {
   Universal = 'universal',
   SwiftUI = 'swiftui',
@@ -103,22 +105,22 @@ export interface CatalogEntry {
 }
 export const families = {
   [Family.Universal]: {
-    label: 'Universal',
+    label: appConfig.messages.families.universal.label,
     short: 'U',
     color: '#246b4d',
-    description: 'One API. Native on iOS and Android, with web fallbacks.',
+    description: appConfig.messages.families.universal.description,
   },
   [Family.SwiftUI]: {
-    label: 'SwiftUI',
+    label: appConfig.messages.families.swiftui.label,
     short: 'S',
     color: '#ad4b2c',
-    description: 'Direct access to Apple’s native controls and modifiers.',
+    description: appConfig.messages.families.swiftui.description,
   },
   [Family.Compose]: {
-    label: 'Compose',
+    label: appConfig.messages.families.compose.label,
     short: 'C',
     color: '#6552a3',
-    description: 'Direct Jetpack Compose and Material components on Android.',
+    description: appConfig.messages.families.compose.description,
   },
 } as const;
 export const categories = Object.values(Category);

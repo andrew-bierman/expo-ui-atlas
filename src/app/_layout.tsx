@@ -6,7 +6,9 @@ import {
 } from 'expo-router/react-navigation';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
+import { appConfig, useTranslation } from '../shared/config';
 export default function Layout() {
+  const { t } = useTranslation();
   const dark = useColorScheme() === 'dark';
   return (
     <ThemeProvider value={dark ? DarkTheme : DefaultTheme}>
@@ -19,24 +21,24 @@ export default function Layout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="component/[id]"
-          options={{ title: 'Explore specimen' }}
+          options={{ title: t('navigation.detail') }}
         />
         <Stack.Screen
           name="reference/[id]"
           options={{
             presentation: 'formSheet',
-            title: 'Documentation',
+            title: t('navigation.documentation'),
             sheetGrabberVisible: true,
-            sheetAllowedDetents: [0.5, 1],
+            sheetAllowedDetents: [...appConfig.navigation.sheets.reference],
           }}
         />
         <Stack.Screen
           name="playground/[id]"
           options={{
             presentation: 'formSheet',
-            title: 'Customize',
+            title: t('navigation.customize'),
             sheetGrabberVisible: true,
-            sheetAllowedDetents: [1],
+            sheetAllowedDetents: [...appConfig.navigation.sheets.customize],
           }}
         />
       </Stack>

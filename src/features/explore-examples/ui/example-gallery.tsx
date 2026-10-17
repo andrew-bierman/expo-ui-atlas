@@ -1,5 +1,6 @@
 import { type ReactElement, useMemo } from 'react';
 import { FlatList, type ListRenderItemInfo } from 'react-native';
+import { appConfig } from '../../../shared/config';
 import type { TuningValues } from '../model/tuning';
 import type { Example } from '../model/types';
 import { buildVariants } from '../model/variants';
@@ -10,11 +11,6 @@ interface GalleryRow {
   example: Example;
   values: TuningValues;
 }
-const galleryWindow = {
-  initialRows: 2,
-  rowsPerBatch: 2,
-  viewportCount: 3,
-} as const;
 function renderExample({ item, index }: ListRenderItemInfo<GalleryRow>) {
   return (
     <ExampleCard
@@ -55,9 +51,9 @@ export function ExampleGallery({
       automaticallyAdjustKeyboardInsets
       data={rows}
       keyExtractor={(row) => row.key}
-      initialNumToRender={galleryWindow.initialRows}
-      maxToRenderPerBatch={galleryWindow.rowsPerBatch}
-      windowSize={galleryWindow.viewportCount}
+      initialNumToRender={appConfig.gallery.initialRows}
+      maxToRenderPerBatch={appConfig.gallery.rowsPerBatch}
+      windowSize={appConfig.gallery.viewportCount}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{ padding: 16, gap: 24 }}
       ListHeaderComponent={header}

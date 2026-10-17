@@ -7,12 +7,14 @@ import {
   useMemo,
   useState,
 } from 'react';
+import type { MessageKey } from '../../../shared/config';
 import { ControlId, ControlType } from './control-identifiers';
 export type TuningValue = string | number | boolean;
 export type TuningValues = Partial<Record<ControlId, TuningValue>>;
 interface BaseControl {
   id: ControlId;
   label: string;
+  labelKey?: MessageKey;
   description?: string;
   /** Related props needed to make this variation visible in the gallery. */
   previewValues?: TuningValues;

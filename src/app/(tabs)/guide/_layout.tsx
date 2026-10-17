@@ -1,4 +1,6 @@
 import { Stack } from 'expo-router/stack';
+import { useTranslation } from '../../../shared/config';
 export default function Layout() {
-  return <Stack screenOptions={{ title: 'Guide' }} />;
+  const { t } = useTranslation();
+  return <Stack screenOptions={{ title: t('navigation.guide') }} />;
 }

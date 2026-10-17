@@ -44,12 +44,19 @@ src/pages/catalog-detail/        Detail page slice (ui)
 src/pages/not-found/             Missing-route page slice (ui)
 src/features/explore-examples/   Live specimens, typed tuning schemas, inspectors, reset/error UI
 src/entities/catalog-entry/      Catalog model, metadata, inventory, and tests
+src/shared/config/               Typed app settings and English-first translations
 src/shared/ui/                   Context-free UI primitives
 src/shared/theme/                Appearance tokens and hook
 scripts/                        Inventory/report tooling and FSD boundary checks
 ```
 
 Metadata never imports native renderers. Metro chooses `index.ios.tsx` / `index.android.tsx`; the fallback exports no native examples. Unsupported-platform details explain availability. A per-specimen React error boundary can recover JS render errors; it cannot intercept native crashes.
+
+## App settings and language
+
+`src/shared/config/app-config.ts` centralizes navigation, sheet sizes, gallery batching, preview settings, documentation links, and English app copy. UI uses typed `useTranslation()` keys; non-React validation uses `i18n.t()`. English is the initial and fallback language.
+
+To add a language, define its messages with `satisfies TranslationCatalog`, add its locale to `AppLocale`, and register the catalog in the i18next resources in `src/shared/config/i18n.ts`. The catalog type requires the same message structure; typed keys and interpolation parameters catch mismatches. Specimen content, API names/options, code samples, and bundled original Expo documentation remain unchanged.
 
 ## Quality checks
 
@@ -64,7 +71,7 @@ bunx expo export --platform all
 
 CI runs Biome, React Native ESLint rules, types, tests, dependency alignment, and all-platform bundles. Native Maestro flows are in [.maestro](.maestro/README.md) and require an explicit dedicated device. Tests enforce FSD layer/public-API boundaries and catch search/filter errors, missing IDs, platform metadata regressions, SDK export drift, and metadata/renderer registration mismatches.
 
-Validation includes 34 unit tests (2,892 assertions), inspector-schema configuration round trips, all three platform bundles, and browser interaction checks. Native Maestro checks use a dedicated iOS simulator so other sessions' devices remain untouched. The flows exercise search recovery, button interaction/reset, documentation sheets, customization with the keyboard open, and navigation/scroll reachability. These focused checks do not exercise every native specimen or replace Android device testing. Use the broader checklist in [coverage](docs/coverage.md#device-smoke-checklist).
+Validation includes 42 unit tests (2,939 assertions), inspector-schema configuration round trips, all three platform bundles, and browser interaction checks. Native Maestro checks use a dedicated iOS simulator so other sessions' devices remain untouched. The flows exercise search recovery, button interaction/reset, documentation sheets, customization with the keyboard open, and navigation/scroll reachability. These focused checks do not exercise every native specimen or replace Android device testing. Use the broader checklist in [coverage](docs/coverage.md#device-smoke-checklist).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog and [architecture](docs/architecture.md) for Feature-Sliced Design boundaries.
 

@@ -6,8 +6,10 @@ import {
   nativeExamples,
   universalExamples,
 } from '../../../features/explore-examples';
+import { useTranslation } from '../../../shared/config';
 import { Notice } from '../../../shared/ui';
 export function PlaygroundPage() {
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const entry = findEntry(id);
   const supported = entry?.platforms.some((p) => p === Platform.OS);
@@ -20,11 +22,15 @@ export function PlaygroundPage() {
   return (
     <>
       <Stack.Screen
-        options={{ title: entry ? `Customize ${entry.name}` : 'Customize' }}
+        options={{
+          title: entry
+            ? t('navigation.customizeTitle', { name: entry.name })
+            : t('navigation.customize'),
+        }}
       />
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.Button onPress={() => router.back()}>
-          Done
+          {t('navigation.done')}
         </Stack.Toolbar.Button>
       </Stack.Toolbar>
       <ScrollView
@@ -38,8 +44,8 @@ export function PlaygroundPage() {
             <ExampleCard key={example.id} example={example} index={index} />
           ))
         ) : (
-          <Notice title="Unavailable on this platform">
-            Choose a component available on this device.
+          <Notice title={t('catalog.unavailable')}>
+            {t('catalog.chooseAvailable')}
           </Notice>
         )}
       </ScrollView>

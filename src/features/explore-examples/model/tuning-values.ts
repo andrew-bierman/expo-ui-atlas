@@ -1,3 +1,4 @@
+import { i18n } from '../../../shared/config';
 import { ControlType } from './control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from './tuning';
 
@@ -49,25 +50,27 @@ export function parseTuning(
   try {
     parsed = JSON.parse(text);
   } catch {
-    return { error: 'Enter valid JSON.' };
+    return { error: i18n.t('configuration.invalidJson') };
   }
   if (!isObjectRecord(parsed))
-    return { error: 'Use a JSON object of control values.' };
+    return { error: i18n.t('configuration.objectRequired') };
   let values = defaultTuning(controls);
   const byId = new Map<string, TuningControl>(
     controls.map((control) => [control.id, control]),
   );
   for (const [id, value] of Object.entries<unknown>(parsed)) {
     const control = byId.get(id);
-    if (!control) return { error: `Unknown control: ${id}` };
+    if (!control)
+      return { error: i18n.t('configuration.unknownControl', { id }) };
     if (
       typeof value !== 'string' &&
       typeof value !== 'number' &&
       typeof value !== 'boolean'
     )
-      return { error: `Unsupported value for ${id}` };
+      return { error: i18n.t('configuration.unsupportedValue', { id }) };
     const next = updateTuning(controls, values, id, value);
-    if (next === values) return { error: `Invalid value for ${id}` };
+    if (next === values)
+      return { error: i18n.t('configuration.invalidValue', { id }) };
     values = next;
   }
   return { values };

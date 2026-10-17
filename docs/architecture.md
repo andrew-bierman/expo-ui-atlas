@@ -8,7 +8,7 @@ Expo UI Atlas follows [Feature-Sliced Design](https://feature-sliced.design/docs
 | Pages | Catalog browse, catalog detail, and not-found screen composition | Each page slice's `index.ts` |
 | Features | Explore live examples: native/universal specimen trees, local interactions, reset and error recovery | `features/explore-examples/index.ts` |
 | Entities | Catalog entry metadata, availability, families/categories, discovery selectors, and inventory | `entities/catalog-entry/index.ts` |
-| Shared | UI primitives and theme independent of catalog semantics | Each Shared segment's `index.ts` |
+| Shared | App configuration, translations, UI primitives, and theme independent of catalog semantics | Each Shared segment's `index.ts` |
 
 ## Dependency rules
 
@@ -41,3 +41,11 @@ A control’s optional `previewValues` enables prerequisites for its gallery sam
 ## Offline reference
 
 The catalog entity owns a generated, SDK-matched reference snapshot and pure lookup functions. The Docs sheet composes its Reference panel with a generic Shared Markdown reader. Downloading and discovery are explicit tooling (`bun run docs:sync`); the runtime does not fetch reference text. See `docs/reference.md` for refresh, attribution, link behavior, and offline scope.
+
+## App configuration and translations
+
+The Shared config public API exposes `appConfig`, `i18n`, `useTranslation`, `MessageKey`, and `TranslationCatalog`. `appConfig` owns app-level navigation and sheet settings, gallery virtualization, preview ranges/options, documentation URLs, and English messages. Specimen definitions continue to own their component-specific values and examples. Family metadata references the shared English messages rather than duplicating labels and descriptions.
+
+The app starts in English with English fallback. React UI resolves typed message keys through react-i18next; pure validation uses the shared i18next instance. Environment controls carry optional `labelKey` metadata so labels resolve when rendered without changing their stable control IDs or native option values.
+
+A future locale supplies a message object checked with `satisfies TranslationCatalog`, adds an `AppLocale` member, and registers that object under its locale in `shared/config/i18n.ts` resources. Switch with `i18n.changeLanguage()` when a language selection flow is introduced. Translation types check message structure, keys, and interpolation parameters. API identifiers, specimen labels/content and native choices, code recipes, and bundled original Expo Markdown are outside app-chrome translation scope.

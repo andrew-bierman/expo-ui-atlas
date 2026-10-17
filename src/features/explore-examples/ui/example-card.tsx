@@ -1,6 +1,7 @@
 import { DarkTheme, DefaultTheme } from 'expo-router/react-navigation';
 import { Component, type PropsWithChildren, useState } from 'react';
 import { View } from 'react-native';
+import { i18n, useTranslation } from '../../../shared/config';
 import { Body, Pill } from '../../../shared/ui';
 import { environmentControls } from '../config/environment';
 import { ControlId } from '../model/control-identifiers';
@@ -27,10 +28,7 @@ class SpecimenBoundary extends Component<
   }
   override render() {
     return this.state.error ? (
-      <Body>
-        This specimen could not render. Check your Expo Go version, then reset
-        to try again.
-      </Body>
+      <Body>{i18n.t('examples.renderError')}</Body>
     ) : (
       this.props.children
     );
@@ -47,6 +45,7 @@ export function ExampleCard({
   initialValues?: TuningValues;
   customization?: boolean;
 }) {
+  const { t } = useTranslation();
   const [revision, setRevision] = useState(0);
   const [showCode, setShowCode] = useState(false);
   const controls = [...(example.controls ?? []), ...environmentControls];
@@ -58,7 +57,9 @@ export function ExampleCard({
   return (
     <View style={{ gap: 12 }}>
       <View style={{ padding: 20, gap: 10 }}>
-        <Body>{`${index + 1}. ${example.title}`}</Body>
+        <Body>
+          {t('examples.title', { index: index + 1, title: example.title })}
+        </Body>
         {example.description ? <Body>{example.description}</Body> : null}
       </View>
       <View
@@ -95,7 +96,7 @@ export function ExampleCard({
         }}
       >
         <Pill
-          label="Reset example"
+          label={t('examples.reset')}
           onPress={() => {
             setOverrides(initialValues);
             setRevision((v) => v + 1);
@@ -103,7 +104,7 @@ export function ExampleCard({
         />
         {customization && example.code ? (
           <Pill
-            label={showCode ? 'Hide recipe' : 'View recipe'}
+            label={t(showCode ? 'examples.hideRecipe' : 'examples.viewRecipe')}
             selected={showCode}
             onPress={() => setShowCode((v) => !v)}
           />
@@ -116,11 +117,8 @@ export function ExampleCard({
             gap: 18,
           }}
         >
-          <Body>Live controls</Body>
-          <Body>
-            Change component props and the native environment. Your experiment
-            stays local to this specimen.
-          </Body>
+          <Body>{t('examples.liveControls')}</Body>
+          <Body>{t('examples.localExperiment')}</Body>
           <TuningControls
             controls={controls}
             values={values}

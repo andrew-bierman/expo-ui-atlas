@@ -1,51 +1,44 @@
+import { appConfig } from '../../../shared/config';
 import { ControlId, ControlType } from '../model/control-identifiers';
 import { nativeDefault } from '../model/host-environment';
 import type { TuningControl } from '../model/tuning';
 export const environmentControls: TuningControl[] = [
   {
     id: ControlId.Appearance,
-    label: 'Appearance',
+    label: appConfig.messages.environment.appearance,
+    labelKey: 'environment.appearance',
     type: ControlType.Select,
-    options: [nativeDefault, 'light', 'dark'],
+    options: [...appConfig.preview.appearanceOptions],
     defaultValue: nativeDefault,
   },
   {
     id: ControlId.Accent,
-    label: 'Native tint / Material seed',
+    label: appConfig.messages.environment.accent,
+    labelKey: 'environment.accent',
     type: ControlType.Select,
-    options: [
-      nativeDefault,
-      '#246b4d',
-      '#6552a3',
-      '#ad4b2c',
-      '#006fbb',
-      '#a12670',
-    ],
+    options: [...appConfig.preview.accentOptions],
     defaultValue: nativeDefault,
   },
   {
     id: ControlId.Direction,
-    label: 'Layout direction',
+    label: appConfig.messages.environment.direction,
+    labelKey: 'environment.direction',
     type: ControlType.Select,
-    options: [nativeDefault, 'leftToRight', 'rightToLeft'],
+    options: [...appConfig.preview.directionOptions],
     defaultValue: nativeDefault,
   },
   {
     id: ControlId.PreviewWidth,
-    label: 'Preview width (%)',
+    label: appConfig.messages.environment.width,
+    labelKey: 'environment.width',
     type: ControlType.Range,
-    min: 55,
-    max: 100,
-    step: 5,
-    defaultValue: 100,
+    ...appConfig.preview.width,
   },
   {
     id: ControlId.PreviewPadding,
-    label: 'Preview inset',
+    label: appConfig.messages.environment.padding,
+    labelKey: 'environment.padding',
     type: ControlType.Range,
-    min: 0,
-    max: 32,
-    step: 2,
-    defaultValue: 16,
+    ...appConfig.preview.padding,
   },
 ];

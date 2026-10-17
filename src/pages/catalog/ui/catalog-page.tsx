@@ -16,13 +16,14 @@ import {
   catalog,
   categories,
   Family,
-  families,
   familyOptions,
   filterCatalog,
 } from '../../../entities/catalog-entry';
+import { appConfig, useTranslation } from '../../../shared/config';
 import { NativeSearchBar, SearchField } from '../../../shared/ui';
 
 export default function Browse() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [family, setFamily] = useState<Family | CatalogFilter.All>(
     CatalogFilter.All,
@@ -30,7 +31,9 @@ export default function Browse() {
   const [category, setCategory] = useState<Category | CatalogFilter.All>(
     CatalogFilter.All,
   );
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(
+    appConfig.catalog.filtersInitiallyOpen,
+  );
   const results = filterCatalog(catalog, query, family, category);
   const filtered =
     query !== '' ||
@@ -41,7 +44,7 @@ export default function Browse() {
       <NativeSearchBar
         value={query}
         onChange={setQuery}
-        placeholder="Search components"
+        placeholder={t('catalog.search')}
       />
       {Platform.OS === 'web' ? (
         <SearchField value={query} onChange={setQuery} />
@@ -49,7 +52,7 @@ export default function Browse() {
       <Host style={{ flex: 1 }}>
         <List testID="catalog-list">
           <Collapsible
-            label="Filters"
+            label={t('catalog.filters')}
             isOpen={filtersOpen}
             onOpenChange={setFiltersOpen}
           >
@@ -59,20 +62,30 @@ export default function Browse() {
                 selectedValue={family}
                 onValueChange={setFamily}
               >
-                <Picker.Item value={CatalogFilter.All} label="All APIs" />
+                <Picker.Item
+                  value={CatalogFilter.All}
+                  label={t('catalog.allApis')}
+                />
                 {familyOptions.map((f) => (
-                  <Picker.Item key={f.id} value={f.id} label={f.label} />
+                  <Picker.Item
+                    key={f.id}
+                    value={f.id}
+                    label={t(`families.${f.id}.label`)}
+                  />
                 ))}
               </Picker>
               <Picker selectedValue={category} onValueChange={setCategory}>
-                <Picker.Item value={CatalogFilter.All} label="All categories" />
+                <Picker.Item
+                  value={CatalogFilter.All}
+                  label={t('catalog.allCategories')}
+                />
                 {categories.map((c) => (
-                  <Picker.Item key={c} value={c} label={c} />
+                  <Picker.Item key={c} value={c} label={t(`categories.${c}`)} />
                 ))}
               </Picker>
             </Column>
           </Collapsible>
-          <Text>{`${results.length} collections`}</Text>
+          <Text>{t('catalog.collections', { count: results.length })}</Text>
           {filtered ? (
             <ListItem
               onPress={() => {
@@ -81,7 +94,7 @@ export default function Browse() {
                 setCategory(CatalogFilter.All);
               }}
             >
-              Clear filters
+              {t('catalog.clearFilters')}
             </ListItem>
           ) : null}
           {results.map((entry) => (
@@ -89,12 +102,15 @@ export default function Browse() {
               key={entry.id}
               testID={`catalog-${entry.id}`}
               onPress={() => router.push(`/component/${entry.id}`)}
-              supportingText={`${families[entry.family].label} · ${entry.category}`}
+              supportingText={t('catalog.row', {
+                family: t(`families.${entry.family}.label`),
+                category: t(`categories.${entry.category}`),
+              })}
             >
               {entry.name}
             </ListItem>
           ))}
-          {results.length === 0 ? <Text>No matching components</Text> : null}
+          {results.length === 0 ? <Text>{t('catalog.empty')}</Text> : null}
         </List>
       </Host>
     </>

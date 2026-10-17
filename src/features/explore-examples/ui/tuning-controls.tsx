@@ -11,6 +11,7 @@ import {
 } from '@expo/ui';
 import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from '../../../shared/config';
 import { type ControlId, ControlType } from '../model/control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from '../model/tuning';
 
@@ -38,6 +39,9 @@ export function TuningControls({
   onChange: (id: string, value: TuningValue) => void;
   onClear: (id: ControlId) => void;
 }) {
+  const { t } = useTranslation();
+  const labelFor = (control: TuningControl) =>
+    control.labelKey ? t(control.labelKey) : control.label;
   return (
     <View style={{ gap: 16 }}>
       {controls.map((control) => (
@@ -50,8 +54,13 @@ export function TuningControls({
           <Column spacing={8}>
             <Text>
               {control.type === ControlType.Range
-                ? `${control.label}: ${values[control.id] ?? 'Native default'}`
-                : control.label}
+                ? t('tuning.rangeLabel', {
+                    label: labelFor(control),
+                    value: String(
+                      values[control.id] ?? t('tuning.nativeDefault'),
+                    ),
+                  })
+                : labelFor(control)}
             </Text>
             {control.description ? <Text>{control.description}</Text> : null}
             {control.type === ControlType.Select ? (
@@ -65,7 +74,7 @@ export function TuningControls({
               </Picker>
             ) : control.type === ControlType.Toggle ? (
               <Switch
-                label={control.label}
+                label={labelFor(control)}
                 value={Boolean(values[control.id])}
                 onValueChange={(value) => onChange(control.id, value)}
               />
@@ -73,7 +82,9 @@ export function TuningControls({
               <Column spacing={8}>
                 {control.nativeDefault ? (
                   <Switch
-                    label={`Override ${control.label.toLowerCase()}`}
+                    label={t('tuning.override', {
+                      label: labelFor(control).toLowerCase(),
+                    })}
                     testID={`override-${control.id}`}
                     value={values[control.id] !== undefined}
                     onValueChange={(enabled) =>
@@ -114,6 +125,7 @@ export function ConfigEditor({
   value: string;
   onApply: (value: string) => string | undefined;
 }) {
+  const { t } = useTranslation();
   const input = useNativeState(value);
   const error = useNativeState('');
   const dirty = useRef(false);
@@ -130,10 +142,7 @@ export function ConfigEditor({
         style={{ width: '100%' }}
       >
         <Column spacing={12}>
-          <Text>
-            Edit the values below, then apply. Unapplied edits stay until Apply
-            or Reset. Unsupported keys and values are rejected.
-          </Text>
+          <Text>{t('configuration.instructions')}</Text>
           <TextInput
             value={input}
             testID="configuration-input"
@@ -147,12 +156,12 @@ export function ConfigEditor({
             }}
           />
           <Button
-            label="Apply configuration"
+            label={t('configuration.apply')}
             variant="outlined"
             onPress={() => {
               const message = onApply(input.get());
               if (!message) dirty.current = false;
-              error.set(message ?? 'Configuration applied');
+              error.set(message ?? t('configuration.applied'));
             }}
           />
           <TextInput value={error} readOnly />

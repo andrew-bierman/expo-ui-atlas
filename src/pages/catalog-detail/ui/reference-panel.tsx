@@ -6,6 +6,7 @@ import {
   referenceManifest,
   referencesForEntry,
 } from '../../../entities/catalog-entry';
+import { useTranslation } from '../../../shared/config';
 import { MarkdownDocument } from '../../../shared/markdown';
 import { layout, spacing } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
+  const { t } = useTranslation();
   const pages = referencesForEntry(entryId);
   const [selectedId, setSelectedId] = useState(pages[0]?.id);
   const page = findReference(selectedId ?? '');
@@ -32,15 +34,12 @@ export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
       contentContainerStyle={styles.content}
     >
       <Body>
-        Official Expo documentation · SDK {referenceManifest.sdkVersion} ·
-        Bundled {referenceManifest.fetchedAt.slice(0, 10)} · Available offline
+        {t('reference.attribution', {
+          sdkVersion: referenceManifest.sdkVersion,
+          date: referenceManifest.fetchedAt.slice(0, 10),
+        })}
       </Body>
-      {pages.length === 1 ? (
-        <Body>
-          No dedicated component page is indexed for this collection in this
-          SDK. The official family overview is available below.
-        </Body>
-      ) : null}
+      {pages.length === 1 ? <Body>{t('reference.overview')}</Body> : null}
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs }}>
         {pages.map((item) => (
           <Pill
@@ -54,7 +53,7 @@ export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
       {page ? (
         <>
           <Pill
-            label="Open official page ↗"
+            label={t('reference.openOfficial')}
             onPress={() => {
               void Linking.openURL(page.sourceUrl);
             }}
@@ -86,7 +85,7 @@ export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
           />
         </>
       ) : (
-        <Body>No bundled reference is available for this collection.</Body>
+        <Body>{t('reference.missing')}</Body>
       )}
     </ScrollView>
   );
