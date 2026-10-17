@@ -1,26 +1,34 @@
 import { ControlId, ControlType } from '../model/control-identifiers';
+import { nativeDefault } from '../model/host-environment';
 import type { TuningControl } from '../model/tuning';
 export const environmentControls: TuningControl[] = [
   {
     id: ControlId.Appearance,
     label: 'Appearance',
     type: ControlType.Select,
-    options: ['system', 'light', 'dark'],
-    defaultValue: 'system',
+    options: [nativeDefault, 'light', 'dark'],
+    defaultValue: nativeDefault,
   },
   {
     id: ControlId.Accent,
     label: 'Native tint / Material seed',
     type: ControlType.Select,
-    options: ['#246b4d', '#6552a3', '#ad4b2c', '#006fbb', '#a12670'],
-    defaultValue: '#246b4d',
+    options: [
+      nativeDefault,
+      '#246b4d',
+      '#6552a3',
+      '#ad4b2c',
+      '#006fbb',
+      '#a12670',
+    ],
+    defaultValue: nativeDefault,
   },
   {
     id: ControlId.Direction,
     label: 'Layout direction',
     type: ControlType.Select,
-    options: ['leftToRight', 'rightToLeft'],
-    defaultValue: 'leftToRight',
+    options: [nativeDefault, 'leftToRight', 'rightToLeft'],
+    defaultValue: nativeDefault,
   },
   {
     id: ControlId.PreviewWidth,

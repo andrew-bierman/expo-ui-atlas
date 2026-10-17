@@ -10,3 +10,5 @@
 
 - Follow `docs/code-conventions.md`: use catalog/control enums, validate unknown external input, and use shared theme tokens or named demo configuration instead of unexplained repeated values. No explicit `any`.
 - Keep select controls nonempty with defaults from their declared options; use named range options. Preserve strict and checked-index compiler flags and lint enforcement.
+
+- Show native defaults first. Do not apply the catalog brand’s tint, seed palette, direction or decorative modifiers to every specimen. Keep customization and explicit themed/modifier demonstrations clearly separate. Prefer simple native compositions over extra wrappers or decorative UI.

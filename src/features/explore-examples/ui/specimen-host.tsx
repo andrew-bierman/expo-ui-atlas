@@ -1,25 +1,22 @@
 import { Host, type UniversalHostProps } from '@expo/ui';
 import { ControlId } from '../model/control-identifiers';
+import {
+  nativeDefault,
+  resolveHostEnvironment,
+} from '../model/host-environment';
 import { useKnob } from '../model/tuning';
-export function SpecimenHost(
-  props: UniversalHostProps & { preserveSeed?: boolean },
-) {
-  const { preserveSeed, ...hostProps } = props;
-  const appearance = useKnob<'system' | 'light' | 'dark'>(
-    ControlId.Appearance,
-    'system',
-  );
-  const accent = useKnob(ControlId.Accent, '#246b4d');
-  const direction = useKnob<'leftToRight' | 'rightToLeft'>(
-    ControlId.Direction,
-    'leftToRight',
-  );
+
+export function SpecimenHost(props: UniversalHostProps) {
+  const appearance = useKnob<string>(ControlId.Appearance, nativeDefault);
+  const accent = useKnob<string>(ControlId.Accent, nativeDefault);
+  const direction = useKnob<string>(ControlId.Direction, nativeDefault);
+  const overrides = resolveHostEnvironment(appearance, accent, direction);
   return (
     <Host
-      {...hostProps}
-      colorScheme={appearance === 'system' ? props.colorScheme : appearance}
-      seedColor={preserveSeed ? props.seedColor : accent}
-      layoutDirection={direction}
+      {...props}
+      colorScheme={overrides.colorScheme ?? props.colorScheme}
+      seedColor={overrides.seedColor ?? props.seedColor}
+      layoutDirection={overrides.layoutDirection ?? props.layoutDirection}
     />
   );
 }

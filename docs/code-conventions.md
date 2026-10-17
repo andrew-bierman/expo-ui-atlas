@@ -44,3 +44,7 @@ A catalog also needs intentional demonstration data: a slider’s bounds, a char
 ## Verification
 
 `bun run typecheck` checks negative compile-time fixtures as well as the app. Those fixtures must continue rejecting empty choice lists, invalid defaults, unknown control IDs and unknown catalog IDs. `bun test` checks runtime parsing, preset generation, schema consistency, catalog discovery, registrations and FSD boundaries. `bun run check` enforces formatting and the configured lint rules. Bundle all platforms after touching native bindings; types alone do not verify native rendering.
+
+## Native fidelity
+
+Specimens inherit native theme and locale direction unless the example explicitly demonstrates a different configuration. The catalog brand must not tint every control. Playground appearance, accent and direction start at `system`; explicit overrides remain available. A seeded palette or modifier example can declare its own settings because those settings are the subject being demonstrated. Keep surrounding presentation quiet and controls recognizable.

@@ -25,7 +25,7 @@ export function Stage({
   height?: number;
 }) {
   return (
-    <SpecimenHost seedColor="#6552a3" style={{ height, width: '100%' }}>
+    <SpecimenHost style={{ height, width: '100%' }}>
       <C.Column
         modifiers={[M.fillMaxSize(), M.paddingAll(12)]}
         verticalArrangement={{ spacedBy: 12 }}
