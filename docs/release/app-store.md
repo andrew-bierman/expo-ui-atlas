@@ -10,21 +10,25 @@ Prepared October 17, 2026. This is a submission runbook, not a record of Apple a
 | EAS | Linked project `0ca59813-75c5-4dbe-a187-e038edf508d1`; store-distribution profiles; remote build numbers |
 | Icon | Original control-catalog artwork is configured; opaque 1024 × 1024 PNG; inspect the final archive icon before upload |
 | Code checks | 45 unit tests, all-platform exports, React Doctor 100/100; prior five iOS regressions plus the new legal-sheet flow verified; check the current PR for latest CI status |
-| Store build | No iOS EAS builds returned for the linked project during this audit; no standalone release archive verified |
-| Device coverage | iPhone simulator / Expo Go verified; standalone physical iPhone and iPad checks still required |
+| Store build | Signed production EAS build queued for 1.0.0 (4) from `02be33c`; completion and archive audit pending |
+| Device coverage | Unsigned standalone Release validation and screenshots completed on iPhone/iPad simulators from `3076996`; signed physical-device validation remains |
 | Public URLs | Canonical public-repo URLs and GitHub Issues contact prepared; become reachable after merge/publication; bundled in-app access implemented |
-| Listing | App Store Connect record `6824046567` created; version 1.0.0 copy, subtitle, Developer Tools category, 4+ rating, free pricing, worldwide availability and manual release saved; screenshots, review contact and final declarations remain |
+| Listing | App Store Connect record `6824046567` created; version 1.0.0 copy, subtitle, Developer Tools category, 4+ rating, free pricing, worldwide availability and manual release saved; screenshot upload and final declarations remain |
 | Third-party content | App and Expo documentation notices are bundled; installed production dependency notices are exportable offline; unresolved/native archive notice review remains |
 
 ## App Store Connect setup receipt — October 17, 2026
 
 The app record exists under Bierman Collective LLC with limited app access. Version 1.0.0 is **Prepare for Submission**, with manual release selected and sign-in requirements disabled. Description, promotional text, keywords, copyright and reviewer walkthrough are saved. App Information has the subtitle “Explore native UI controls,” Developer Tools as the primary category, and the calculated 4+ age rating. Pricing is free in all storefronts; availability is configured for all 175 countries/regions on release. Apple Silicon Mac and Vision Pro availability are disabled for the initial iPhone/iPad release.
 
-TestFlight beta description, reviewer walkthrough, marketing URL and privacy URL drafts are saved; beta feedback and review contacts remain pending.
+TestFlight beta description, reviewer walkthrough, marketing URL and privacy URL drafts are saved; review contacts are now filled in App Store Connect and TestFlight from the existing Perdiem company contact. Contact email and phone are intentionally omitted from this repository.
 
-Support, marketing and privacy URLs point to the planned GitHub repository pages. They remain release blockers while the repository is private. Privacy-label publication, content-rights declaration and owner review contact remain outstanding. No version has been submitted to App Review or released.
+Support, marketing and privacy URLs point to the planned GitHub repository pages. They remain release blockers while the repository is private. Privacy-label publication and the content-rights declaration remain outstanding. No version has been submitted to App Review or released.
 
-EAS can read the new record with its existing managed App Store Connect API key; it returned no TestFlight builds. The first cloud build attempts stopped during signing setup, before creating an archive. The available EAS distribution certificates were expired; no certificate was revoked or reused. Apple ID authentication returned an account-lock error despite an active browser session. Avoid repeated login retries: finish signing setup through the authenticated Apple Developer portal or after the owner resolves the account lock. Keep CSR/private keys, certificate bundles and provisioning profiles outside version control. Remote build numbers may have advanced during failed setup attempts; inspect the eventual archive rather than assuming a particular build number.
+EAS can read the record with its existing managed App Store Connect API key. Early build attempts stopped during signing setup after expired certificates and an Apple ID account-lock error. With owner approval, a new distribution certificate and the Atlas App Store provisioning profile were created and uploaded to EAS. The certificate expires October 17, 2027. No other certificates were changed. Keep CSR/private keys, certificate bundles, provisioning profiles and local `credentials.json` outside version control; the temporary credentials file was deleted after remote upload.
+
+Production build [`6b77749f-2815-41c8-a53a-25e63cdeffca`](https://expo.dev/accounts/andrewbierman/projects/expo-ui-atlas/builds/6b77749f-2815-41c8-a53a-25e63cdeffca) was queued from `02be33c` for app 1.0.0, build 4. This records the signing setup and queued build, not a completed or audited signed archive.
+
+Unsigned standalone Release validation and screenshots completed on iPhone and iPad simulators from source `3076996`; the validation worktree records the evidence in `artifacts/VALIDATION.md`. This does not establish signed-device behavior or exhaustive specimen coverage. The current iOS production source map has no executable modules for the three installed dependencies with unresolved notices (`client-only`, `server-only`, and `tr46`); signed archive and bundled notice review remain pending. Public privacy and support URLs still require public hosting.
 
 ## 1. Finish the release inputs
 

@@ -43,3 +43,6 @@ yarn-error.*
 # Local agent tooling (not part of the application)
 .agents/
 skills-lock.json
+
+# Local signing credentials
+credentials.json
