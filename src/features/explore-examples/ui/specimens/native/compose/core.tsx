@@ -2,6 +2,7 @@ import * as C from '@expo/ui/jetpack-compose';
 import * as M from '@expo/ui/jetpack-compose/modifiers';
 import { type ReactNode, useState } from 'react';
 import { Text as RNText } from 'react-native';
+import { SpecimenHost } from '../../../specimen-host';
 
 export function Stage({
   children,
@@ -11,14 +12,14 @@ export function Stage({
   height?: number;
 }) {
   return (
-    <C.Host seedColor="#6552a3" style={{ height, width: '100%' }}>
+    <SpecimenHost seedColor="#6552a3" style={{ height, width: '100%' }}>
       <C.Column
         modifiers={[M.fillMaxSize(), M.paddingAll(12)]}
         verticalArrangement={{ spacedBy: 12 }}
       >
         {children}
       </C.Column>
-    </C.Host>
+    </SpecimenHost>
   );
 }
 export function Mark() {
@@ -564,12 +565,12 @@ function PaletteContent({
 export function Palette() {
   const [dark, setDark] = useState(false);
   return (
-    <C.Host
+    <SpecimenHost
       seedColor="#6552a3"
       colorScheme={dark ? 'dark' : 'light'}
       style={{ height: 360, width: '100%' }}
     >
       <PaletteContent dark={dark} onToggle={() => setDark(!dark)} />
-    </C.Host>
+    </SpecimenHost>
   );
 }

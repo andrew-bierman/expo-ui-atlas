@@ -1,4 +1,5 @@
 import type { ExampleRegistry } from '../../../model/types';
+import { SpecimenHost } from '../../specimen-host';
 import { Buttons, Pickers, Sliders, TextFields, Toggles } from './controls';
 import { Icons } from './icon';
 import { Sheet } from './presentation';
@@ -19,7 +20,7 @@ export const universalExamples: ExampleRegistry = {
       description:
         'Add or remove points, reset the score, and compare a disabled button.',
       component: Buttons,
-      code: '<Host matchContents>\n  <Button label="Add a point" variant="filled"\n    onPress={() => setScore(v => v + 1)} />\n</Host>',
+      code: '<SpecimenHost matchContents>\n  <Button label="Add a point" variant="filled"\n    onPress={() => setScore(v => v + 1)} />\n</SpecimenHost>',
     },
   ],
   'u-slider': [
@@ -129,7 +130,7 @@ export const universalExamples: ExampleRegistry = {
       description:
         'Inspect the React Native card nestled between two native text elements.',
       component: Interop,
-      code: '<Host matchContents>\n  <Column>\n    <Text>Native UI</Text>\n    <RNHostView matchContents>\n      <View><RNText>React Native</RNText></View>\n    </RNHostView>\n  </Column>\n</Host>',
+      code: '<SpecimenHost matchContents>\n  <Column>\n    <Text>Native UI</Text>\n    <RNHostView matchContents>\n      <View><RNText>React Native</RNText></View>\n    </RNHostView>\n  </Column>\n</SpecimenHost>',
     },
   ],
   'u-sheet': [

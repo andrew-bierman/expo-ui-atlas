@@ -1,11 +1,12 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { SpecimenHost } from '../../../specimen-host';
 
 export function Buttons() {
   const [count, setCount] = useState(0);
   return (
-    <S.Host style={{ height: 260 }}>
+    <SpecimenHost style={{ height: 260 }}>
       <S.VStack spacing={16} modifiers={[M.padding({ all: 12 })]}>
         <S.Text>{`Pressed ${count} times`}</S.Text>
         <S.HStack spacing={12}>
@@ -38,14 +39,14 @@ export function Buttons() {
           <S.Button label="+" onPress={() => setCount(count + 1)} />
         </S.ControlGroup>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Switches() {
   const [on, setOn] = useState(true);
   const native = S.useNativeState(false);
   return (
-    <S.Host style={{ height: 210 }}>
+    <SpecimenHost style={{ height: 210 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.Toggle
           label="Notifications"
@@ -66,14 +67,14 @@ export function Switches() {
         />
         <S.SyncToggle label="Native observable state" isOn={native} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Fields() {
   const [value, setValue] = useState('');
   const [secret, setSecret] = useState(0);
   return (
-    <S.Host style={{ height: 250 }}>
+    <SpecimenHost style={{ height: 250 }}>
       <S.VStack spacing={16} modifiers={[M.padding({ all: 12 })]}>
         <S.TextField
           placeholder="Your name"
@@ -96,14 +97,14 @@ export function Fields() {
         </S.Text>
         <S.Text>{`${secret} secure characters entered`}</S.Text>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Ranges() {
   const [value, setValue] = useState(40);
   const [editing, setEditing] = useState(false);
   return (
-    <S.Host style={{ height: 230 }}>
+    <SpecimenHost style={{ height: 230 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.Text>{`${Math.round(value)}% · ${editing ? 'Dragging' : 'At rest'}`}</S.Text>
         <S.Slider
@@ -132,7 +133,7 @@ export function Ranges() {
           label={<S.Text>Restricted to 25–75</S.Text>}
         />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Pickers() {
@@ -140,7 +141,7 @@ export function Pickers() {
   const [color, setColor] = useState('#AD4B2C');
   const [date, setDate] = useState(new Date());
   return (
-    <S.Host style={{ height: 290 }}>
+    <SpecimenHost style={{ height: 290 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.Picker
           selection={choice}
@@ -179,13 +180,13 @@ export function Pickers() {
           modifiers={[M.foregroundStyle(color)]}
         >{`${choice} · ${color}`}</S.Text>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Feedback() {
   const [value, setValue] = useState(0.55);
   return (
-    <S.Host style={{ height: 290 }}>
+    <SpecimenHost style={{ height: 290 }}>
       <S.VStack spacing={22} modifiers={[M.padding({ all: 12 })]}>
         <S.ProgressView value={value}>
           <S.Text>Determinate progress</S.Text>
@@ -207,6 +208,6 @@ export function Feedback() {
         </S.HStack>
         <S.Slider value={value} onValueChange={setValue} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }

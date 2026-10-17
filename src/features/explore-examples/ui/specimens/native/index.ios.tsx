@@ -1,5 +1,6 @@
 import * as S from '@expo/ui/swift-ui';
 import type { Example, ExampleRegistry } from '../../../model/types';
+import { SpecimenHost } from '../../specimen-host';
 import { swiftuiContextNotes } from './swiftui/context';
 import {
   Buttons,
@@ -26,7 +27,7 @@ import {
 
 function Contexts() {
   return (
-    <S.Host style={{ height: 360 }}>
+    <SpecimenHost style={{ height: 360 }}>
       <S.ScrollView>
         <S.VStack alignment="leading" spacing={18}>
           {Object.entries(swiftuiContextNotes).map(([name, note]) => (
@@ -37,7 +38,7 @@ function Contexts() {
           ))}
         </S.VStack>
       </S.ScrollView>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 const specimen = (
@@ -221,7 +222,7 @@ export const nativeExamples: ExampleRegistry = {
     'An explicit native boundary',
     'React Native content is intentionally wrapped by RNHostView inside the native stack.',
     Interop,
-    '<Host><VStack><Text>SwiftUI</Text><RNHostView matchContents><View>...</View></RNHostView></VStack></Host>',
+    '<SpecimenHost><VStack><Text>SwiftUI</Text><RNHostView matchContents><View>...</View></RNHostView></VStack></SpecimenHost>',
   ),
   'swiftui-contexts': specimen(
     'contexts',

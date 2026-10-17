@@ -2,7 +2,6 @@ import {
   Button,
   Checkbox,
   Column,
-  Host,
   Picker,
   Slider,
   Switch,
@@ -13,17 +12,18 @@ import {
 import { type PropsWithChildren, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { SpecimenHost } from '../../specimen-host';
 export function Stage({ children }: PropsWithChildren) {
   const t = useTheme();
   return (
-    <Host
+    <SpecimenHost
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
       colorScheme={t.dark ? 'dark' : 'light'}
       style={{ width: '100%' }}
     >
       <Column spacing={16}>{children}</Column>
-    </Host>
+    </SpecimenHost>
   );
 }
 export function Buttons() {

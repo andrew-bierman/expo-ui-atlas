@@ -2,10 +2,11 @@ import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useId, useState } from 'react';
 import { Text as RNText, View } from 'react-native';
+import { SpecimenHost } from '../../../specimen-host';
 export function Typography() {
   const [large, setLarge] = useState(false);
   return (
-    <S.Host style={{ height: 310 }}>
+    <SpecimenHost style={{ height: 310 }}>
       <S.VStack
         alignment="leading"
         spacing={16}
@@ -41,13 +42,13 @@ export function Typography() {
         </S.Text>
         <S.Toggle label="Larger title" isOn={large} onIsOnChange={setLarge} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Empty() {
   const [empty, setEmpty] = useState(true);
   return (
-    <S.Host style={{ height: 300 }}>
+    <SpecimenHost style={{ height: 300 }}>
       <S.VStack spacing={10}>
         {empty ? (
           <S.ContentUnavailableView
@@ -66,7 +67,7 @@ export function Empty() {
           onPress={() => setEmpty(!empty)}
         />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Charts() {
@@ -78,7 +79,7 @@ export function Charts() {
     y: [8, 13, 10, 18, 14][i] + (boost ? 5 : 0),
   }));
   return (
-    <S.Host style={{ height: 400 }}>
+    <SpecimenHost style={{ height: 400 }}>
       <S.VStack spacing={16} modifiers={[M.padding({ all: 12 })]}>
         <S.Picker
           label="Chart type"
@@ -109,13 +110,13 @@ export function Charts() {
           <S.Button label="Change data" onPress={() => setBoost(!boost)} />
         </S.HStack>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Layout() {
   const [wide, setWide] = useState(false);
   return (
-    <S.Host style={{ height: 280 }}>
+    <SpecimenHost style={{ height: 280 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.HStack spacing={12}>
           <S.Label title="Leading" systemImage="circle" />
@@ -145,7 +146,7 @@ export function Layout() {
         </S.Grid>
         <S.Button label="Change width" onPress={() => setWide(!wide)} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 const scrollItems = Array.from({ length: 100 }, (_, index) => index + 1);
@@ -164,7 +165,7 @@ const renderRow = ({ item }: { item: number }) => (
 );
 export function Scrolling() {
   return (
-    <S.Host style={{ height: 310 }}>
+    <SpecimenHost style={{ height: 310 }}>
       <S.VStack spacing={16}>
         <S.ScrollView axes="horizontal" modifiers={[M.frame({ height: 100 })]}>
           <S.LazyHStack spacing={12}>
@@ -189,13 +190,13 @@ export function Scrolling() {
           </S.LazyVStack>
         </S.ScrollView>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Shapes() {
   const [round, setRound] = useState(18);
   return (
-    <S.Host style={{ height: 300 }}>
+    <SpecimenHost style={{ height: 300 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.HStack spacing={16}>
           <S.Rectangle
@@ -243,13 +244,13 @@ export function Shapes() {
         <S.Text>{`Corner radius: ${Math.round(round)}`}</S.Text>
         <S.Slider value={round} min={0} max={30} onValueChange={setRound} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Layers() {
   const [masked, setMasked] = useState(true);
   return (
-    <S.Host style={{ height: 230 }}>
+    <SpecimenHost style={{ height: 230 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.Background>
           <S.Overlay>
@@ -284,14 +285,14 @@ export function Layers() {
         </S.Background>
         <S.Toggle label="Capsule mask" isOn={masked} onIsOnChange={setMasked} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Modifiers() {
   const [amount, setAmount] = useState(0.8);
   const [disabled, setDisabled] = useState(false);
   return (
-    <S.Host style={{ height: 310 }}>
+    <SpecimenHost style={{ height: 310 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Label
           title="Transform me"
@@ -322,14 +323,14 @@ export function Modifiers() {
           Redacted placeholder follows toggle
         </S.Text>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Glass() {
   const id = useId();
   const [spacing, setSpacing] = useState(20);
   return (
-    <S.Host style={{ height: 240 }}>
+    <SpecimenHost style={{ height: 240 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Namespace id={id}>
           <S.GlassEffectContainer spacing={30}>
@@ -352,12 +353,12 @@ export function Glass() {
         <S.Text>Liquid Glass blends nearby surfaces on iOS 26+.</S.Text>
         <S.Slider min={0} max={60} value={spacing} onValueChange={setSpacing} />
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Interop() {
   return (
-    <S.Host style={{ height: 170 }}>
+    <SpecimenHost style={{ height: 170 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
         <S.Text>SwiftUI surrounding an explicit React Native island</S.Text>
         <S.RNHostView matchContents>
@@ -372,6 +373,6 @@ export function Interop() {
           </View>
         </S.RNHostView>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }

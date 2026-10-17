@@ -3,7 +3,6 @@ import {
   Collapsible,
   Column,
   FieldGroup,
-  Host,
   List,
   ListItem,
   RNHostView,
@@ -16,6 +15,7 @@ import {
 import { useState } from 'react';
 import { Text as RNText, View } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Typography() {
   const t = useTheme();
@@ -115,7 +115,7 @@ export function SettingsForm() {
   const [wifi, setWifi] = useState(true);
   const [offline, setOffline] = useState(false);
   return (
-    <Host
+    <SpecimenHost
       style={{ height: 320, width: '100%' }}
       ignoreSafeArea="all"
       colorScheme={t.dark ? 'dark' : 'light'}
@@ -139,7 +139,7 @@ export function SettingsForm() {
           <Text>{wifi ? 'Wi-Fi available' : 'Wi-Fi disabled'}</Text>
         </FieldGroup.Section>
       </FieldGroup>
-    </Host>
+    </SpecimenHost>
   );
 }
 export function Lists() {
@@ -148,7 +148,7 @@ export function Lists() {
   return (
     <View style={{ gap: 12 }}>
       <RNText style={{ color: t.text }}>Last opened: {selected}</RNText>
-      <Host
+      <SpecimenHost
         style={{ height: 260, width: '100%' }}
         ignoreSafeArea="all"
         colorScheme={t.dark ? 'dark' : 'light'}
@@ -170,13 +170,13 @@ export function Lists() {
             </ListItem>
           ))}
         </List>
-      </Host>
+      </SpecimenHost>
     </View>
   );
 }
 export function Scrolling() {
   return (
-    <Host style={{ height: 180, width: '100%' }} ignoreSafeArea="all">
+    <SpecimenHost style={{ height: 180, width: '100%' }} ignoreSafeArea="all">
       <ScrollView direction="horizontal">
         <Row spacing={12}>
           {['Forest', 'Ocean', 'Desert', 'Mountain', 'Tundra'].map((name) => (
@@ -197,7 +197,7 @@ export function Scrolling() {
           ))}
         </Row>
       </ScrollView>
-    </Host>
+    </SpecimenHost>
   );
 }
 export function Interop() {

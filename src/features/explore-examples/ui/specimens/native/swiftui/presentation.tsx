@@ -1,10 +1,11 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { SpecimenHost } from '../../../specimen-host';
 export function Menus() {
   const [result, setResult] = useState('Choose an action');
   return (
-    <S.Host style={{ height: 210 }}>
+    <SpecimenHost style={{ height: 210 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Menu label="Actions" systemImage="ellipsis.circle">
           <S.Button
@@ -47,13 +48,13 @@ export function Menus() {
         </S.ContextMenu>
         <S.Text>{result}</S.Text>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Dialogs() {
   const [result, setResult] = useState('No action yet');
   return (
-    <S.Host style={{ height: 200 }}>
+    <SpecimenHost style={{ height: 200 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Alert title="Reset specimen?">
           <S.Alert.Trigger>
@@ -89,14 +90,14 @@ export function Dialogs() {
         </S.ConfirmationDialog>
         <S.Text>{result}</S.Text>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Sheets() {
   const [open, setOpen] = useState(false);
   const [popover, setPopover] = useState(false);
   return (
-    <S.Host style={{ height: 160 }}>
+    <SpecimenHost style={{ height: 160 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.BottomSheet
           isPresented={open}
@@ -139,7 +140,7 @@ export function Sheets() {
           </S.Popover.Content>
         </S.Popover>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 const listItems = [
@@ -154,7 +155,7 @@ export function Lists() {
   const [on, setOn] = useState(true);
   const [status, setStatus] = useState('Swipe the row');
   return (
-    <S.Host style={{ height: 360 }}>
+    <SpecimenHost style={{ height: 360 }}>
       <S.List modifiers={[M.listStyle('insetGrouped')]}>
         <S.Section
           title="Settings"
@@ -196,13 +197,13 @@ export function Lists() {
           </S.List.ForEach>
         </S.Section>
       </S.List>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Form() {
   const [on, setOn] = useState(false);
   return (
-    <S.Host style={{ height: 270 }}>
+    <SpecimenHost style={{ height: 270 }}>
       <S.Form>
         <S.Section title="Profile">
           <S.TextField placeholder="Display name" />
@@ -214,6 +215,6 @@ export function Form() {
           </S.LabeledContent>
         </S.Section>
       </S.Form>
-    </S.Host>
+    </SpecimenHost>
   );
 }

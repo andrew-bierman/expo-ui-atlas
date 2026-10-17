@@ -1,11 +1,12 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { SpecimenHost } from '../../../specimen-host';
 export function Navigation() {
   const [path, setPath] = useState<string[]>([]);
   const [count, setCount] = useState(0);
   return (
-    <S.Host style={{ height: 380 }}>
+    <SpecimenHost style={{ height: 380 }}>
       <S.NavigationStack path={path} onPathChange={setPath}>
         <S.Toolbar>
           <S.List
@@ -48,7 +49,7 @@ export function Navigation() {
           </S.VStack>
         </S.NavigationDestination>
       </S.NavigationStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Split() {
@@ -56,7 +57,7 @@ export function Split() {
   const [compactColumn, setCompactColumn] =
     useState<S.NavigationSplitViewColumn>('sidebar');
   return (
-    <S.Host style={{ height: 380 }}>
+    <SpecimenHost style={{ height: 380 }}>
       <S.NavigationSplitView
         preferredCompactColumn={compactColumn}
         onPreferredCompactColumnChange={setCompactColumn}
@@ -86,13 +87,13 @@ export function Split() {
           </S.VStack>
         </S.NavigationSplitView.Detail>
       </S.NavigationSplitView>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Tabs() {
   const [tab, setTab] = useState('one');
   return (
-    <S.Host style={{ height: 290 }}>
+    <SpecimenHost style={{ height: 290 }}>
       <S.TabView selection={tab} onSelectionChange={setTab}>
         <S.TabView.Tab
           value="one"
@@ -108,12 +109,12 @@ export function Tabs() {
           <S.Text>Saved tab · switch using the native bar</S.Text>
         </S.TabView.Tab>
       </S.TabView>
-    </S.Host>
+    </SpecimenHost>
   );
 }
 export function Links() {
   return (
-    <S.Host style={{ height: 150 }}>
+    <SpecimenHost style={{ height: 150 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
         <S.Link
           label="Open Expo UI documentation"
@@ -129,6 +130,6 @@ export function Links() {
           />
         </S.ShareLink>
       </S.VStack>
-    </S.Host>
+    </SpecimenHost>
   );
 }

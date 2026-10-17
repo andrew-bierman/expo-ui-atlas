@@ -1,7 +1,8 @@
-import { BottomSheet, Button, Column, Host, Text } from '@expo/ui';
+import { BottomSheet, Button, Column, Text } from '@expo/ui';
 import { useState } from 'react';
 import { Text as RNText, View } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Sheet() {
   const [open, setOpen] = useState(false);
@@ -42,7 +43,7 @@ export function Sheet() {
             children are React Native views, so this Expo UI button gets a fresh
             Host.
           </RNText>
-          <Host
+          <SpecimenHost
             matchContents={{ vertical: true }}
             ignoreSafeArea="all"
             colorScheme={t.dark ? 'dark' : 'light'}
@@ -51,7 +52,7 @@ export function Sheet() {
               <Button label="Close sheet" onPress={() => setOpen(false)} />
               <Text>Native content inside a new Host</Text>
             </Column>
-          </Host>
+          </SpecimenHost>
         </View>
       </BottomSheet>
     </View>
