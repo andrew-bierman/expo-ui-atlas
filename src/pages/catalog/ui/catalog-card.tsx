@@ -14,7 +14,6 @@ export function CatalogCard({
     <Host
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      seedColor={t.accent}
       colorScheme={t.dark ? 'dark' : 'light'}
       style={{ flex: 1, marginBottom: 16 }}
     >
@@ -33,7 +32,7 @@ export function CatalogCard({
         <Column spacing={12}>
           <Text
             textStyle={{
-              color: t.accent,
+              color: t.text,
               fontSize: 11,
               fontWeight: '800',
               letterSpacing: 1,

@@ -45,7 +45,7 @@ export default function Detail() {
     <View style={{ gap: 22 }}>
       <Text
         style={{
-          color: t.accent,
+          color: t.text,
           fontSize: 12,
           fontWeight: '800',
           letterSpacing: 1.5,

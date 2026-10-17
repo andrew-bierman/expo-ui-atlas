@@ -23,7 +23,6 @@ export function GuidePage() {
           matchContents={{ vertical: true }}
           ignoreSafeArea="all"
           colorScheme={t.dark ? 'dark' : 'light'}
-          seedColor={t.accent}
           style={{ width: '100%' }}
         >
           <Column spacing={24}>
@@ -42,7 +41,7 @@ export function GuidePage() {
               <Column key={id} spacing={8}>
                 <Text
                   textStyle={{
-                    color: t.accent,
+                    color: t.text,
                     fontWeight: '700',
                     fontSize: 20,
                   }}

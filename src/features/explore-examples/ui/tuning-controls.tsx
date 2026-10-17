@@ -22,6 +22,7 @@ function TextControl({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const t = useTheme();
   const text = useNativeState(value);
   useEffect(() => {
     if (text.get() !== value) text.set(value);
@@ -32,7 +33,7 @@ function TextControl({
       onChangeText={onChange}
       style={{
         borderWidth: 1,
-        borderColor: '#789581',
+        borderColor: t.border,
         borderRadius: 10,
         padding: 12,
       }}
@@ -61,7 +62,6 @@ export function TuningControls({
           key={control.id}
           matchContents={{ vertical: true }}
           ignoreSafeArea="all"
-          seedColor={t.accent}
           colorScheme={t.dark ? 'dark' : 'light'}
           style={{ width: '100%' }}
         >

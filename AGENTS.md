@@ -12,3 +12,5 @@
 - Keep select controls nonempty with defaults from their declared options; use named range options. Preserve strict and checked-index compiler flags and lint enforcement.
 
 - Show native defaults first. Do not apply the catalog brand’s tint, seed palette, direction or decorative modifiers to every specimen. Keep customization and explicit themed/modifier demonstrations clearly separate. Prefer simple native compositions over extra wrappers or decorative UI.
+
+- Native defaults apply to catalog chrome too: use the framework navigation themes unchanged, leave NativeTabs styling unset, and do not seed shared-control Hosts with a brand color.

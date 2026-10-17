@@ -57,7 +57,7 @@ export function PlaygroundPage() {
           <Column spacing={12}>
             <Text
               textStyle={{
-                color: t.accent,
+                color: t.text,
                 fontSize: 12,
                 fontWeight: '800',
                 letterSpacing: 1.5,
@@ -85,7 +85,6 @@ export function PlaygroundPage() {
           <Host
             matchContents={{ vertical: true }}
             ignoreSafeArea="all"
-            seedColor={t.accent}
             colorScheme={t.dark ? 'dark' : 'light'}
             style={{ width: '100%' }}
           >

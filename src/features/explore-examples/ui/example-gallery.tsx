@@ -132,7 +132,6 @@ export function ExampleGallery({
             matchContents={{ vertical: true }}
             ignoreSafeArea="all"
             colorScheme={t.dark ? 'dark' : 'light'}
-            seedColor={t.accent}
             style={{ width: '100%' }}
           >
             <Column spacing={12}>

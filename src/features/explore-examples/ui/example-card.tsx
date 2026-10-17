@@ -1,3 +1,4 @@
+import { DarkTheme, DefaultTheme } from 'expo-router/react-navigation';
 import { Component, type PropsWithChildren, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useTheme } from '../../../shared/theme';
@@ -71,7 +72,7 @@ export function ExampleCard({
       <View style={{ padding: 20, gap: 10 }}>
         <Text
           style={{
-            color: t.accent,
+            color: t.text,
             fontSize: 11,
             fontWeight: '700',
             letterSpacing: 1.4,
@@ -91,7 +92,9 @@ export function ExampleCard({
         style={{
           minHeight: 100,
           padding: Number(values.previewPadding),
-          backgroundColor: previewDark ? '#17211c' : '#ffffff',
+          backgroundColor: previewDark
+            ? DarkTheme.colors.card
+            : DefaultTheme.colors.card,
           borderTopWidth: 1,
           borderColor: t.border,
         }}

@@ -11,11 +11,7 @@ export default function TabsLayout() {
         backgroundColor: t.background,
       }}
     >
-      <NativeTabs
-        tintColor={t.accent}
-        backgroundColor={t.background}
-        disableTransparentOnScrollEdge
-      >
+      <NativeTabs>
         <NativeTabs.Trigger name="index">
           <NativeTabs.Trigger.Icon sf="square.grid.2x2" md="apps" />
           <NativeTabs.Trigger.Label>Catalog</NativeTabs.Trigger.Label>

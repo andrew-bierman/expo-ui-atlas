@@ -45,7 +45,6 @@ export function Pill({
     <Host
       matchContents
       ignoreSafeArea="all"
-      seedColor={t.accent}
       colorScheme={t.colorScheme}
       style={{ minHeight: layout.minTouchTarget, justifyContent: 'center' }}
       accessibilityState={{ selected }}
@@ -58,7 +57,7 @@ export function Pill({
         />
       ) : (
         <Text
-          textStyle={{ color: t.accent, ...typography.caption }}
+          textStyle={{ color: t.text, ...typography.caption }}
           style={{
             padding: spacing.sm,
             borderRadius: radius.lg,

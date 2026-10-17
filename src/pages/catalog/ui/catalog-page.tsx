@@ -74,7 +74,7 @@ export default function Browse() {
             >
               <Text
                 style={{
-                  color: t.accent,
+                  color: t.text,
                   fontSize: 13,
                   fontWeight: '800',
                   letterSpacing: 2,
@@ -133,7 +133,7 @@ export default function Browse() {
                   }}
                 >
                   <Text
-                    style={{ color: t.accent, fontSize: 12, fontWeight: '700' }}
+                    style={{ color: t.text, fontSize: 12, fontWeight: '700' }}
                   >
                     {f.short} / {catalog.filter((e) => e.family === id).length}{' '}
                     COLLECTIONS
