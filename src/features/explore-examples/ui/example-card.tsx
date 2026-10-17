@@ -20,11 +20,11 @@ class SpecimenBoundary extends Component<
   PropsWithChildren,
   { error: boolean }
 > {
-  state = { error: false };
+  override state = { error: false };
   static getDerivedStateFromError() {
     return { error: true };
   }
-  render() {
+  override render() {
     return this.state.error ? (
       <Text style={{ color: '#ad4b2c', padding: 20 }}>
         This specimen could not render. Check your Expo Go version, then reset

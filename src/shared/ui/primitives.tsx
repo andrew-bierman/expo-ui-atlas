@@ -1,7 +1,7 @@
 import { Button, Host, Text } from '@expo/ui';
 
 import { View } from 'react-native';
-import { useTheme } from '../theme';
+import { layout, radius, spacing, typography, useTheme } from '../theme';
 export function Body({
   children,
   muted = false,
@@ -17,14 +17,13 @@ export function Body({
     <Host
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      style={{ width: '100%' }}
-      colorScheme={t.dark ? 'dark' : 'light'}
+      style={{ width: layout.fullWidth }}
+      colorScheme={t.colorScheme}
     >
       <Text
         textStyle={{
           color: muted ? t.muted : t.text,
-          fontSize: 15,
-          lineHeight: 23,
+          ...typography.body,
         }}
       >
         {content}
@@ -47,8 +46,8 @@ export function Pill({
       matchContents
       ignoreSafeArea="all"
       seedColor={t.accent}
-      colorScheme={t.dark ? 'dark' : 'light'}
-      style={{ minHeight: 44, justifyContent: 'center' }}
+      colorScheme={t.colorScheme}
+      style={{ minHeight: layout.minTouchTarget, justifyContent: 'center' }}
       accessibilityState={{ selected }}
     >
       {onPress ? (
@@ -59,8 +58,12 @@ export function Pill({
         />
       ) : (
         <Text
-          textStyle={{ color: t.accent, fontSize: 13, fontWeight: '600' }}
-          style={{ padding: 12, borderRadius: 16, backgroundColor: t.soft }}
+          textStyle={{ color: t.accent, ...typography.caption }}
+          style={{
+            padding: spacing.sm,
+            borderRadius: radius.lg,
+            backgroundColor: t.soft,
+          }}
         >
           {label}
         </Text>
@@ -78,14 +81,20 @@ export function Notice({
   const t = useTheme();
   return (
     <View
-      style={{ padding: 20, gap: 8, borderRadius: 18, backgroundColor: t.soft }}
+      style={{
+        padding: spacing.lg,
+        gap: spacing.xs,
+        borderRadius: radius.xl,
+        borderCurve: 'continuous',
+        backgroundColor: t.soft,
+      }}
     >
       <Host
         matchContents={{ vertical: true }}
         ignoreSafeArea="all"
-        style={{ width: '100%' }}
+        style={{ width: layout.fullWidth }}
       >
-        <Text textStyle={{ color: t.text, fontWeight: '700', fontSize: 16 }}>
+        <Text textStyle={{ color: t.text, ...typography.headline }}>
           {title}
         </Text>
       </Host>

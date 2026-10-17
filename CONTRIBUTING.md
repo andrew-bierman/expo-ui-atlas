@@ -29,3 +29,7 @@ Do not offer controls that only change a caption or silently do nothing. Prefer 
 The app shell uses Expo UI built-ins. React Native remains appropriate for outer safe areas, virtualized catalog layout, and explicit RNHostView islands. Route files stay thin; Catalog, Playground and Guide are separate page slices beneath Expo Router native tabs.
 
 Component schemas also produce the default ready-made variant gallery. Add `previewValues` to a control when another prop is required to see its effect (for example, `chartType: 'line'` for a line-width control). All enum options and both boolean states are enumerated; numeric samples use minimum/default/maximum. Check labels against the rendered result, not only schema types. Do not generate Cartesian combinations of independent controls. Preview context must use valid keys/values from the same schema; the schema audit verifies this.
+
+## Type contracts
+
+Use the enums and shared control builders described in `docs/code-conventions.md`. Do not weaken compiler or lint rules to make a new specimen pass. The compile-time fixtures verify that unknown registry/control IDs, empty choices and invalid selection defaults stay rejected. Shared UI uses theme tokens; intentional sample values stay in named schema fields or local demo data.

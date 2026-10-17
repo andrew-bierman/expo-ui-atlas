@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import type { CatalogEntryId } from '../../../entities/catalog-entry';
 import type { TuningControl } from './tuning';
 
 export interface Example {
@@ -9,4 +10,4 @@ export interface Example {
   code?: string;
   controls?: TuningControl[];
 }
-export type ExampleRegistry = Record<string, Example[]>;
+export type ExampleRegistry = Partial<Record<CatalogEntryId, Example[]>>;

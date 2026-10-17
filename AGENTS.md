@@ -7,3 +7,6 @@
 - Keep specimen state local, metadata serializable, and coverage notes honest about live versus context-only examples.
 - Use Bun and Biome. Verify with `bun run check`, `bun run typecheck`, `bun test`, and relevant platform exports.
 - Do not operate simulators owned by another session. If using XcodeBuildMCP, read its installed skill first.
+
+- Follow `docs/code-conventions.md`: use catalog/control enums, validate unknown external input, and use shared theme tokens or named demo configuration instead of unexplained repeated values. No explicit `any`.
+- Keep select controls nonempty with defaults from their declared options; use named range options. Preserve strict and checked-index compiler flags and lint enforcement.

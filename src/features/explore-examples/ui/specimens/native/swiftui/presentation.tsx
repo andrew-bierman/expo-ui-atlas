@@ -1,23 +1,28 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
 import { choices, useChoice } from './controls-schema';
 export function Menus() {
   const [result, setResult] = useState('Choose an action');
   const style = useChoice(
-    'menuStyle',
+    ControlId.MenuStyle,
     ['automatic', 'button'] as const,
     'automatic',
   );
-  const indicator = useChoice('indicator', choices.visibility, 'automatic');
+  const indicator = useChoice(
+    ControlId.Indicator,
+    choices.visibility,
+    'automatic',
+  );
   const dismiss = useChoice(
-    'dismiss',
+    ControlId.Dismiss,
     ['automatic', 'disabled', 'enabled'] as const,
     'automatic',
   );
-  const label = useKnob('label', 'Actions');
+  const label = useKnob(ControlId.Label, 'Actions');
   return (
     <SpecimenHost style={{ height: 210 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
@@ -75,10 +80,10 @@ export function Menus() {
 }
 export function Dialogs() {
   const [result, setResult] = useState('No action yet');
-  const title = useKnob('title', 'Reset specimen?');
-  const message = useKnob('message', 'This changes only this example.');
+  const title = useKnob(ControlId.Title, 'Reset specimen?');
+  const message = useKnob(ControlId.Message, 'This changes only this example.');
   const visibility = useChoice(
-    'titleVisibility',
+    ControlId.TitleVisibility,
     choices.visibility,
     'visible',
   );
@@ -125,24 +130,32 @@ export function Dialogs() {
 export function Sheets() {
   const [open, setOpen] = useState(false);
   const [popover, setPopover] = useState(false);
-  const sheetRadius = useKnob('sheetRadius', 24);
+  const sheetRadius = useKnob(ControlId.SheetRadius, 24);
   const sheetSizing = useChoice(
-    'sheetSizing',
+    ControlId.SheetSizing,
     ['automatic', 'fitted', 'form', 'page'] as const,
     'automatic',
   );
   const backgroundInteraction = useChoice(
-    'backgroundInteraction',
+    ControlId.BackgroundInteraction,
     ['automatic', 'enabled', 'disabled'] as const,
     'automatic',
   );
-  const detent = useChoice('detents', choices.detents, 'medium + large');
-  const fraction = useKnob('fraction', 0.5);
-  const height = useKnob('height', 300);
-  const indicator = useChoice('dragIndicator', choices.visibility, 'visible');
-  const dismissDisabled = useKnob('dismissDisabled', false);
-  const arrow = useChoice('arrow', choices.edge, 'none');
-  const anchor = useChoice('anchor', choices.anchor, 'center');
+  const detent = useChoice(
+    ControlId.Detents,
+    choices.detents,
+    'medium + large',
+  );
+  const fraction = useKnob(ControlId.Fraction, 0.5);
+  const height = useKnob(ControlId.Height, 300);
+  const indicator = useChoice(
+    ControlId.DragIndicator,
+    choices.visibility,
+    'visible',
+  );
+  const dismissDisabled = useKnob(ControlId.DismissDisabled, false);
+  const arrow = useChoice(ControlId.Arrow, choices.edge, 'none');
+  const anchor = useChoice(ControlId.Anchor, choices.anchor, 'center');
   const detents: M.PresentationDetent[] =
     detent === 'medium + large'
       ? ['medium', 'large']
@@ -218,11 +231,11 @@ export function Lists() {
   const [expanded, setExpanded] = useState(false);
   const [on, setOn] = useState(true);
   const [status, setStatus] = useState('Swipe the row');
-  const style = useChoice('listStyle', choices.list, 'insetGrouped');
-  const spacing = useKnob('rowSpacing', 0);
-  const separator = useKnob('separator', false);
-  const fullSwipe = useKnob('fullSwipe', false);
-  const backgroundHidden = useKnob('backgroundHidden', false);
+  const style = useChoice(ControlId.ListStyle, choices.list, 'insetGrouped');
+  const spacing = useKnob(ControlId.RowSpacing, 0);
+  const separator = useKnob(ControlId.Separator, false);
+  const fullSwipe = useKnob(ControlId.FullSwipe, false);
+  const backgroundHidden = useKnob(ControlId.BackgroundHidden, false);
   return (
     <SpecimenHost style={{ height: 360 }}>
       <S.List
@@ -281,9 +294,9 @@ export function Lists() {
 }
 export function Form() {
   const [on, setOn] = useState(false);
-  const placeholder = useKnob('placeholder', 'Display name');
-  const disabled = useKnob('disabled', false);
-  const size = useChoice('size', choices.controlSize, 'regular');
+  const placeholder = useKnob(ControlId.Placeholder, 'Display name');
+  const disabled = useKnob(ControlId.Disabled, false);
+  const size = useChoice(ControlId.Size, choices.controlSize, 'regular');
   return (
     <SpecimenHost style={{ height: 270 }}>
       <S.Form modifiers={[M.disabled(disabled), M.controlSize(size)]}>

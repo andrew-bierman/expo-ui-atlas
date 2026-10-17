@@ -2,8 +2,20 @@ import * as C from '@expo/ui/jetpack-compose';
 import * as M from '@expo/ui/jetpack-compose/modifiers';
 import { type ReactNode, useState } from 'react';
 import { Text as RNText } from 'react-native';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
+
+enum CheckboxState {
+  Off = 'off',
+  Indeterminate = 'indeterminate',
+  On = 'on',
+}
+const nextCheckboxState: Record<CheckboxState, CheckboxState> = {
+  [CheckboxState.Off]: CheckboxState.Indeterminate,
+  [CheckboxState.Indeterminate]: CheckboxState.On,
+  [CheckboxState.On]: CheckboxState.Off,
+};
 
 export function Stage({
   children,
@@ -33,11 +45,11 @@ export function Mark() {
   );
 }
 export function Buttons() {
-  const enabled = useKnob('enabled', true);
-  const label = useKnob('label', 'Explore');
-  const padding = useKnob('padding', 16);
-  const custom = useKnob('customColor', false);
-  const radius = useKnob('radius', 24);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const label = useKnob(ControlId.Label, 'Explore');
+  const padding = useKnob(ControlId.Padding, 16);
+  const custom = useKnob(ControlId.CustomColor, false);
+  const radius = useKnob(ControlId.Radius, 24);
   const [count, setCount] = useState(0);
   const click = () => setCount(count + 1);
   return (
@@ -82,9 +94,9 @@ export function Buttons() {
   );
 }
 export function IconButtons() {
-  const enabled = useKnob('enabled', true);
-  const size = useKnob('size', 48);
-  const custom = useKnob('customColor', false);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const size = useKnob(ControlId.Size, 48);
+  const custom = useKnob(ControlId.CustomColor, false);
   const [n, setN] = useState(0);
   return (
     <Stage height={250}>
@@ -115,8 +127,8 @@ export function IconButtons() {
   );
 }
 export function FloatingActions() {
-  const expanded = useKnob('expanded', true);
-  const custom = useKnob('customColor', false);
+  const expanded = useKnob(ControlId.Expanded, true);
+  const custom = useKnob(ControlId.CustomColor, false);
   const [n, setN] = useState(0);
   return (
     <Stage height={310}>
@@ -160,13 +172,13 @@ export function FloatingActions() {
   );
 }
 export function Selection() {
-  const thumb = useKnob('thumb', true);
-  const custom = useKnob('customColor', false);
-  const enabled = useKnob('enabled', true);
+  const thumb = useKnob(ControlId.Thumb, true);
+  const custom = useKnob(ControlId.CustomColor, false);
+  const enabled = useKnob(ControlId.Enabled, true);
   const [on, setOn] = useState(true);
   const native = C.useNativeState(false);
   const [radio, setRadio] = useState(0);
-  const [tri, setTri] = useState(0);
+  const [tri, setTri] = useState<CheckboxState>(CheckboxState.Off);
   return (
     <Stage height={440}>
       <C.Row verticalAlignment="center">
@@ -196,8 +208,8 @@ export function Selection() {
       <C.Row verticalAlignment="center">
         <C.TriStateCheckbox
           enabled={enabled}
-          state={(['off', 'indeterminate', 'on'] as const)[tri]}
-          onClick={() => setTri((tri + 1) % 3)}
+          state={tri}
+          onClick={() => setTri(nextCheckboxState[tri])}
         />
         <C.Text>Cycle three states</C.Text>
       </C.Row>
@@ -258,8 +270,8 @@ export function Selection() {
   );
 }
 export function Segments() {
-  const enabled = useKnob('enabled', true);
-  const custom = useKnob('customColor', false);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const custom = useKnob(ControlId.CustomColor, false);
   const colors = custom
     ? { activeContainerColor: '#d7efe3', activeContentColor: '#236b55' }
     : undefined;
@@ -304,9 +316,9 @@ export function Segments() {
   );
 }
 export function Chips() {
-  const enabled = useKnob('enabled', true);
-  const elevation = useKnob('elevation', 0);
-  const border = useKnob('border', 1);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const elevation = useKnob(ControlId.Elevation, 0);
+  const border = useKnob(ControlId.Border, 1);
   const [selected, setSelected] = useState(false);
   const [input, setInput] = useState(true);
   const [message, setMessage] = useState('Choose an action');
@@ -372,11 +384,11 @@ export function Chips() {
   );
 }
 export function Sliders() {
-  const enabled = useKnob('enabled', true);
-  const steps = useKnob('steps', 4);
-  const max = useKnob('maximum', 1);
-  const reverse = useKnob('reverse', true);
-  const limited = useKnob('limited', false);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const steps = useKnob(ControlId.Steps, 4);
+  const max = useKnob(ControlId.Maximum, 1);
+  const reverse = useKnob(ControlId.Reverse, true);
+  const limited = useKnob(ControlId.Limited, false);
   const [value, setValue] = useState(0.4);
   return (
     <Stage height={400}>
@@ -411,14 +423,14 @@ export function Sliders() {
   );
 }
 export function Fields() {
-  const enabled = useKnob('enabled', true);
-  const readOnly = useKnob('readOnly', false);
-  const singleLine = useKnob('singleLine', true);
-  const lines = useKnob('lines', 3);
-  const isError = useKnob('error', false);
-  const password = useKnob('password', false);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const readOnly = useKnob(ControlId.ReadOnly, false);
+  const singleLine = useKnob(ControlId.SingleLine, true);
+  const lines = useKnob(ControlId.Lines, 3);
+  const isError = useKnob(ControlId.Error, false);
+  const password = useKnob(ControlId.Password, false);
   const keyboard = useKnob<'text' | 'number' | 'email' | 'phone' | 'uri'>(
-    'keyboard',
+    ControlId.Keyboard,
     'text',
   );
   const props = {
@@ -470,13 +482,13 @@ export function Fields() {
   );
 }
 export function Progress() {
-  const determinate = useKnob('determinate', true);
-  const width = useKnob('strokeWidth', 4);
-  const gap = useKnob('gap', 4);
-  const cap = useKnob<'round' | 'butt' | 'square'>('cap', 'round');
-  const amplitude = useKnob('amplitude', 1);
-  const wavelength = useKnob('wavelength', 24);
-  const speed = useKnob('speed', 24);
+  const determinate = useKnob(ControlId.Determinate, true);
+  const width = useKnob(ControlId.StrokeWidth, 4);
+  const gap = useKnob(ControlId.Gap, 4);
+  const cap = useKnob<'round' | 'butt' | 'square'>(ControlId.Cap, 'round');
+  const amplitude = useKnob(ControlId.Amplitude, 1);
+  const wavelength = useKnob(ControlId.Wavelength, 24);
+  const speed = useKnob(ControlId.Speed, 24);
   const [p, setP] = useState(0.35);
   return (
     <Stage height={390}>
@@ -519,14 +531,14 @@ export function Progress() {
   );
 }
 export function Content() {
-  const fontSize = useKnob('fontSize', 24);
+  const fontSize = useKnob(ControlId.FontSize, 24);
   const family = useKnob<'serif' | 'sans-serif' | 'monospace'>(
-    'family',
+    ControlId.Family,
     'serif',
   );
-  const italic = useKnob('italic', true);
-  const elevation = useKnob('elevation', 6);
-  const text = useKnob('text', 'Material typography');
+  const italic = useKnob(ControlId.Italic, true);
+  const elevation = useKnob(ControlId.Elevation, 6);
+  const text = useKnob(ControlId.Text, 'Material typography');
   const [selected, setSelected] = useState(false);
   return (
     <Stage height={460}>
@@ -577,7 +589,7 @@ export function Content() {
   );
 }
 export function Artwork() {
-  const size = useKnob('size', 64);
+  const size = useKnob(ControlId.Size, 64);
   const scale = useKnob<
     | 'fit'
     | 'crop'
@@ -586,12 +598,12 @@ export function Artwork() {
     | 'none'
     | 'fillWidth'
     | 'fillHeight'
-  >('scale', 'fit');
-  const vertices = useKnob('vertices', 6);
-  const rounding = useKnob('rounding', 0);
-  const smoothing = useKnob('smoothing', 0);
-  const inner = useKnob('inner', 0.5);
-  const badge = useKnob('badge', '8');
+  >(ControlId.Scale, 'fit');
+  const vertices = useKnob(ControlId.Vertices, 6);
+  const rounding = useKnob(ControlId.Rounding, 0);
+  const smoothing = useKnob(ControlId.Smoothing, 0);
+  const inner = useKnob(ControlId.Inner, 0.5);
+  const badge = useKnob(ControlId.Badge, '8');
   const [large, setLarge] = useState(false);
   return (
     <Stage height={400}>
@@ -654,12 +666,12 @@ export function Artwork() {
   );
 }
 export function Layout() {
-  const spacing = useKnob('spacing', 8);
+  const spacing = useKnob(ControlId.Spacing, 8);
   const alignment = useKnob<'topStart' | 'center' | 'bottomEnd'>(
-    'alignment',
+    ControlId.Alignment,
     'center',
   );
-  const height = useKnob('height', 80);
+  const height = useKnob(ControlId.Height, 80);
   const [visible, setVisible] = useState(true);
   return (
     <Stage height={490}>
@@ -715,11 +727,11 @@ export function Layout() {
   );
 }
 export function Modifiers() {
-  const padding = useKnob('padding', 24);
-  const radius = useKnob('radius', 16);
-  const border = useKnob('border', 1);
-  const rotation = useKnob('rotation', 6);
-  const alpha = useKnob('alpha', 1);
+  const padding = useKnob(ControlId.Padding, 24);
+  const radius = useKnob(ControlId.Radius, 16);
+  const border = useKnob(ControlId.Border, 1);
+  const rotation = useKnob(ControlId.Rotation, 6);
+  const alpha = useKnob(ControlId.Alpha, 1);
   const [amount, setAmount] = useState(0.3);
   const [first, setFirst] = useState(true);
   return (

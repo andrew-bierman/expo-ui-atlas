@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
+  CatalogEntryId,
+  CatalogFilter,
   catalog,
+  Family,
   families,
   filterCatalog,
 } from '../../../entities/catalog-entry';
@@ -17,13 +20,16 @@ import { Body, Notice, SearchField } from '../../../shared/ui';
 export function PlaygroundPage() {
   const t = useTheme();
   const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState('u-button');
-  const matches = filterCatalog(catalog, query, 'all', 'all').filter((entry) =>
-    entry.platforms.some((p) => p === Platform.OS),
-  );
+  const [selected, setSelected] = useState(CatalogEntryId.UniversalButton);
+  const matches = filterCatalog(
+    catalog,
+    query,
+    CatalogFilter.All,
+    CatalogFilter.All,
+  ).filter((entry) => entry.platforms.some((p) => p === Platform.OS));
   const entry = matches.find((e) => e.id === selected) ?? matches[0];
   const examples = entry
-    ? ((entry.family === 'universal' ? universalExamples : nativeExamples)[
+    ? ((entry.family === Family.Universal ? universalExamples : nativeExamples)[
         entry.id
       ] ?? [])
     : [];

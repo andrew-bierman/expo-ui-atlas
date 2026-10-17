@@ -12,6 +12,7 @@ import {
 import { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTheme } from '../../../shared/theme';
+import { ControlType } from '../model/control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from '../model/tuning';
 
 function TextControl({
@@ -68,7 +69,7 @@ export function TuningControls({
             <Text
               textStyle={{ color: t.text, fontSize: 13, fontWeight: '600' }}
             >
-              {control.type === 'range'
+              {control.type === ControlType.Range
                 ? `${control.label}: ${values[control.id]}`
                 : control.label}
             </Text>
@@ -77,7 +78,7 @@ export function TuningControls({
                 {control.description}
               </Text>
             ) : null}
-            {control.type === 'select' ? (
+            {control.type === ControlType.Select ? (
               <Picker
                 selectedValue={String(values[control.id])}
                 onValueChange={(value) => onChange(control.id, value)}
@@ -86,13 +87,13 @@ export function TuningControls({
                   <Picker.Item key={option} value={option} label={option} />
                 ))}
               </Picker>
-            ) : control.type === 'toggle' ? (
+            ) : control.type === ControlType.Toggle ? (
               <Switch
                 label={control.label}
                 value={Boolean(values[control.id])}
                 onValueChange={(value) => onChange(control.id, value)}
               />
-            ) : control.type === 'range' ? (
+            ) : control.type === ControlType.Range ? (
               <Slider
                 value={Number(values[control.id])}
                 min={control.min}

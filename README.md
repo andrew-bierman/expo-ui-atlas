@@ -67,3 +67,5 @@ CI runs formatting/lint, types, tests, dependency alignment, and all-platform bu
 Validation includes inspector-schema configuration round trips, all three platform bundles, and desktop/mobile browser interaction checks. **Native runtime testing remains a device check:** no simulator was operated because another Codex session was using simulators. Bundling and types do not prove native presentation or gesture behavior. Use the checklist in [coverage](docs/coverage.md#device-smoke-checklist).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog and [architecture](docs/architecture.md) for Feature-Sliced Design boundaries.
+
+Types, enum identifiers, shared tokens and control-definition conventions are documented in [code conventions](docs/code-conventions.md). The app’s Guide also includes original explanations of specimen behavior and extension points. TypeScript checks indexed access and overrides; Biome rejects explicit `any` and unused declarations.

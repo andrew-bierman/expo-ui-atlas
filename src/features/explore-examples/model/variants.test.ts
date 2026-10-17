@@ -1,26 +1,37 @@
 import { expect, test } from 'bun:test';
+import { ControlId, ControlType } from './control-identifiers';
 import type { TuningControl } from './tuning';
 import { buildVariants } from './variants';
 
 const controls: TuningControl[] = [
   {
-    id: 'style',
+    id: ControlId.Style,
     label: 'Style',
-    type: 'select',
+    type: ControlType.Select,
     options: ['filled', 'outlined', 'text'],
     defaultValue: 'filled',
   },
-  { id: 'enabled', label: 'Enabled', type: 'toggle', defaultValue: true },
   {
-    id: 'size',
+    id: ControlId.Enabled,
+    label: 'Enabled',
+    type: ControlType.Toggle,
+    defaultValue: true,
+  },
+  {
+    id: ControlId.Size,
     label: 'Size',
-    type: 'range',
+    type: ControlType.Range,
     min: 10,
     max: 40,
     step: 5,
     defaultValue: 20,
   },
-  { id: 'caption', label: 'Caption', type: 'text', defaultValue: 'Hello' },
+  {
+    id: ControlId.Caption,
+    label: 'Caption',
+    type: ControlType.Text,
+    defaultValue: 'Hello',
+  },
 ];
 test('gallery exposes every enum case and boolean state as ready-to-use examples', () => {
   const variants = buildVariants(controls);
@@ -49,16 +60,16 @@ test('continuous values have labeled boundary/default samples; free text stays i
 test('dependent variants enable their presentation context while retaining the varied value', () => {
   const variants = buildVariants([
     {
-      id: 'lineWidth',
+      id: ControlId.LineWidth,
       label: 'Line width',
-      type: 'range',
+      type: ControlType.Range,
       min: 1,
       max: 10,
       step: 1,
       defaultValue: 3,
-      previewValues: { chartType: 'line' },
+      previewValues: { [ControlId.ChartType]: 'line' },
     },
   ]);
-  expect(variants[0].values).toEqual({ chartType: 'line', lineWidth: 1 });
-  expect(variants[2].values).toEqual({ chartType: 'line', lineWidth: 10 });
+  expect(variants[0]?.values).toEqual({ chartType: 'line', lineWidth: 1 });
+  expect(variants[2]?.values).toEqual({ chartType: 'line', lineWidth: 10 });
 });

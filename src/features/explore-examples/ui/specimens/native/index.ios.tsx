@@ -43,13 +43,20 @@ function Contexts() {
   );
 }
 const specimen = (
-  id: string,
+  id: keyof typeof swiftuiControls | 'contexts',
   title: string,
   description: string,
   component: Example['component'],
   code: string,
 ): Example[] => [
-  { id, title, description, component, code, controls: swiftuiControls[id] },
+  {
+    id,
+    title,
+    description,
+    component,
+    code,
+    controls: id === 'contexts' ? undefined : swiftuiControls[id],
+  },
 ];
 export const nativeExamples: ExampleRegistry = {
   'swiftui-buttons': specimen(

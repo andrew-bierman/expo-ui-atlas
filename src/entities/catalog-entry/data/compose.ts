@@ -1,24 +1,30 @@
-import type { CatalogEntry, Category } from '../model/types';
+import {
+  type CatalogEntry,
+  CatalogEntryId,
+  CatalogPlatform,
+  Category,
+  Family,
+} from '../model/types';
 
-const groups: [string, string, Category, string, string[]][] = [
+const groups: [CatalogEntryId, string, Category, string, string[]][] = [
   [
-    'palette',
+    CatalogEntryId.ComposePalette,
     'Material colors',
-    'Modifiers',
+    Category.Modifiers,
     'Switch a seeded Host between light and dark native palettes.',
     ['useMaterialColors', 'isDynamicColorAvailable'],
   ],
   [
-    'recycling',
+    CatalogEntryId.ComposeRecycling,
     'Recycled lazy items',
-    'Layout',
+    Category.Layout,
     'Explore a 500-row catalog with native item recycling and stable keys.',
     ['LazyItems'],
   ],
   [
-    'buttons',
+    CatalogEntryId.ComposeButtons,
     'Buttons',
-    'Actions',
+    Category.Actions,
     'Compare filled, tonal, elevated, outlined, text, and disabled actions.',
     [
       'Button',
@@ -29,9 +35,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'icon-buttons',
+    CatalogEntryId.ComposeIconButtons,
     'Icon buttons',
-    'Actions',
+    Category.Actions,
     'Four native icon button treatments share an action counter.',
     [
       'IconButton',
@@ -41,9 +47,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'floating-actions',
+    CatalogEntryId.ComposeFloatingActions,
     'Floating actions',
-    'Actions',
+    Category.Actions,
     'Small, regular, large, and expanding Material actions.',
     [
       'FloatingActionButton',
@@ -53,9 +59,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'selection',
+    CatalogEntryId.ComposeSelection,
     'Checkboxes & switches',
-    'Selection',
+    Category.Selection,
     'Boolean, tri-state, radio, toggle, and native-state selection.',
     [
       'Checkbox',
@@ -72,9 +78,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'segments',
+    CatalogEntryId.ComposeSegments,
     'Segmented buttons',
-    'Selection',
+    Category.Selection,
     'Try exclusive and multiple selection side by side.',
     [
       'SegmentedButton',
@@ -83,30 +89,30 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'chips',
+    CatalogEntryId.ComposeChips,
     'Chips',
-    'Selection',
+    Category.Selection,
     'Assist, filter, removable input, and suggestion chips.',
     ['AssistChip', 'FilterChip', 'InputChip', 'SuggestionChip'],
   ],
   [
-    'sliders',
+    CatalogEntryId.ComposeSliders,
     'Sliders',
-    'Inputs',
+    Category.Inputs,
     'Continuous, stepped, disabled, and vertical controls.',
     ['Slider', 'VerticalSlider'],
   ],
   [
-    'fields',
+    CatalogEntryId.ComposeFields,
     'Text fields',
-    'Inputs',
+    Category.Inputs,
     'Filled, outlined, basic, validation, and disabled states.',
     ['TextField', 'OutlinedTextField', 'BasicTextField'],
   ],
   [
-    'progress',
+    CatalogEntryId.ComposeProgress,
     'Progress & loading',
-    'Feedback',
+    Category.Feedback,
     'Drag a value through standard and wavy native indicators.',
     [
       'LinearProgressIndicator',
@@ -118,23 +124,23 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'content',
+    CatalogEntryId.ComposeContent,
     'Cards & surfaces',
-    'Content',
+    Category.Content,
     'Typography, three card treatments, a toggleable surface, and slotted list item.',
     ['Text', 'Card', 'ElevatedCard', 'OutlinedCard', 'Surface', 'ListItem'],
   ],
   [
-    'artwork',
+    CatalogEntryId.ComposeArtwork,
     'Images, icons & shapes',
-    'Content',
+    Category.Content,
     'Local artwork, vector icons, badges, and expressive shapes.',
     ['Image', 'Icon', 'Badge', 'BadgedBox', 'Shape'],
   ],
   [
-    'layout',
+    CatalogEntryId.ComposeLayout,
     'Layout & visibility',
-    'Layout',
+    Category.Layout,
     'Rows, columns, flowing content, spacing, dividers, animation, and a React Native island.',
     [
       'Box',
@@ -151,23 +157,23 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'modifiers',
+    CatalogEntryId.ComposeModifiers,
     'Modifier playground',
-    'Modifiers',
+    Category.Modifiers,
     'Swap modifier order and explore clipping, border, rotation, and opacity.',
     ['Host'],
   ],
   [
-    'dialogs',
+    CatalogEntryId.ComposeDialogs,
     'Dialogs & bottom sheets',
-    'Presentation',
+    Category.Presentation,
     'Open native alert, custom dialog, and dismissible sheet.',
     ['AlertDialog', 'BasicAlertDialog', 'ModalBottomSheet'],
   ],
   [
-    'menus',
+    CatalogEntryId.ComposeMenus,
     'Menus',
-    'Presentation',
+    Category.Presentation,
     'Anchored action menu and exposed selection menu.',
     [
       'DropdownMenu',
@@ -179,9 +185,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'search',
+    CatalogEntryId.ComposeSearch,
     'Search bars',
-    'Inputs',
+    Category.Inputs,
     'Full-screen search submission and docked query filtering.',
     [
       'SearchBar',
@@ -193,9 +199,9 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'navigation',
+    CatalogEntryId.ComposeNavigation,
     'Navigation & toolbar',
-    'Navigation',
+    Category.Navigation,
     'Change destinations and try vibrant floating toolbar actions.',
     [
       'NavigationBar',
@@ -205,16 +211,16 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'pager',
+    CatalogEntryId.ComposePager,
     'Horizontal pager',
-    'Navigation',
+    Category.Navigation,
     'Swipe native pages or advance with an imperative animated action.',
     ['HorizontalPager'],
   ],
   [
-    'carousels',
+    CatalogEntryId.ComposeCarousels,
     'Carousels',
-    'Content',
+    Category.Content,
     'Compare centered hero, multi-browse, and uncontained scrolling.',
     [
       'HorizontalCenteredHeroCarousel',
@@ -223,47 +229,47 @@ const groups: [string, string, Category, string, string[]][] = [
     ],
   ],
   [
-    'lists',
+    CatalogEntryId.ComposeLists,
     'Lazy lists & refresh',
-    'Layout',
+    Category.Layout,
     'Bounded vertical and horizontal lazy lists with pull-to-refresh.',
     ['LazyColumn', 'LazyRow', 'PullToRefreshBox'],
   ],
   [
-    'feedback',
+    CatalogEntryId.ComposeFeedback,
     'Snackbar & tooltip',
-    'Feedback',
+    Category.Feedback,
     'Inspect snackbar results and a native tooltip.',
     ['Snackbar', 'SnackbarHost', 'TooltipBox'],
   ],
   [
-    'dates',
+    CatalogEntryId.ComposeDates,
     'Date & time dialogs',
-    'Inputs',
+    Category.Inputs,
     'Date, range, and 24-hour time pickers in native dialogs.',
     ['DatePickerDialog', 'DateRangePickerDialog', 'TimePickerDialog'],
   ],
   [
-    'inline-dates',
+    CatalogEntryId.ComposeInlineDates,
     'Inline date pickers',
-    'Inputs',
+    Category.Inputs,
     'Switch between embedded calendar and date range selection.',
     ['DateTimePicker', 'DateRangePicker'],
   ],
 ];
 export const composeEntries: CatalogEntry[] = groups.map(
   ([slug, name, category, summary, exports]) => ({
-    id: `compose-${slug}`,
+    id: slug,
     name,
     summary,
-    family: 'compose',
+    family: Family.Compose,
     category,
-    platforms: ['android'],
+    platforms: [CatalogPlatform.Android],
     exports,
     tags: ['Material 3', 'native', 'interactive'],
     docs: 'https://docs.expo.dev/versions/v58.0.0/sdk/ui/jetpack-compose/',
     notes:
-      slug === 'modifiers'
+      slug === CatalogEntryId.ComposeModifiers
         ? 'Every specimen is hosted in a bounded Compose Host. Modifier order matters. cornerRadius is a widget-only utility; app corners use clip(Shapes.RoundedCorner).'
         : undefined,
   }),

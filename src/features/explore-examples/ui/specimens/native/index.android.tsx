@@ -1,4 +1,5 @@
-import type { ExampleRegistry } from '../../../model/types';
+import type { ComponentType } from 'react';
+import type { Example, ExampleRegistry } from '../../../model/types';
 import {
   composeControls,
   composeDescriptions,
@@ -6,7 +7,7 @@ import {
 import * as Core from './compose/core';
 import * as Experience from './compose/experience';
 
-const specimens = {
+const specimens: Record<keyof typeof composeDescriptions, ComponentType> = {
   recycling: Experience.Recycling,
   palette: Core.Palette,
   buttons: Core.Buttons,
@@ -33,17 +34,23 @@ const specimens = {
   dates: Experience.Dates,
   'inline-dates': Experience.InlineDates,
 };
-export const nativeExamples: ExampleRegistry = Object.fromEntries(
-  Object.entries(specimens).map(([id, component]) => [
-    `compose-${id}`,
-    [
-      {
-        id: `${id}-playground`,
-        title: composeDescriptions[id][0],
-        description: composeDescriptions[id][1],
-        controls: composeControls[`compose-${id}`],
-        component,
-      },
-    ],
-  ]),
+const descriptionDefinitions = new Map(Object.entries(composeDescriptions));
+const controlDefinitions = new Map(Object.entries(composeControls));
+export const nativeExamples: ExampleRegistry = Object.fromEntries<Example[]>(
+  Object.entries(specimens).map(([id, component]) => {
+    const description = descriptionDefinitions.get(id);
+    if (!description) throw new Error(`Missing Compose description: ${id}`);
+    return [
+      `compose-${id}`,
+      [
+        {
+          id: `${id}-playground`,
+          title: description[0],
+          description: description[1],
+          controls: controlDefinitions.get(`compose-${id}`),
+          component,
+        },
+      ],
+    ];
+  }),
 );

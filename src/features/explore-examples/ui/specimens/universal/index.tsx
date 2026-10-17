@@ -1,4 +1,9 @@
 import { Platform } from 'react-native';
+import {
+  CatalogEntryId,
+  CatalogPlatform,
+} from '../../../../../entities/catalog-entry';
+import { ControlId } from '../../../model/control-identifiers';
 import type { ExampleRegistry } from '../../../model/types';
 import { Buttons, Pickers, Sliders, TextFields, Toggles } from './controls';
 import { universalControls } from './controls-schema';
@@ -145,19 +150,20 @@ export const universalExamples: ExampleRegistry = {
   ],
 };
 
+const controlDefinitions = new Map(Object.entries(universalControls));
 for (const [id, examples] of Object.entries(universalExamples)) {
   for (const example of examples)
-    example.controls = (universalControls[id] ?? []).filter(
+    example.controls = (controlDefinitions.get(id) ?? []).filter(
       (control) =>
         !(
-          id === 'u-icon' &&
-          control.id === 'symbol' &&
-          Platform.OS !== 'ios'
+          id === CatalogEntryId.UniversalIcon &&
+          control.id === ControlId.Symbol &&
+          Platform.OS !== CatalogPlatform.IOS
         ) &&
         !(
-          id === 'u-fields' &&
-          control.id === 'uppercase' &&
-          Platform.OS !== 'android'
+          id === CatalogEntryId.UniversalFields &&
+          control.id === ControlId.Uppercase &&
+          Platform.OS !== CatalogPlatform.Android
         ),
     );
 }

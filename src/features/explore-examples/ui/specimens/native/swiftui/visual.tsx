@@ -2,31 +2,32 @@ import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useId, useRef, useState } from 'react';
 import { Text as RNText, View } from 'react-native';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob, useTunedState } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
 import { choices, useChoice } from './controls-schema';
 export function Typography() {
   const [large, setLarge] = useState(false);
-  const text = useKnob('text', 'Native typography');
+  const text = useKnob(ControlId.Text, 'Native typography');
   const dateText = useChoice(
-    'dateText',
+    ControlId.DateText,
     ['timer', 'relative', 'offset', 'date', 'time'] as const,
     'date',
   );
   const truncation = useChoice(
-    'truncation',
+    ControlId.Truncation,
     ['head', 'middle', 'tail'] as const,
     'tail',
   );
-  const lines = useKnob('lines', 3);
+  const lines = useKnob(ControlId.Lines, 3);
   const textAlignment = useChoice(
-    'textAlignment',
+    ControlId.TextAlignment,
     choices.alignment,
     'leading',
   );
   const [referenceDate] = useState(() => new Date());
-  const effect = useChoice('effect', choices.effect, 'none');
-  const effectSpeed = useKnob('effectSpeed', 1);
+  const effect = useChoice(ControlId.Effect, choices.effect, 'none');
+  const effectSpeed = useKnob(ControlId.EffectSpeed, 1);
   const trigger = S.useNativeState<number | string | boolean>(0);
   const animationCount = useRef(0);
   const symbolModifiers =
@@ -38,16 +39,20 @@ export function Typography() {
             { value: trigger, options: { speed: effectSpeed } },
           ),
         ];
-  const textStyle = useChoice('textStyle', choices.textStyle, 'title2');
-  const weight = useChoice('weight', choices.weight, 'bold');
-  const design = useChoice('design', choices.design, 'serif');
-  const italic = useKnob('italic', false);
-  const selectable = useKnob('selectable', true);
-  const labelStyle = useChoice('labelStyle', choices.label, 'automatic');
-  const symbol = useChoice('symbol', choices.symbol, 'heart.fill');
-  const symbolSize = useKnob('symbolSize', 32);
-  const variable = useKnob('variable', 0.5);
-  const kerning = useKnob('kerning', 0);
+  const textStyle = useChoice(ControlId.TextStyle, choices.textStyle, 'title2');
+  const weight = useChoice(ControlId.Weight, choices.weight, 'bold');
+  const design = useChoice(ControlId.Design, choices.design, 'serif');
+  const italic = useKnob(ControlId.Italic, false);
+  const selectable = useKnob(ControlId.Selectable, true);
+  const labelStyle = useChoice(
+    ControlId.LabelStyle,
+    choices.label,
+    'automatic',
+  );
+  const symbol = useChoice(ControlId.Symbol, choices.symbol, 'heart.fill');
+  const symbolSize = useKnob(ControlId.SymbolSize, 32);
+  const variable = useKnob(ControlId.Variable, 0.5);
+  const kerning = useKnob(ControlId.Kerning, 0);
   return (
     <SpecimenHost style={{ height: 370 }}>
       <S.VStack
@@ -117,9 +122,9 @@ export function Typography() {
 }
 export function Empty() {
   const [empty, setEmpty] = useState(true);
-  const title = useKnob('title', 'No saved examples');
+  const title = useKnob(ControlId.Title, 'No saved examples');
   const description = useKnob(
-    'description',
+    ControlId.Description,
     'Save an example to find it here.',
   );
   return (
@@ -146,24 +151,31 @@ export function Empty() {
   );
 }
 export function Charts() {
-  const type = useChoice('chartType', choices.chart, 'bar');
-  const point = useChoice('point', choices.point, 'circle');
-  const lineWidth = useKnob('lineWidth', 3);
-  const pointSize = useKnob('pointSize', 30);
-  const dashed = useKnob('dashed', false);
-  const barRadius = useKnob('barRadius', 5);
-  const barWidth = useKnob('barWidth', 24);
-  const innerRadius = useKnob('innerRadius', 0.55);
-  const angularInset = useKnob('angularInset', 3);
-  const pieOpacity = useKnob('pieOpacity', 0.8);
-  const legend = useKnob('legend', true);
-  const animate = useKnob('animate', true);
-  const reference = useKnob('reference', false);
+  const type = useChoice(ControlId.ChartType, choices.chart, 'bar');
+  const point = useChoice(ControlId.Point, choices.point, 'circle');
+  const lineWidth = useKnob(ControlId.LineWidth, 3);
+  const pointSize = useKnob(ControlId.PointSize, 30);
+  const dashed = useKnob(ControlId.Dashed, false);
+  const barRadius = useKnob(ControlId.BarRadius, 5);
+  const barWidth = useKnob(ControlId.BarWidth, 24);
+  const innerRadius = useKnob(ControlId.InnerRadius, 0.55);
+  const angularInset = useKnob(ControlId.AngularInset, 3);
+  const pieOpacity = useKnob(ControlId.PieOpacity, 0.8);
+  const legend = useKnob(ControlId.Legend, true);
+  const animate = useKnob(ControlId.Animate, true);
+  const reference = useKnob(ControlId.Reference, false);
   const [grid, setGrid] = useState(true);
   const [boost, setBoost] = useState(false);
-  const data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((x, i) => ({
-    x,
-    y: [8, 13, 10, 18, 14][i] + (boost ? 5 : 0),
+  const sampleData = [
+    { x: 'Mon', y: 8 },
+    { x: 'Tue', y: 13 },
+    { x: 'Wed', y: 10 },
+    { x: 'Thu', y: 18 },
+    { x: 'Fri', y: 14 },
+  ];
+  const data = sampleData.map((point) => ({
+    ...point,
+    y: point.y + (boost ? 5 : 0),
   }));
   return (
     <SpecimenHost style={{ height: 400 }}>
@@ -205,10 +217,14 @@ export function Charts() {
 }
 export function Layout() {
   const [wide, setWide] = useState(false);
-  const alignment = useChoice('alignment', choices.alignment, 'leading');
-  const spacing = useKnob('spacing', 20);
-  const horizontal = useKnob('gridHorizontal', 24);
-  const vertical = useKnob('gridVertical', 12);
+  const alignment = useChoice(
+    ControlId.Alignment,
+    choices.alignment,
+    'leading',
+  );
+  const spacing = useKnob(ControlId.Spacing, 20);
+  const horizontal = useKnob(ControlId.GridHorizontal, 24);
+  const vertical = useKnob(ControlId.GridVertical, 12);
   return (
     <SpecimenHost style={{ height: 280 }}>
       <S.VStack
@@ -262,13 +278,13 @@ const renderRow = ({ item }: { item: number }) => (
   <S.Label title={`Native row ${item}`} systemImage="square.stack" />
 );
 export function Scrolling() {
-  const spacing = useKnob('spacing', 12);
+  const spacing = useKnob(ControlId.Spacing, 12);
   const indicators = useChoice(
-    'indicators',
+    ControlId.Indicators,
     choices.scrollVisibility,
     'automatic',
   );
-  const disabled = useKnob('disabled', false);
+  const disabled = useKnob(ControlId.Disabled, false);
   const scrollModifiers = [
     M.scrollIndicators(indicators),
     M.scrollDisabled(disabled),
@@ -308,16 +324,16 @@ export function Scrolling() {
   );
 }
 export function Shapes() {
-  const [radius, setRadius] = useTunedState<number>('radius', 18);
-  const width = useKnob('width', 60);
-  const height = useKnob('height', 60);
+  const [radius, setRadius] = useTunedState<number>(ControlId.Radius, 18);
+  const width = useKnob(ControlId.Width, 60);
+  const height = useKnob(ControlId.Height, 60);
   const capsuleStyle = useChoice(
-    'capsuleStyle',
+    ControlId.CapsuleStyle,
     ['continuous', 'circular'] as const,
     'continuous',
   );
-  const topTrailing = useKnob('topTrailing', 0);
-  const bottomLeading = useKnob('bottomLeading', 0);
+  const topTrailing = useKnob(ControlId.TopTrailing, 0);
+  const bottomLeading = useKnob(ControlId.BottomLeading, 0);
   return (
     <SpecimenHost style={{ height: 480 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
@@ -400,9 +416,9 @@ export function Shapes() {
 }
 export function Layers() {
   const [masked, setMasked] = useState(true);
-  const width = useKnob('width', 220);
-  const height = useKnob('height', 100);
-  const overlay = useKnob('overlay', 'Overlay content');
+  const width = useKnob(ControlId.Width, 220);
+  const height = useKnob(ControlId.Height, 100);
+  const overlay = useKnob(ControlId.Overlay, 'Overlay content');
   return (
     <SpecimenHost style={{ height: 230 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
@@ -443,13 +459,13 @@ export function Layers() {
   );
 }
 export function Modifiers() {
-  const rotation = useKnob('rotation', 0);
-  const scale = useKnob('scale', 1);
-  const opacity = useKnob('opacity', 1);
-  const blur = useKnob('blur', 0);
-  const shadow = useKnob('shadow', 6);
-  const padding = useKnob('padding', 14);
-  const corner = useKnob('corner', 16);
+  const rotation = useKnob(ControlId.Rotation, 0);
+  const scale = useKnob(ControlId.Scale, 1);
+  const opacity = useKnob(ControlId.Opacity, 1);
+  const blur = useKnob(ControlId.Blur, 0);
+  const shadow = useKnob(ControlId.Shadow, 6);
+  const padding = useKnob(ControlId.Padding, 14);
+  const corner = useKnob(ControlId.Corner, 16);
   const [disabled, setDisabled] = useState(false);
   return (
     <SpecimenHost style={{ height: 310 }}>
@@ -492,10 +508,10 @@ export function Modifiers() {
 export function Glass() {
   const id = useId();
   const [spacing, setSpacing] = useState(20);
-  const variant = useChoice('glassStyle', choices.glass, 'regular');
-  const interactive = useKnob('interactive', false);
-  const threshold = useKnob('threshold', 30);
-  const padding = useKnob('padding', 20);
+  const variant = useChoice(ControlId.GlassStyle, choices.glass, 'regular');
+  const interactive = useKnob(ControlId.Interactive, false);
+  const threshold = useKnob(ControlId.Threshold, 30);
+  const padding = useKnob(ControlId.Padding, 20);
   return (
     <SpecimenHost style={{ height: 240 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>
@@ -524,8 +540,8 @@ export function Glass() {
   );
 }
 export function Interop() {
-  const padding = useKnob('padding', 16);
-  const radius = useKnob('radius', 12);
+  const padding = useKnob(ControlId.Padding, 16);
+  const radius = useKnob(ControlId.Radius, 12);
   return (
     <SpecimenHost style={{ height: 170 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>

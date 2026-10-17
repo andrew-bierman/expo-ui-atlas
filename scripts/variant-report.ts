@@ -1,3 +1,4 @@
+import { ControlType } from '../src/features/explore-examples/model/control-identifiers';
 import { composeControls } from '../src/features/explore-examples/ui/specimens/native/compose/controls-schema';
 import { swiftuiControls } from '../src/features/explore-examples/ui/specimens/native/swiftui/controls-schema';
 import { universalControls } from '../src/features/explore-examples/ui/specimens/universal/controls-schema';
@@ -11,7 +12,7 @@ let report = `# Interactive variant coverage\n\nGenerated with \`bun scripts/var
 for (const [family, entries] of Object.entries(sections)) {
   report += `\n## ${family}\n\n| Collection | Controls and choices |\n| --- | --- |\n`;
   for (const [id, controls] of Object.entries(entries)) {
-    report += `| ${id} | ${controls.map((control) => `${control.label}: ${control.type === 'select' ? control.options.join(' / ') : control.type === 'range' ? `${control.min}–${control.max}, step ${control.step}` : control.type === 'toggle' ? 'on / off' : 'editable text'}`).join('; ')} |\n`;
+    report += `| ${id} | ${controls.map((control) => `${control.label}: ${control.type === ControlType.Select ? control.options.join(' / ') : control.type === ControlType.Range ? `${control.min}–${control.max}, step ${control.step}` : control.type === ControlType.Toggle ? 'on / off' : 'editable text'}`).join('; ')} |\n`;
   }
 }
 await Bun.write(new URL('../docs/variants.md', import.meta.url), report);

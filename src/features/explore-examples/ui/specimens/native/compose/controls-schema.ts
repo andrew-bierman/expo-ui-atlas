@@ -1,83 +1,113 @@
+import { CatalogEntryId } from '../../../../../../entities/catalog-entry';
+import {
+  range,
+  select,
+  text,
+  toggle,
+} from '../../../../model/control-builders';
+import { ControlId } from '../../../../model/control-identifiers';
 import type { TuningControl } from '../../../../model/tuning';
 
-const toggle = (
-  id: string,
-  label: string,
-  defaultValue = true,
-): TuningControl => ({ id, label, type: 'toggle', defaultValue });
-const range = (
-  id: string,
-  label: string,
-  min: number,
-  max: number,
-  defaultValue: number,
-  step = 1,
-): TuningControl => ({
-  id,
-  label,
-  type: 'range',
-  min,
-  max,
-  step,
-  defaultValue,
+const enabled = toggle(ControlId.Enabled, 'Enabled', true);
+const custom = toggle(ControlId.CustomColor, 'Override native colors', false);
+const spacing = range(ControlId.Spacing, 'Spacing (dp)', {
+  min: 0,
+  max: 32,
+  step: 1,
+  defaultValue: 8,
 });
-const select = (
-  id: string,
-  label: string,
-  options: string[],
-  defaultValue = options[0],
-): TuningControl => ({ id, label, type: 'select', options, defaultValue });
-const text = (
-  id: string,
-  label: string,
-  defaultValue: string,
-): TuningControl => ({ id, label, type: 'text', defaultValue });
-const enabled = toggle('enabled', 'Enabled');
-const custom = toggle('customColor', 'Override native colors', false);
-const spacing = range('spacing', 'Spacing (dp)', 0, 32, 8);
-const padding = range('padding', 'Content padding (dp)', 0, 32, 0);
-export const composeControls: Record<string, TuningControl[]> = {
+const padding = range(ControlId.Padding, 'Content padding (dp)', {
+  min: 0,
+  max: 32,
+  step: 1,
+  defaultValue: 0,
+});
+export const composeControls = {
   'compose-buttons': [
     enabled,
-    text('label', 'Button label', 'Explore'),
-    range('padding', 'Internal padding (dp)', 4, 32, 16),
-    range('radius', 'Corner radius (dp)', 0, 32, 24),
+    text(ControlId.Label, 'Button label', 'Explore'),
+    range(ControlId.Padding, 'Internal padding (dp)', {
+      min: 4,
+      max: 32,
+      step: 1,
+      defaultValue: 16,
+    }),
+    range(ControlId.Radius, 'Corner radius (dp)', {
+      min: 0,
+      max: 32,
+      step: 1,
+      defaultValue: 24,
+    }),
     custom,
   ],
   'compose-icon-buttons': [
     enabled,
-    range('size', 'Native button size (dp)', 32, 72, 48, 4),
+    range(ControlId.Size, 'Native button size (dp)', {
+      min: 32,
+      max: 72,
+      step: 4,
+      defaultValue: 48,
+    }),
     custom,
   ],
   'compose-floating-actions': [
-    toggle('expanded', 'Expanded extended FAB'),
+    toggle(ControlId.Expanded, 'Expanded extended FAB', true),
     custom,
   ],
-  'compose-selection': [enabled, custom, toggle('thumb', 'Switch thumb icon')],
+  'compose-selection': [
+    enabled,
+    custom,
+    toggle(ControlId.Thumb, 'Switch thumb icon', true),
+  ],
   'compose-segments': [enabled, custom],
   'compose-chips': [
     enabled,
-    range('elevation', 'Chip elevation (dp)', 0, 12, 0),
-    range('border', 'Chip border width (dp)', 0, 4, 1),
+    range(ControlId.Elevation, 'Chip elevation (dp)', {
+      min: 0,
+      max: 12,
+      step: 1,
+      defaultValue: 0,
+    }),
+    range(ControlId.Border, 'Chip border width (dp)', {
+      min: 0,
+      max: 4,
+      step: 1,
+      defaultValue: 1,
+    }),
   ],
   'compose-sliders': [
     enabled,
-    range('steps', 'Discrete interior steps', 0, 12, 4),
-    range('maximum', 'Maximum value', 1, 10, 1),
-    toggle('reverse', 'Reverse vertical direction'),
-    toggle('limited', 'Constrain drag to middle 60%', false),
+    range(ControlId.Steps, 'Discrete interior steps', {
+      min: 0,
+      max: 12,
+      step: 1,
+      defaultValue: 4,
+    }),
+    range(ControlId.Maximum, 'Maximum value', {
+      min: 1,
+      max: 10,
+      step: 1,
+      defaultValue: 1,
+    }),
+    toggle(ControlId.Reverse, 'Reverse vertical direction', true),
+    toggle(ControlId.Limited, 'Constrain drag to middle 60%', false),
   ],
   'compose-fields': [
     enabled,
-    toggle('readOnly', 'Read only', false),
-    toggle('singleLine', 'Single line'),
+    toggle(ControlId.ReadOnly, 'Read only', false),
+    toggle(ControlId.SingleLine, 'Single line', true),
     {
-      ...range('lines', 'Multiline line count', 1, 5, 3),
-      previewValues: { singleLine: false },
+      ...range(ControlId.Lines, 'Multiline line count', {
+        min: 1,
+        max: 5,
+        step: 1,
+        defaultValue: 3,
+      }),
+      previewValues: { [ControlId.SingleLine]: false },
     },
-    toggle('error', 'Error state', false),
-    toggle('password', 'Password transformation', false),
-    select('keyboard', 'Keyboard type', [
+    toggle(ControlId.Error, 'Error state', false),
+    toggle(ControlId.Password, 'Password transformation', false),
+    select(ControlId.Keyboard, 'Keyboard type', [
       'text',
       'number',
       'email',
@@ -86,24 +116,68 @@ export const composeControls: Record<string, TuningControl[]> = {
     ]),
   ],
   'compose-progress': [
-    toggle('determinate', 'Determinate progress'),
-    range('strokeWidth', 'Circular stroke width (dp)', 1, 12, 4),
-    range('gap', 'Track gap (dp)', 0, 12, 4),
-    select('cap', 'Stroke cap', ['round', 'butt', 'square']),
-    range('amplitude', 'Wave amplitude', 0, 1, 1, 0.1),
-    range('wavelength', 'Wavelength (dp)', 8, 64, 24, 4),
-    range('speed', 'Wave speed (dp/s)', 0, 96, 24, 4),
+    toggle(ControlId.Determinate, 'Determinate progress', true),
+    range(ControlId.StrokeWidth, 'Circular stroke width (dp)', {
+      min: 1,
+      max: 12,
+      step: 1,
+      defaultValue: 4,
+    }),
+    range(ControlId.Gap, 'Track gap (dp)', {
+      min: 0,
+      max: 12,
+      step: 1,
+      defaultValue: 4,
+    }),
+    select(ControlId.Cap, 'Stroke cap', ['round', 'butt', 'square']),
+    range(ControlId.Amplitude, 'Wave amplitude', {
+      min: 0,
+      max: 1,
+      step: 0.1,
+      defaultValue: 1,
+    }),
+    range(ControlId.Wavelength, 'Wavelength (dp)', {
+      min: 8,
+      max: 64,
+      step: 4,
+      defaultValue: 24,
+    }),
+    range(ControlId.Speed, 'Wave speed (dp/s)', {
+      min: 0,
+      max: 96,
+      step: 4,
+      defaultValue: 24,
+    }),
   ],
   'compose-content': [
-    text('text', 'Headline text', 'Material typography'),
-    range('fontSize', 'Headline font size', 12, 42, 24),
-    select('family', 'Font family', ['serif', 'sans-serif', 'monospace']),
-    toggle('italic', 'Italic'),
-    range('elevation', 'Card elevation (dp)', 0, 24, 6),
+    text(ControlId.Text, 'Headline text', 'Material typography'),
+    range(ControlId.FontSize, 'Headline font size', {
+      min: 12,
+      max: 42,
+      step: 1,
+      defaultValue: 24,
+    }),
+    select(ControlId.Family, 'Font family', [
+      'serif',
+      'sans-serif',
+      'monospace',
+    ]),
+    toggle(ControlId.Italic, 'Italic', true),
+    range(ControlId.Elevation, 'Card elevation (dp)', {
+      min: 0,
+      max: 24,
+      step: 1,
+      defaultValue: 6,
+    }),
   ],
   'compose-artwork': [
-    range('size', 'Image / icon size (dp)', 32, 120, 64, 4),
-    select('scale', 'Image content scale', [
+    range(ControlId.Size, 'Image / icon size (dp)', {
+      min: 32,
+      max: 120,
+      step: 4,
+      defaultValue: 64,
+    }),
+    select(ControlId.Scale, 'Image content scale', [
       'fit',
       'crop',
       'fillBounds',
@@ -112,81 +186,168 @@ export const composeControls: Record<string, TuningControl[]> = {
       'fillWidth',
       'fillHeight',
     ]),
-    range('vertices', 'Polygon / star vertices', 3, 12, 6),
-    range('rounding', 'Shape corner rounding', 0, 0.5, 0, 0.05),
-    range('smoothing', 'Shape smoothing', 0, 1, 0, 0.1),
-    range('inner', 'Star inner radius', 0.1, 1, 0.5, 0.1),
-    text('badge', 'Badge label', '8'),
+    range(ControlId.Vertices, 'Polygon / star vertices', {
+      min: 3,
+      max: 12,
+      step: 1,
+      defaultValue: 6,
+    }),
+    range(ControlId.Rounding, 'Shape corner rounding', {
+      min: 0,
+      max: 0.5,
+      step: 0.05,
+      defaultValue: 0,
+    }),
+    range(ControlId.Smoothing, 'Shape smoothing', {
+      min: 0,
+      max: 1,
+      step: 0.1,
+      defaultValue: 0,
+    }),
+    range(ControlId.Inner, 'Star inner radius', {
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      defaultValue: 0.5,
+    }),
+    text(ControlId.Badge, 'Badge label', '8'),
   ],
   'compose-layout': [
     spacing,
-    select('alignment', 'Box content alignment', [
+    select(ControlId.Alignment, 'Box content alignment', [
       'center',
       'topStart',
       'bottomEnd',
     ]),
-    range('height', 'Box height (dp)', 40, 120, 80),
+    range(ControlId.Height, 'Box height (dp)', {
+      min: 40,
+      max: 120,
+      step: 1,
+      defaultValue: 80,
+    }),
   ],
   'compose-modifiers': [
-    range('padding', 'Padding (dp)', 0, 32, 24),
-    range('radius', 'Clip radius (dp)', 0, 40, 16),
-    range('border', 'Border width (dp)', 0, 6, 1),
-    range('rotation', 'Rotation (degrees)', -30, 30, 6),
-    range('alpha', 'Opacity multiplier', 0.1, 1, 1, 0.1),
+    range(ControlId.Padding, 'Padding (dp)', {
+      min: 0,
+      max: 32,
+      step: 1,
+      defaultValue: 24,
+    }),
+    range(ControlId.Radius, 'Clip radius (dp)', {
+      min: 0,
+      max: 40,
+      step: 1,
+      defaultValue: 16,
+    }),
+    range(ControlId.Border, 'Border width (dp)', {
+      min: 0,
+      max: 6,
+      step: 1,
+      defaultValue: 1,
+    }),
+    range(ControlId.Rotation, 'Rotation (degrees)', {
+      min: -30,
+      max: 30,
+      step: 1,
+      defaultValue: 6,
+    }),
+    range(ControlId.Alpha, 'Opacity multiplier', {
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+      defaultValue: 1,
+    }),
   ],
   'compose-dialogs': [
-    toggle('outside', 'Dismiss on outside tap'),
-    toggle('back', 'Dismiss on Android back'),
-    toggle('handle', 'Show sheet handle'),
-    toggle('gestures', 'Enable sheet gestures'),
-    toggle('skipPartial', 'Skip partially expanded sheet', false),
+    toggle(ControlId.Outside, 'Dismiss on outside tap', true),
+    toggle(ControlId.Back, 'Dismiss on Android back', true),
+    toggle(ControlId.Handle, 'Show sheet handle', true),
+    toggle(ControlId.Gestures, 'Enable sheet gestures', true),
+    toggle(ControlId.SkipPartial, 'Skip partially expanded sheet', false),
   ],
   'compose-menus': [enabled],
   'compose-search': [
-    text('placeholder', 'Search placeholder', 'Search the catalog'),
+    text(ControlId.Placeholder, 'Search placeholder', 'Search the catalog'),
   ],
   'compose-navigation': [
     enabled,
-    toggle('labels', 'Always show destination labels'),
-    select('variant', 'Floating toolbar variant', ['vibrant', 'standard']),
-    range('elevation', 'Navigation tonal elevation (dp)', 0, 16, 3),
+    toggle(ControlId.Labels, 'Always show destination labels', true),
+    select(ControlId.Variant, 'Floating toolbar variant', [
+      'vibrant',
+      'standard',
+    ]),
+    range(ControlId.Elevation, 'Navigation tonal elevation (dp)', {
+      min: 0,
+      max: 16,
+      step: 1,
+      defaultValue: 3,
+    }),
   ],
   'compose-pager': [
-    range('spacing', 'Page spacing (dp)', 0, 32, 12),
+    range(ControlId.Spacing, 'Page spacing (dp)', {
+      min: 0,
+      max: 32,
+      step: 1,
+      defaultValue: 12,
+    }),
     padding,
-    toggle('scroll', 'Allow swipe'),
-    toggle('reverse', 'Reverse layout', false),
+    toggle(ControlId.Scroll, 'Allow swipe', true),
+    toggle(ControlId.Reverse, 'Reverse layout', false),
   ],
   'compose-carousels': [
     spacing,
     padding,
-    range('width', 'Preferred / fixed item width (dp)', 100, 300, 200, 10),
-    toggle('scroll', 'Allow swipe'),
+    range(ControlId.Width, 'Preferred / fixed item width (dp)', {
+      min: 100,
+      max: 300,
+      step: 10,
+      defaultValue: 200,
+    }),
+    toggle(ControlId.Scroll, 'Allow swipe', true),
   ],
   'compose-lists': [
-    range('spacing', 'Row spacing (dp)', 0, 24, 0),
+    range(ControlId.Spacing, 'Row spacing (dp)', {
+      min: 0,
+      max: 24,
+      step: 1,
+      defaultValue: 0,
+    }),
     padding,
-    range('rows', 'Row count', 4, 40, 12),
+    range(ControlId.Rows, 'Row count', {
+      min: 4,
+      max: 40,
+      step: 1,
+      defaultValue: 12,
+    }),
   ],
   'compose-feedback': [
-    toggle('rich', 'Rich tooltip', false),
-    toggle('persistent', 'Persistent tooltip', false),
-    select('duration', 'Snackbar duration', ['short', 'long', 'indefinite']),
-    toggle('dismiss', 'Show dismiss action'),
-    text('message', 'Snackbar message', 'Item archived'),
-    text('action', 'Snackbar action label', 'Undo'),
+    toggle(ControlId.Rich, 'Rich tooltip', false),
+    toggle(ControlId.Persistent, 'Persistent tooltip', false),
+    select(ControlId.Duration, 'Snackbar duration', [
+      'short',
+      'long',
+      'indefinite',
+    ]),
+    toggle(ControlId.Dismiss, 'Show dismiss action', true),
+    text(ControlId.Message, 'Snackbar message', 'Item archived'),
+    text(ControlId.Action, 'Snackbar action label', 'Undo'),
   ],
   'compose-inline-dates': [
-    toggle('title', 'Show title'),
-    toggle('headline', 'Show selection headline'),
-    toggle('variantToggle', 'Show calendar / text mode toggle'),
+    toggle(ControlId.Title, 'Show title', true),
+    toggle(ControlId.Headline, 'Show selection headline', true),
+    toggle(ControlId.VariantToggle, 'Show calendar / text mode toggle', true),
   ],
-  'compose-dates': [toggle('is24Hour', '24-hour clock')],
+  'compose-dates': [toggle(ControlId.Is24Hour, '24-hour clock', true)],
   'compose-recycling': [
-    range('estimate', 'Estimated item height (dp)', 48, 120, 72, 4),
+    range(ControlId.Estimate, 'Estimated item height (dp)', {
+      min: 48,
+      max: 120,
+      step: 4,
+      defaultValue: 72,
+    }),
   ],
-};
-export const composeDescriptions: Record<string, [string, string]> = {
+} satisfies Partial<Record<CatalogEntryId, TuningControl[]>>;
+export const composeDescriptions = {
   buttons: [
     'Five Material button styles',
     'Tap each style to compare feedback. Tune internal padding, shape, color, label, and disabled behavior together.',
@@ -287,4 +448,4 @@ export const composeDescriptions: Record<string, [string, string]> = {
     'Native recycled list',
     'Scroll 500 keyed rows and adjust the estimated row height used by the recycling API.',
   ],
-};
+} as const satisfies Record<string, readonly [string, string]>;

@@ -15,19 +15,20 @@ import {
 import { useState } from 'react';
 import { Text as RNText, View } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { ControlId } from '../../../model/control-identifiers';
 import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Typography() {
   const t = useTheme();
-  const [fontSize, setFontSize] = useTunedState<number>('fontSize', 28);
-  const content = useKnob('text', 'The great outdoors');
+  const [fontSize, setFontSize] = useTunedState<number>(ControlId.FontSize, 28);
+  const content = useKnob(ControlId.Text, 'The great outdoors');
   const weight = useKnob<
     '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900'
-  >('weight', '700');
-  const family = useKnob('fontFamily', 'system');
-  const tracking = useKnob('tracking', 0);
-  const lineLimit = useKnob('lineLimit', 1);
+  >(ControlId.Weight, '700');
+  const family = useKnob(ControlId.FontFamily, 'system');
+  const tracking = useKnob(ControlId.Tracking, 0);
+  const lineLimit = useKnob(ControlId.LineLimit, 1);
   return (
     <Stage>
       <Text
@@ -61,10 +62,13 @@ export function Typography() {
   );
 }
 export function Layouts() {
-  const [spacing, setSpacing] = useTunedState<number>('spacing', 8);
-  const alignment = useKnob<'start' | 'center' | 'end'>('alignment', 'center');
-  const rowWidth = useKnob('rowWidth', 250);
-  const cellPadding = useKnob('cellPadding', 12);
+  const [spacing, setSpacing] = useTunedState<number>(ControlId.Spacing, 8);
+  const alignment = useKnob<'start' | 'center' | 'end'>(
+    ControlId.Alignment,
+    'center',
+  );
+  const rowWidth = useKnob(ControlId.RowWidth, 250);
+  const cellPadding = useKnob(ControlId.CellPadding, 12);
   return (
     <Stage>
       <Row spacing={spacing} alignment={alignment}>
@@ -102,9 +106,9 @@ export function Layouts() {
   );
 }
 export function Disclosure() {
-  const [open, setOpen] = useTunedState<boolean>('expanded', false);
-  const label = useKnob('label', 'What’s inside the pack?');
-  const fontSize = useKnob('fontSize', 16);
+  const [open, setOpen] = useTunedState<boolean>(ControlId.Expanded, false);
+  const label = useKnob(ControlId.Label, 'What’s inside the pack?');
+  const fontSize = useKnob(ControlId.FontSize, 16);
   return (
     <Stage>
       <Collapsible
@@ -128,9 +132,9 @@ export function Disclosure() {
 }
 export function SettingsForm() {
   const t = useTheme();
-  const height = useKnob('height', 320);
-  const uppercase = useKnob('uppercase', false);
-  const showFooter = useKnob('showFooter', true);
+  const height = useKnob(ControlId.Height, 320);
+  const uppercase = useKnob(ControlId.Uppercase, false);
+  const showFooter = useKnob(ControlId.ShowFooter, true);
   const [wifi, setWifi] = useState(true);
   const [offline, setOffline] = useState(false);
   return (
@@ -163,11 +167,11 @@ export function SettingsForm() {
 export function Lists() {
   const t = useTheme();
   const [selected, setSelected] = useState('None');
-  const rows = useKnob('rows', 3);
-  const height = useKnob('height', 260);
-  const leading = useKnob('leading', true);
-  const trailing = useKnob('trailing', true);
-  const supporting = useKnob('supporting', true);
+  const rows = useKnob(ControlId.Rows, 3);
+  const height = useKnob(ControlId.Height, 260);
+  const leading = useKnob(ControlId.Leading, true);
+  const trailing = useKnob(ControlId.Trailing, true);
+  const supporting = useKnob(ControlId.Supporting, true);
   return (
     <View style={{ gap: 12 }}>
       <RNText style={{ color: t.text }}>Last opened: {selected}</RNText>
@@ -209,13 +213,13 @@ export function Lists() {
 }
 export function Scrolling() {
   const direction = useKnob<'horizontal' | 'vertical'>(
-    'scrollDirection',
+    ControlId.ScrollDirection,
     'horizontal',
   );
-  const indicators = useKnob('indicators', true);
-  const cards = useKnob('cards', 5);
-  const cardWidth = useKnob('cardWidth', 150);
-  const cardHeight = useKnob('cardHeight', 150);
+  const indicators = useKnob(ControlId.Indicators, true);
+  const cards = useKnob(ControlId.Cards, 5);
+  const cardWidth = useKnob(ControlId.CardWidth, 150);
+  const cardHeight = useKnob(ControlId.CardHeight, 150);
   const Container = direction === 'horizontal' ? Row : Column;
   return (
     <SpecimenHost style={{ height: 180, width: '100%' }} ignoreSafeArea="all">
@@ -248,8 +252,8 @@ export function Scrolling() {
 }
 export function Interop() {
   const t = useTheme();
-  const bridgePadding = useKnob('bridgePadding', 18);
-  const bridgeRadius = useKnob('bridgeRadius', 16);
+  const bridgePadding = useKnob(ControlId.BridgePadding, 18);
+  const bridgeRadius = useKnob(ControlId.BridgeRadius, 16);
   return (
     <Stage>
       <Text>Native Expo UI above</Text>

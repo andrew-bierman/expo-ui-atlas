@@ -3,18 +3,19 @@ import { BottomSheet, Button, Column, Text } from '@expo/ui';
 import { useState } from 'react';
 import { Text as RNText, View } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { ControlId } from '../../../model/control-identifiers';
 import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Sheet() {
   const [open, setOpen] = useState(false);
   const [snapMode, setSnapMode] = useTunedState<string>(
-    'snapMode',
+    ControlId.SnapMode,
     'half + full',
   );
-  const dragIndicator = useKnob('dragIndicator', true);
-  const contentPadding = useKnob('contentPadding', 24);
-  const background = useKnob<string>('sheetBackground', 'system');
+  const dragIndicator = useKnob(ControlId.DragIndicator, true);
+  const contentPadding = useKnob(ControlId.ContentPadding, 24);
+  const background = useKnob<string>(ControlId.SheetBackground, 'system');
   const snapPoints: SnapPoint[] | undefined =
     snapMode === 'automatic'
       ? undefined

@@ -12,6 +12,7 @@ import {
 import { type PropsWithChildren, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
+import { ControlId } from '../../../model/control-identifiers';
 import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 export function Stage({ children }: PropsWithChildren) {
@@ -29,12 +30,15 @@ export function Stage({ children }: PropsWithChildren) {
 }
 export function Buttons() {
   const [presses, setPresses] = useState(0);
-  const variant = useKnob<'filled' | 'outlined' | 'text'>('variant', 'filled');
-  const label = useKnob('label', 'Add a point');
-  const enabled = useKnob('enabled', true);
-  const radius = useKnob('radius', 12);
-  const padding = useKnob('padding', 12);
-  const opacity = useKnob('opacity', 1);
+  const variant = useKnob<'filled' | 'outlined' | 'text'>(
+    ControlId.Variant,
+    'filled',
+  );
+  const label = useKnob(ControlId.Label, 'Add a point');
+  const enabled = useKnob(ControlId.Enabled, true);
+  const radius = useKnob(ControlId.Radius, 12);
+  const padding = useKnob(ControlId.Padding, 12);
+  const opacity = useKnob(ControlId.Opacity, 1);
   return (
     <Stage>
       <Button
@@ -58,11 +62,11 @@ export function Buttons() {
   );
 }
 export function Sliders() {
-  const [value, setValue] = useTunedState<number>('value', 35);
+  const [value, setValue] = useTunedState<number>(ControlId.Value, 35);
   const [stepped, setStepped] = useState(50);
-  const max = useKnob('maximum', 100);
-  const step = useKnob('step', 5);
-  const enabled = useKnob('enabled', true);
+  const max = useKnob(ControlId.Maximum, 100);
+  const step = useKnob(ControlId.Step, 5);
+  const enabled = useKnob(ControlId.Enabled, true);
   return (
     <Stage>
       <Text>{`Continuous: ${Math.round(Math.min(value, max))}`}</Text>
@@ -95,10 +99,13 @@ export function Sliders() {
   );
 }
 export function Toggles() {
-  const [enabled, setEnabled] = useTunedState<boolean>('notifications', true);
-  const [checked, setChecked] = useTunedState<boolean>('digest', false);
-  const interactive = useKnob('enabled', true);
-  const label = useKnob('label', 'Enable notifications');
+  const [enabled, setEnabled] = useTunedState<boolean>(
+    ControlId.Notifications,
+    true,
+  );
+  const [checked, setChecked] = useTunedState<boolean>(ControlId.Digest, false);
+  const interactive = useKnob(ControlId.Enabled, true);
+  const label = useKnob(ControlId.Label, 'Enable notifications');
   return (
     <Stage>
       <Switch
@@ -130,9 +137,12 @@ export function Toggles() {
   );
 }
 export function Pickers() {
-  const [value, setValue] = useTunedState('palette', 'forest');
-  const appearance = useKnob<'menu' | 'wheel'>('appearanceMode', 'menu');
-  const enabled = useKnob('enabled', true);
+  const [value, setValue] = useTunedState<string>(ControlId.Palette, 'forest');
+  const appearance = useKnob<'menu' | 'wheel'>(
+    ControlId.AppearanceMode,
+    'menu',
+  );
+  const enabled = useKnob(ControlId.Enabled, true);
   const items = [
     <Picker.Item key="forest" label="Forest" value="forest" />,
     <Picker.Item key="ocean" label="Ocean" value="ocean" />,
@@ -163,12 +173,12 @@ export function TextFields() {
   const text = useNativeState('');
   const [echo, setEcho] = useState('');
   const [submitted, setSubmitted] = useState('Nothing submitted yet');
-  const editable = useKnob('editable', true);
-  const multiline = useKnob('multiline', false);
-  const secure = useKnob('secure', false);
-  const lines = useKnob('lines', 3);
-  const maxLength = useKnob('maxLength', 60);
-  const fontSize = useKnob('fontSize', 16);
+  const editable = useKnob(ControlId.Editable, true);
+  const multiline = useKnob(ControlId.Multiline, false);
+  const secure = useKnob(ControlId.Secure, false);
+  const lines = useKnob(ControlId.Lines, 3);
+  const maxLength = useKnob(ControlId.MaxLength, 60);
+  const fontSize = useKnob(ControlId.FontSize, 16);
   const keyboard = useKnob<
     | 'default'
     | 'email-address'
@@ -176,9 +186,9 @@ export function TextFields() {
     | 'phone-pad'
     | 'url'
     | 'decimal-pad'
-  >('keyboard', 'default');
+  >(ControlId.Keyboard, 'default');
   const capitalize = useKnob<'none' | 'sentences' | 'words' | 'characters'>(
-    'capitalize',
+    ControlId.Capitalize,
     'sentences',
   );
   return (

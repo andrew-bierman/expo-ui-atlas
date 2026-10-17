@@ -1,14 +1,15 @@
 import * as C from '@expo/ui/jetpack-compose';
 import * as M from '@expo/ui/jetpack-compose/modifiers';
 import { useEffect, useRef, useState } from 'react';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob } from '../../../../model/tuning';
 import { Mark, Stage } from './core';
 export function Dialogs() {
-  const outside = useKnob('outside', true);
-  const back = useKnob('back', true);
-  const handle = useKnob('handle', true);
-  const gestures = useKnob('gestures', true);
-  const skip = useKnob('skipPartial', false);
+  const outside = useKnob(ControlId.Outside, true);
+  const back = useKnob(ControlId.Back, true);
+  const handle = useKnob(ControlId.Handle, true);
+  const gestures = useKnob(ControlId.Gestures, true);
+  const skip = useKnob(ControlId.SkipPartial, false);
   const [open, setOpen] = useState('');
   const [result, setResult] = useState('No choice yet');
   return (
@@ -104,7 +105,7 @@ export function Dialogs() {
   );
 }
 export function Menus() {
-  const enabled = useKnob('enabled', true);
+  const enabled = useKnob(ControlId.Enabled, true);
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState('Comfort');
   return (
@@ -164,7 +165,7 @@ export function Menus() {
   );
 }
 export function Search() {
-  const placeholder = useKnob('placeholder', 'Search the catalog');
+  const placeholder = useKnob(ControlId.Placeholder, 'Search the catalog');
   const [query, setQuery] = useState('');
   const [submitted, setSubmitted] = useState('');
   return (
@@ -206,10 +207,10 @@ export function Search() {
   );
 }
 export function Navigation() {
-  const labels = useKnob('labels', true);
-  const enabled = useKnob('enabled', true);
-  const variant = useKnob<'standard' | 'vibrant'>('variant', 'vibrant');
-  const elevation = useKnob('elevation', 3);
+  const labels = useKnob(ControlId.Labels, true);
+  const enabled = useKnob(ControlId.Enabled, true);
+  const variant = useKnob<'standard' | 'vibrant'>(ControlId.Variant, 'vibrant');
+  const elevation = useKnob(ControlId.Elevation, 3);
   const [tab, setTab] = useState(0);
   const [action, setAction] = useState('Ready');
   return (
@@ -250,10 +251,10 @@ export function Navigation() {
   );
 }
 export function Pager() {
-  const spacing = useKnob('spacing', 12);
-  const padding = useKnob('padding', 0);
-  const scroll = useKnob('scroll', true);
-  const reverse = useKnob('reverse', false);
+  const spacing = useKnob(ControlId.Spacing, 12);
+  const padding = useKnob(ControlId.Padding, 0);
+  const scroll = useKnob(ControlId.Scroll, true);
+  const reverse = useKnob(ControlId.Reverse, false);
   const [page, setPage] = useState(0);
   const ref = useRef<C.HorizontalPagerHandle>(null);
   return (
@@ -293,10 +294,10 @@ export function Pager() {
   );
 }
 export function Carousels() {
-  const spacing = useKnob('spacing', 8);
-  const width = useKnob('width', 200);
-  const scroll = useKnob('scroll', true);
-  const padding = useKnob('padding', 0);
+  const spacing = useKnob(ControlId.Spacing, 8);
+  const width = useKnob(ControlId.Width, 200);
+  const scroll = useKnob(ControlId.Scroll, true);
+  const padding = useKnob(ControlId.Padding, 0);
   const [selected, setSelected] = useState('Tap a card');
   const items = Array.from({ length: 6 }, (_, i) => (
     <C.Box
@@ -346,9 +347,9 @@ export function Carousels() {
   );
 }
 export function Lists() {
-  const spacing = useKnob('spacing', 0);
-  const padding = useKnob('padding', 0);
-  const rows = useKnob('rows', 12);
+  const spacing = useKnob(ControlId.Spacing, 0);
+  const padding = useKnob(ControlId.Padding, 0);
+  const rows = useKnob(ControlId.Rows, 12);
   const [refreshing, setRefreshing] = useState(false);
   const [revision, setRevision] = useState(1);
   useEffect(() => {
@@ -402,14 +403,14 @@ export function Lists() {
 }
 export function Feedback() {
   const duration = useKnob<'short' | 'long' | 'indefinite'>(
-    'duration',
+    ControlId.Duration,
     'short',
   );
-  const dismiss = useKnob('dismiss', true);
-  const message = useKnob('message', 'Item archived');
-  const action = useKnob('action', 'Undo');
-  const rich = useKnob('rich', false);
-  const persistent = useKnob('persistent', false);
+  const dismiss = useKnob(ControlId.Dismiss, true);
+  const message = useKnob(ControlId.Message, 'Item archived');
+  const action = useKnob(ControlId.Action, 'Undo');
+  const rich = useKnob(ControlId.Rich, false);
+  const persistent = useKnob(ControlId.Persistent, false);
   const ref = useRef<C.SnackbarHostRef>(null);
   const tooltip = useRef<C.TooltipBoxRef>(null);
   const [result, setResult] = useState('No snackbar result');
@@ -471,7 +472,7 @@ export function Feedback() {
   );
 }
 export function Dates() {
-  const is24Hour = useKnob('is24Hour', true);
+  const is24Hour = useKnob(ControlId.Is24Hour, true);
   const [open, setOpen] = useState('');
   const [value, setValue] = useState('Nothing selected');
   return (
@@ -517,9 +518,9 @@ export function Dates() {
   );
 }
 export function InlineDates() {
-  const title = useKnob('title', true);
-  const headline = useKnob('headline', true);
-  const variantToggle = useKnob('variantToggle', true);
+  const title = useKnob(ControlId.Title, true);
+  const headline = useKnob(ControlId.Headline, true);
+  const variantToggle = useKnob(ControlId.VariantToggle, true);
   const [kind, setKind] = useState(false);
   const [value, setValue] = useState('Select a date');
   return (
@@ -576,7 +577,7 @@ const renderRecycledRow = ({
   item: { id: string; name: string };
 }) => <RecycledRow item={item} />;
 export function Recycling() {
-  const estimate = useKnob('estimate', 72);
+  const estimate = useKnob(ControlId.Estimate, 72);
   return (
     <Stage height={350}>
       <C.Text>500 rows · scroll to explore native recycling</C.Text>

@@ -1,11 +1,12 @@
 import { Icon, Row } from '@expo/ui';
+import { ControlId } from '../../../model/control-identifiers';
 import { useKnob } from '../../../model/tuning';
 import { Stage } from './controls';
 export function Icons() {
-  const size = useKnob('iconSize', 36);
-  const color = useKnob('iconColor', '#246b4d');
+  const size = useKnob(ControlId.IconSize, 36);
+  const color = useKnob(ControlId.IconColor, '#246b4d');
   const symbol = useKnob<'star.fill' | 'heart.fill' | 'leaf.fill' | 'wifi'>(
-    'symbol',
+    ControlId.Symbol,
     'star.fill',
   );
   return (

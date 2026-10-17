@@ -1,14 +1,31 @@
 import { useColorScheme } from 'react-native';
+import { colorScheme } from './tokens';
+
+const palette = {
+  light: {
+    background: '#f4f5ef',
+    surface: '#ffffff',
+    text: '#162d24',
+    muted: '#65746b',
+    border: '#dce4db',
+    accent: '#246b4d',
+    soft: '#e5efdf',
+  },
+  dark: {
+    background: '#131b19',
+    surface: '#1e2925',
+    text: '#edf3ed',
+    muted: '#a9b9b0',
+    border: '#36483f',
+    accent: '#a5dfbc',
+    soft: '#293f32',
+  },
+} as const;
+
 export function useTheme() {
-  const dark = useColorScheme() === 'dark';
-  return {
-    dark,
-    background: dark ? '#131b19' : '#f4f5ef',
-    surface: dark ? '#1e2925' : '#ffffff',
-    text: dark ? '#edf3ed' : '#162d24',
-    muted: dark ? '#a9b9b0' : '#65746b',
-    border: dark ? '#36483f' : '#dce4db',
-    accent: dark ? '#a5dfbc' : '#246b4d',
-    soft: dark ? '#293f32' : '#e5efdf',
-  };
+  const dark = useColorScheme() === colorScheme.dark;
+  const scheme = dark ? colorScheme.dark : colorScheme.light;
+  return { ...palette[scheme], dark, colorScheme: scheme };
 }
+
+export type Theme = ReturnType<typeof useTheme>;

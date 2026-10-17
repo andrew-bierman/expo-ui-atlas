@@ -18,22 +18,22 @@ function files(path: string): string[] {
 function checkBoundary(source: string, target: string): string | undefined {
   const from = relative(root, source).split(sep);
   const to = relative(root, target).split(sep);
-  const fromLayer = layers.indexOf(from[0]);
-  const toLayer = layers.indexOf(to[0]);
+  const fromLayer = layers.indexOf(from[0] ?? '');
+  const toLayer = layers.indexOf(to[0] ?? '');
   if (fromLayer < 0 || toLayer < 0) return;
   if (toLayer > fromLayer) return 'imports a higher layer';
   const sameSlice = from[0] === to[0] && from[1] === to[1];
   if (
     fromLayer === toLayer &&
     !sameSlice &&
-    !['app', 'shared'].includes(from[0])
+    !['app', 'shared'].includes(from[0] ?? '')
   )
     return 'cross-imports a sibling slice';
   if (
     !sameSlice &&
     to[0] !== 'app' &&
     to.length > 2 &&
-    !/^index(?:\.(?:ios|android|native|web))?(?:\.tsx?)?$/.test(to[2])
+    !/^index(?:\.(?:ios|android|native|web))?(?:\.tsx?)?$/.test(to[2] ?? '')
   )
     return 'bypasses a public entrypoint';
 }
@@ -66,7 +66,7 @@ test('FSD rejects upward imports, sibling slice coupling, and private imports', 
 test('source imports follow FSD layer and public API boundaries', () => {
   const violations: string[] = [];
   for (const path of files(root)) {
-    expect(layers).toContain(relative(root, path).split(sep)[0]);
+    expect(layers).toContain(relative(root, path).split(sep)[0] ?? '');
     const source = ts.createSourceFile(
       path,
       readFileSync(path, 'utf8'),

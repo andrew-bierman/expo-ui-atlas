@@ -1,14 +1,15 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
 import { choices, useChoice } from './controls-schema';
 export function Navigation() {
   const [path, setPath] = useState<string[]>([]);
   const [count, setCount] = useState(0);
-  const mode = useChoice('titleMode', choices.titleMode, 'inline');
-  const title = useKnob('title', 'Mini catalog');
+  const mode = useChoice(ControlId.TitleMode, choices.titleMode, 'inline');
+  const title = useKnob(ControlId.Title, 'Mini catalog');
   return (
     <SpecimenHost style={{ height: 380 }}>
       <S.NavigationStack path={path} onPathChange={setPath}>
@@ -59,7 +60,7 @@ export function Navigation() {
 export function Split() {
   const [selection, setSelection] = useState('Colors');
   const style = useChoice(
-    'splitStyle',
+    ControlId.SplitStyle,
     ['automatic', 'balanced', 'prominentDetail'] as const,
     'automatic',
   );
@@ -102,9 +103,9 @@ export function Split() {
 }
 export function Tabs() {
   const [tab, setTab] = useState('one');
-  const style = useChoice('tabStyle', choices.tabs, 'automatic');
+  const style = useChoice(ControlId.TabStyle, choices.tabs, 'automatic');
   const index = useChoice(
-    'indexDisplay',
+    ControlId.IndexDisplay,
     ['automatic', 'always', 'never'] as const,
     'automatic',
   );
@@ -139,9 +140,16 @@ export function Tabs() {
   );
 }
 export function Links() {
-  const style = useChoice('buttonStyle', choices.buttonStyle, 'automatic');
-  const label = useChoice('labelStyle', choices.label, 'automatic');
-  const shareText = useKnob('shareText', 'Explore Expo UI with Expo UI Atlas');
+  const style = useChoice(
+    ControlId.ButtonStyle,
+    choices.buttonStyle,
+    'automatic',
+  );
+  const label = useChoice(ControlId.LabelStyle, choices.label, 'automatic');
+  const shareText = useKnob(
+    ControlId.ShareText,
+    'Explore Expo UI with Expo UI Atlas',
+  );
   return (
     <SpecimenHost style={{ height: 150 }}>
       <S.VStack spacing={24} modifiers={[M.padding({ all: 12 })]}>

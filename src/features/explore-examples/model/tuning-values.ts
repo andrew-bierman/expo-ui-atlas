@@ -1,7 +1,13 @@
+import { ControlType } from './control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from './tuning';
 
+function isObjectRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
 export function defaultTuning(controls: TuningControl[]): TuningValues {
-  return Object.fromEntries(controls.map((c) => [c.id, c.defaultValue]));
+  return Object.fromEntries<TuningValue>(
+    controls.map((c) => [c.id, c.defaultValue]),
+  );
 }
 export function updateTuning(
   controls: TuningControl[],
@@ -12,13 +18,15 @@ export function updateTuning(
   const control = controls.find((c) => c.id === id);
   if (!control) return values;
   if (
-    control.type === 'select' &&
+    control.type === ControlType.Select &&
     (typeof value !== 'string' || !control.options.includes(value))
   )
     return values;
-  if (control.type === 'text' && typeof value !== 'string') return values;
-  if (control.type === 'toggle' && typeof value !== 'boolean') return values;
-  if (control.type === 'range') {
+  if (control.type === ControlType.Text && typeof value !== 'string')
+    return values;
+  if (control.type === ControlType.Toggle && typeof value !== 'boolean')
+    return values;
+  if (control.type === ControlType.Range) {
     if (typeof value !== 'number' || !Number.isFinite(value)) return values;
     value = Math.min(
       control.max,
@@ -29,7 +37,7 @@ export function updateTuning(
       ),
     );
   }
-  return { ...values, [id]: value };
+  return { ...values, [control.id]: value };
 }
 export function parseTuning(
   controls: TuningControl[],
@@ -41,11 +49,13 @@ export function parseTuning(
   } catch {
     return { error: 'Enter valid JSON.' };
   }
-  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed))
+  if (!isObjectRecord(parsed))
     return { error: 'Use a JSON object of control values.' };
   let values = defaultTuning(controls);
-  const byId = new Map(controls.map((control) => [control.id, control]));
-  for (const [id, value] of Object.entries(parsed)) {
+  const byId = new Map<string, TuningControl>(
+    controls.map((control) => [control.id, control]),
+  );
+  for (const [id, value] of Object.entries<unknown>(parsed)) {
     const control = byId.get(id);
     if (!control) return { error: `Unknown control: ${id}` };
     if (

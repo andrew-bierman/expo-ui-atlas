@@ -7,29 +7,34 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { ControlId, ControlType } from './control-identifiers';
 export type TuningValue = string | number | boolean;
-export type TuningValues = Record<string, TuningValue>;
+export type TuningValues = Partial<Record<ControlId, TuningValue>>;
 interface BaseControl {
-  id: string;
+  id: ControlId;
   label: string;
   description?: string;
   /** Related props needed to make this variation visible in the gallery. */
   previewValues?: TuningValues;
 }
 export type TuningControl =
-  | (BaseControl & { type: 'select'; options: string[]; defaultValue: string })
-  | (BaseControl & { type: 'toggle'; defaultValue: boolean })
   | (BaseControl & {
-      type: 'range';
+      type: ControlType.Select;
+      options: string[];
+      defaultValue: string;
+    })
+  | (BaseControl & { type: ControlType.Toggle; defaultValue: boolean })
+  | (BaseControl & {
+      type: ControlType.Range;
       min: number;
       max: number;
       step: number;
       defaultValue: number;
     })
-  | (BaseControl & { type: 'text'; defaultValue: string });
+  | (BaseControl & { type: ControlType.Text; defaultValue: string });
 const TuningContext = createContext<{
   values: TuningValues;
-  onChange?: (id: string, value: TuningValue) => void;
+  onChange?: (id: ControlId, value: TuningValue) => void;
 }>({ values: {} });
 export function TuningProvider({
   values,
@@ -37,18 +42,18 @@ export function TuningProvider({
   children,
 }: PropsWithChildren<{
   values: TuningValues;
-  onChange?: (id: string, value: TuningValue) => void;
+  onChange?: (id: ControlId, value: TuningValue) => void;
 }>) {
   const context = useMemo(() => ({ values, onChange }), [values, onChange]);
   return <TuningContext value={context}>{children}</TuningContext>;
 }
-export function useKnob<T extends TuningValue>(id: string, fallback: T): T {
+export function useKnob<T extends TuningValue>(id: ControlId, fallback: T): T {
   const { values } = useContext(TuningContext);
   const value = values[id];
   return typeof value === typeof fallback ? (value as T) : fallback;
 }
 export function useTunedState<T extends TuningValue>(
-  id: string,
+  id: ControlId,
   initial: T,
 ): [T, Dispatch<SetStateAction<T>>] {
   const [local, setLocal] = useState(initial);

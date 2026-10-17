@@ -1,11 +1,37 @@
 import { Column, Host, Picker, Text } from '@expo/ui';
 import { type ReactElement, useCallback, useMemo, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
+import { ControlId } from '../model/control-identifiers';
 import type { Example } from '../model/types';
 import { buildVariants, type Variant } from '../model/variants';
 import { ExampleCard } from './example-card';
+
+enum GalleryMode {
+  Variants = 'variants',
+  Playground = 'playground',
+}
+enum VariantGroup {
+  All = 'all',
+}
+const galleryWindow = {
+  initialRows: 2,
+  batchSize: 2,
+  visibleWindows: 3,
+} as const;
+const galleryLayout = { maxWidth: 900, bottomInset: 60 } as const;
+
+const styles = StyleSheet.create({
+  content: {
+    padding: 20,
+    paddingBottom: galleryLayout.bottomInset,
+    maxWidth: galleryLayout.maxWidth,
+    width: '100%',
+    alignSelf: 'center',
+    gap: 22,
+  },
+});
 
 interface GalleryRow {
   key: string;
@@ -22,8 +48,10 @@ export function ExampleGallery({
   footer: ReactElement;
 }) {
   const t = useTheme();
-  const [mode, setMode] = useState<'variants' | 'playground'>('variants');
-  const [group, setGroup] = useState('all');
+  const [mode, setMode] = useState<GalleryMode>(GalleryMode.Variants);
+  const [group, setGroup] = useState<ControlId | VariantGroup>(
+    VariantGroup.All,
+  );
   const rows = useMemo(
     () =>
       examples.flatMap((example): GalleryRow[] => [
@@ -49,10 +77,11 @@ export function ExampleGallery({
     [rows],
   );
   const visible =
-    mode === 'playground'
+    mode === GalleryMode.Playground
       ? rows.filter((row) => !row.variant)
       : rows.filter(
-          (row) => group === 'all' || row.variant?.controlId === group,
+          (row) =>
+            group === VariantGroup.All || row.variant?.controlId === group,
         );
   const renderRow = useCallback(
     ({ item, index }: { item: GalleryRow; index: number }) => (
@@ -69,7 +98,7 @@ export function ExampleGallery({
         }
         index={index}
         initialValues={item.variant?.values}
-        customization={mode === 'playground'}
+        customization={mode === GalleryMode.Playground}
       />
     ),
     [mode],
@@ -79,31 +108,24 @@ export function ExampleGallery({
       key={mode}
       data={visible}
       keyExtractor={(row) => row.key}
-      initialNumToRender={2}
-      maxToRenderPerBatch={2}
-      windowSize={3}
+      initialNumToRender={galleryWindow.initialRows}
+      maxToRenderPerBatch={galleryWindow.batchSize}
+      windowSize={galleryWindow.visibleWindows}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        padding: 20,
-        paddingBottom: 60,
-        maxWidth: 900,
-        width: '100%',
-        alignSelf: 'center',
-        gap: 22,
-      }}
+      contentContainerStyle={styles.content}
       ListHeaderComponent={
         <View style={{ gap: 22 }}>
           {header}
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             <Pill
               label="Variants"
-              selected={mode === 'variants'}
-              onPress={() => setMode('variants')}
+              selected={mode === GalleryMode.Variants}
+              onPress={() => setMode(GalleryMode.Variants)}
             />
             <Pill
               label="Playground"
-              selected={mode === 'playground'}
-              onPress={() => setMode('playground')}
+              selected={mode === GalleryMode.Playground}
+              onPress={() => setMode(GalleryMode.Playground)}
             />
           </View>
           <Host
@@ -117,14 +139,22 @@ export function ExampleGallery({
               <Text
                 textStyle={{ color: t.text, fontSize: 24, fontWeight: '600' }}
               >
-                {mode === 'variants'
+                {mode === GalleryMode.Variants
                   ? 'See the variations.'
                   : 'Try your own combination.'}
               </Text>
-              {mode === 'variants' && groups.length > 0 ? (
-                <Picker selectedValue={group} onValueChange={setGroup}>
+              {mode === GalleryMode.Variants && groups.length > 0 ? (
+                <Picker
+                  selectedValue={group}
+                  onValueChange={(value) =>
+                    setGroup(
+                      groups.find(([id]) => id === value)?.[0] ??
+                        VariantGroup.All,
+                    )
+                  }
+                >
                   <Picker.Item
-                    value="all"
+                    value={VariantGroup.All}
                     label={`All variations · ${rows.length} examples`}
                   />
                   {groups.map(([id, label]) => (
@@ -135,7 +165,7 @@ export function ExampleGallery({
             </Column>
           </Host>
           <Body muted>
-            {mode === 'variants'
+            {mode === GalleryMode.Variants
               ? 'Ready-made, interactive examples—no setup needed. Every listed style and on/off state is included. Numeric settings show minimum, default, and maximum samples. Comparisons isolate one setting, with related settings enabled where needed. Use Playground to combine them.'
               : 'Customization is optional. Open Customize to mix props, adjust the preview, or apply JSON. Reset restores the starting example.'}
           </Body>

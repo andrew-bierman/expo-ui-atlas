@@ -1,6 +1,7 @@
 import * as S from '@expo/ui/swift-ui';
 import * as M from '@expo/ui/swift-ui/modifiers';
 import { useState } from 'react';
+import { ControlId } from '../../../../model/control-identifiers';
 import { useKnob } from '../../../../model/tuning';
 import { SpecimenHost } from '../../../specimen-host';
 import { choices, useChoice } from './controls-schema';
@@ -8,21 +9,25 @@ import { choices, useChoice } from './controls-schema';
 export function Buttons() {
   const [count, setCount] = useState(0);
   const borderShape = useChoice(
-    'borderShape',
+    ControlId.BorderShape,
     choices.borderShape,
     'automatic',
   );
-  const borderRadius = useKnob('borderRadius', 12);
+  const borderRadius = useKnob(ControlId.BorderRadius, 12);
   const style = useChoice(
-    'buttonStyle',
+    ControlId.ButtonStyle,
     choices.buttonStyle,
     'borderedProminent',
   );
-  const size = useChoice('size', choices.controlSize, 'regular');
-  const role = useChoice('role', choices.role, 'default');
-  const labelStyle = useChoice('labelStyle', choices.label, 'automatic');
-  const label = useKnob('label', 'Try this action');
-  const disabled = useKnob('disabled', false);
+  const size = useChoice(ControlId.Size, choices.controlSize, 'regular');
+  const role = useChoice(ControlId.Role, choices.role, 'default');
+  const labelStyle = useChoice(
+    ControlId.LabelStyle,
+    choices.label,
+    'automatic',
+  );
+  const label = useKnob(ControlId.Label, 'Try this action');
+  const disabled = useKnob(ControlId.Disabled, false);
   return (
     <SpecimenHost style={{ height: 260 }}>
       <S.VStack spacing={16} modifiers={[M.padding({ all: 12 })]}>
@@ -67,10 +72,10 @@ export function Buttons() {
 export function Switches() {
   const [on, setOn] = useState(true);
   const native = S.useNativeState(false);
-  const style = useChoice('toggleStyle', choices.toggleStyle, 'switch');
-  const size = useChoice('size', choices.controlSize, 'regular');
-  const label = useKnob('label', 'Notifications');
-  const disabled = useKnob('disabled', false);
+  const style = useChoice(ControlId.ToggleStyle, choices.toggleStyle, 'switch');
+  const size = useChoice(ControlId.Size, choices.controlSize, 'regular');
+  const label = useKnob(ControlId.Label, 'Notifications');
+  const disabled = useKnob(ControlId.Disabled, false);
   return (
     <SpecimenHost style={{ height: 210 }}>
       <S.VStack spacing={20} modifiers={[M.padding({ all: 12 })]}>
@@ -104,14 +109,18 @@ export function Switches() {
 export function Fields() {
   const [value, setValue] = useState('');
   const [secret, setSecret] = useState(0);
-  const style = useChoice('fieldStyle', choices.fieldStyle, 'roundedBorder');
-  const keyboard = useChoice('keyboard', choices.keyboard, 'default');
-  const submit = useChoice('submit', choices.submit, 'done');
-  const axis = useChoice('axis', choices.axis, 'horizontal');
-  const maxLength = useKnob('maxLength', 40);
-  const autocorrection = useKnob('autocorrection', false);
-  const disabled = useKnob('disabled', false);
-  const placeholder = useKnob('placeholder', 'Your name');
+  const style = useChoice(
+    ControlId.FieldStyle,
+    choices.fieldStyle,
+    'roundedBorder',
+  );
+  const keyboard = useChoice(ControlId.Keyboard, choices.keyboard, 'default');
+  const submit = useChoice(ControlId.Submit, choices.submit, 'done');
+  const axis = useChoice(ControlId.Axis, choices.axis, 'horizontal');
+  const maxLength = useKnob(ControlId.MaxLength, 40);
+  const autocorrection = useKnob(ControlId.Autocorrection, false);
+  const disabled = useKnob(ControlId.Disabled, false);
+  const placeholder = useKnob(ControlId.Placeholder, 'Your name');
   const modifiers = [
     M.textFieldStyle(style),
     M.keyboardType(keyboard),
@@ -150,9 +159,9 @@ export function Fields() {
 export function Ranges() {
   const [value, setValue] = useState(40);
   const [editing, setEditing] = useState(false);
-  const step = useKnob('step', 5);
-  const disabled = useKnob('disabled', false);
-  const labelsHidden = useKnob('labelsHidden', false);
+  const step = useKnob(ControlId.Step, 5);
+  const disabled = useKnob(ControlId.Disabled, false);
+  const labelsHidden = useKnob(ControlId.LabelsHidden, false);
   return (
     <SpecimenHost style={{ height: 230 }}>
       <S.VStack
@@ -197,12 +206,20 @@ export function Pickers() {
   const [choice, setChoice] = useState('Day');
   const [color, setColor] = useState('#AD4B2C');
   const [date, setDate] = useState(new Date());
-  const pickerStyle = useChoice('pickerStyle', choices.picker, 'segmented');
-  const dateStyle = useChoice('dateStyle', choices.dateStyle, 'compact');
-  const parts = useChoice('dateParts', choices.dateParts, 'both');
-  const size = useChoice('size', choices.controlSize, 'regular');
-  const opacity = useKnob('opacity', true);
-  const bounded = useKnob('dateRange', false);
+  const pickerStyle = useChoice(
+    ControlId.PickerStyle,
+    choices.picker,
+    'segmented',
+  );
+  const dateStyle = useChoice(
+    ControlId.DateStyle,
+    choices.dateStyle,
+    'compact',
+  );
+  const parts = useChoice(ControlId.DateParts, choices.dateParts, 'both');
+  const size = useChoice(ControlId.Size, choices.controlSize, 'regular');
+  const opacity = useKnob(ControlId.Opacity, true);
+  const bounded = useKnob(ControlId.DateRange, false);
   const today = new Date();
   const nextWeek = new Date(today.getTime() + 7 * 86400000);
   return (
@@ -260,10 +277,18 @@ export function Pickers() {
 }
 export function Feedback() {
   const [value, setValue] = useState(0.55);
-  const progress = useChoice('progressStyle', choices.progress, 'linear');
-  const gauge = useChoice('gaugeStyle', choices.gauge, 'circularCapacity');
-  const size = useChoice('size', choices.controlSize, 'regular');
-  const indeterminate = useKnob('indeterminate', false);
+  const progress = useChoice(
+    ControlId.ProgressStyle,
+    choices.progress,
+    'linear',
+  );
+  const gauge = useChoice(
+    ControlId.GaugeStyle,
+    choices.gauge,
+    'circularCapacity',
+  );
+  const size = useChoice(ControlId.Size, choices.controlSize, 'regular');
+  const indeterminate = useKnob(ControlId.Indeterminate, false);
   return (
     <SpecimenHost style={{ height: 290 }}>
       <S.VStack spacing={22} modifiers={[M.padding({ all: 12 })]}>

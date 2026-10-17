@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test';
 import { environmentControls } from '../src/features/explore-examples/config/environment';
+import { ControlType } from '../src/features/explore-examples/model/control-identifiers';
 import {
   defaultTuning,
   parseTuning,
@@ -22,11 +23,11 @@ test('every inspector schema has unique keys, valid defaults and round-trippable
         expect(
           'values' in parseTuning(all, JSON.stringify(control.previewValues)),
         ).toBe(true);
-      if (control.type === 'select') {
+      if (control.type === ControlType.Select) {
         expect(new Set(control.options).size).toBe(control.options.length);
         expect(control.options).toContain(control.defaultValue);
       }
-      if (control.type === 'range') {
+      if (control.type === ControlType.Range) {
         expect(control.step).toBeGreaterThan(0);
         expect(control.max).toBeGreaterThan(control.min);
         expect(control.defaultValue).toBeGreaterThanOrEqual(control.min);

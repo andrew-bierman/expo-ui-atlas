@@ -1,25 +1,31 @@
 import { expect, test } from 'bun:test';
+import { ControlId, ControlType } from './control-identifiers';
 import type { TuningControl } from './tuning';
 import { defaultTuning, updateTuning } from './tuning-values';
 
 const controls: TuningControl[] = [
   {
-    id: 'style',
+    id: ControlId.Style,
     label: 'Style',
-    type: 'select',
+    type: ControlType.Select,
     options: ['filled', 'text'],
     defaultValue: 'filled',
   },
   {
-    id: 'size',
+    id: ControlId.Size,
     label: 'Size',
-    type: 'range',
+    type: ControlType.Range,
     min: 10,
     max: 40,
     step: 5,
     defaultValue: 20,
   },
-  { id: 'enabled', label: 'Enabled', type: 'toggle', defaultValue: true },
+  {
+    id: ControlId.Enabled,
+    label: 'Enabled',
+    type: ControlType.Toggle,
+    defaultValue: true,
+  },
 ];
 test('tuning starts from declared values and rejects invalid options and types', () => {
   const values = defaultTuning(controls);

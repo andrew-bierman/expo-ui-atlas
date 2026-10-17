@@ -21,26 +21,27 @@ test('every runtime export has catalog coverage or an explicit support-context e
   }
 });
 test('metadata and platform renderer registrations stay in sync', () => {
-  const registrations = [
+  const registrations: readonly (readonly [string, string, string, string])[] =
     [
-      'universal',
-      'src/features/explore-examples/ui/specimens/universal/index.tsx',
-      'universalExamples',
-      '',
-    ],
-    [
-      'swiftui',
-      'src/features/explore-examples/ui/specimens/native/index.ios.tsx',
-      'nativeExamples',
-      '',
-    ],
-    [
-      'compose',
-      'src/features/explore-examples/ui/specimens/native/index.android.tsx',
-      'specimens',
-      'compose-',
-    ],
-  ];
+      [
+        'universal',
+        'src/features/explore-examples/ui/specimens/universal/index.tsx',
+        'universalExamples',
+        '',
+      ],
+      [
+        'swiftui',
+        'src/features/explore-examples/ui/specimens/native/index.ios.tsx',
+        'nativeExamples',
+        '',
+      ],
+      [
+        'compose',
+        'src/features/explore-examples/ui/specimens/native/index.android.tsx',
+        'specimens',
+        'compose-',
+      ],
+    ];
   for (const [family, path, variable, prefix] of registrations) {
     const source = ts.createSourceFile(
       path,

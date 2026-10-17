@@ -1,16 +1,17 @@
 import { Host, type UniversalHostProps } from '@expo/ui';
+import { ControlId } from '../model/control-identifiers';
 import { useKnob } from '../model/tuning';
 export function SpecimenHost(
   props: UniversalHostProps & { preserveSeed?: boolean },
 ) {
   const { preserveSeed, ...hostProps } = props;
   const appearance = useKnob<'system' | 'light' | 'dark'>(
-    'appearance',
+    ControlId.Appearance,
     'system',
   );
-  const accent = useKnob('accent', '#246b4d');
+  const accent = useKnob(ControlId.Accent, '#246b4d');
   const direction = useKnob<'leftToRight' | 'rightToLeft'>(
-    'direction',
+    ControlId.Direction,
     'leftToRight',
   );
   return (

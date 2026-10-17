@@ -1,6 +1,11 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { Linking, Platform, ScrollView, Text, View } from 'react-native';
-import { families, findEntry } from '../../../entities/catalog-entry';
+import {
+  Family,
+  families,
+  findEntry,
+  platformLabels,
+} from '../../../entities/catalog-entry';
 import {
   ExampleGallery,
   nativeExamples,
@@ -25,12 +30,12 @@ export default function Detail() {
     );
   const supported = entry.platforms.some((p) => p === Platform.OS);
   const examples =
-    (entry.family === 'universal' ? universalExamples : nativeExamples)[
+    (entry.family === Family.Universal ? universalExamples : nativeExamples)[
       entry.id
     ] ?? [];
   const docs =
     entry.docs ??
-    `https://docs.expo.dev/versions/v58.0.0/sdk/ui/${entry.family === 'swiftui' ? 'swift-ui' : entry.family === 'compose' ? 'jetpack-compose' : 'universal'}/`;
+    `https://docs.expo.dev/versions/v58.0.0/sdk/ui/${entry.family === Family.SwiftUI ? 'swift-ui' : entry.family === Family.Compose ? 'jetpack-compose' : 'universal'}/`;
   const header = (
     <View style={{ gap: 22 }}>
       <Text
@@ -58,9 +63,7 @@ export default function Detail() {
       <Body muted>{entry.summary}</Body>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <Pill
-          label={entry.platforms
-            .map((p) => ({ ios: 'iOS', android: 'Android', web: 'Web' })[p])
-            .join(' + ')}
+          label={entry.platforms.map((p) => platformLabels[p]).join(' + ')}
         />
         <Pill
           label="Official documentation ↗"
@@ -93,7 +96,7 @@ export default function Detail() {
     >
       {header}
       <Notice
-        title={`Explore this collection on ${entry.platforms.map((p) => ({ ios: 'iOS', android: 'Android', web: 'Web' })[p]).join(' or ')}`}
+        title={`Explore this collection on ${entry.platforms.map((p) => platformLabels[p]).join(' or ')}`}
       >
         These examples require their supported platform. Open this app in
         matching Expo Go on that device to explore the live variants.

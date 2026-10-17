@@ -11,11 +11,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   type CatalogEntry,
+  CatalogFilter,
   type Category,
   catalog,
   categories,
-  type Family,
-  families,
+  Family,
+  familyOptions,
   filterCatalog,
 } from '../../../entities/catalog-entry';
 import { useTheme } from '../../../shared/theme';
@@ -34,14 +35,18 @@ export default function Browse() {
   const t = useTheme();
   const { width } = useWindowDimensions();
   const [query, setQuery] = useState('');
-  const [family, setFamily] = useState<Family | 'all'>('all');
-  const [category, setCategory] = useState<Category | 'all'>('all');
+  const [family, setFamily] = useState<Family | CatalogFilter.All>(
+    CatalogFilter.All,
+  );
+  const [category, setCategory] = useState<Category | CatalogFilter.All>(
+    CatalogFilter.All,
+  );
   const results = filterCatalog(catalog, query, family, category);
   const columns = width > 1100 ? 3 : width > 720 ? 2 : 1;
   const reset = () => {
     setQuery('');
-    setFamily('all');
-    setCategory('all');
+    setFamily(CatalogFilter.All);
+    setCategory(CatalogFilter.All);
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: t.background }}>
@@ -108,13 +113,13 @@ export default function Browse() {
               </Text>
             </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-              {Object.entries(families).map(([id, f]) => (
+              {familyOptions.map(({ id, ...f }) => (
                 <Pressable
                   key={id}
                   accessibilityRole="button"
                   onPress={() => {
-                    setFamily(id as Family);
-                    setCategory('all');
+                    setFamily(id);
+                    setCategory(CatalogFilter.All);
                   }}
                   style={{
                     flexGrow: 1,
@@ -151,15 +156,15 @@ export default function Browse() {
               >
                 <Pill
                   label="All APIs"
-                  selected={family === 'all'}
-                  onPress={() => setFamily('all')}
+                  selected={family === CatalogFilter.All}
+                  onPress={() => setFamily(CatalogFilter.All)}
                 />
-                {Object.entries(families).map(([id, f]) => (
+                {familyOptions.map(({ id, ...f }) => (
                   <Pill
                     key={id}
                     label={f.label}
                     selected={family === id}
-                    onPress={() => setFamily(id as Family)}
+                    onPress={() => setFamily(id)}
                   />
                 ))}
               </ScrollView>
@@ -170,8 +175,8 @@ export default function Browse() {
               >
                 <Pill
                   label="All categories"
-                  selected={category === 'all'}
-                  onPress={() => setCategory('all')}
+                  selected={category === CatalogFilter.All}
+                  onPress={() => setCategory(CatalogFilter.All)}
                 />
                 {categories.map((c) => (
                   <Pill

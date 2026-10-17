@@ -77,6 +77,30 @@ export function GuidePage() {
               atlas covers documented app-use variations; not every combination
               of all native framework modifiers is represented.
             </Text>
+            <Text
+              textStyle={{ color: t.text, fontSize: 22, fontWeight: '600' }}
+            >
+              Read a specimen.
+            </Text>
+            <Text textStyle={{ color: t.muted, fontSize: 16, lineHeight: 25 }}>
+              A variant title names the setting being demonstrated. Related
+              settings are enabled when needed—for example, line width uses a
+              line chart. Presentation examples have an Open action so you can
+              try the actual sheet or dialog. Reset restores that example’s
+              starting settings.
+            </Text>
+            <Text
+              textStyle={{ color: t.text, fontSize: 22, fontWeight: '600' }}
+            >
+              Built to extend.
+            </Text>
+            <Text textStyle={{ color: t.muted, fontSize: 16, lineHeight: 25 }}>
+              Collections and controls use typed identifiers. Schemas declare
+              allowed choices, defaults and numeric bounds; the same definitions
+              produce ready-made variants and optional playground controls.
+              Adding a choice therefore adds a comparison without duplicating
+              the surrounding screen.
+            </Text>
             <Button
               label="Open SDK 58 Expo UI documentation"
               onPress={() => {
