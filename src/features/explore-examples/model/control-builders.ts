@@ -20,13 +20,23 @@ interface RangeOptions {
   max: number;
   step?: number;
   defaultValue: number;
+  nativeDefault?: true;
 }
 export function range(
   id: ControlId,
   label: string,
-  { min, max, step = 1, defaultValue }: RangeOptions,
+  { min, max, step = 1, defaultValue, nativeDefault }: RangeOptions,
 ): TuningControl {
-  return { id, label, type: ControlType.Range, min, max, step, defaultValue };
+  return {
+    id,
+    label,
+    type: ControlType.Range,
+    min,
+    max,
+    step,
+    defaultValue,
+    nativeDefault,
+  };
 }
 export function toggle(
   id: ControlId,

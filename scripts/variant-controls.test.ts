@@ -40,3 +40,26 @@ test('every inspector schema has unique keys, valid defaults and round-trippable
     });
   }
 });
+
+test('unchanged configuration preserves omitted native style defaults', () => {
+  for (const [id, optional] of [
+    ['u-button', ['radius', 'padding', 'opacity']],
+    ['u-input', ['fontSize']],
+  ] as const) {
+    const controls = [...universalControls[id], ...environmentControls];
+    const defaults = defaultTuning(controls);
+    for (const key of optional) expect(defaults).not.toHaveProperty(key);
+    const result = parseTuning(controls, JSON.stringify(defaults));
+    expect(result).toEqual({ values: defaults });
+    expect(parseTuning(controls, '{}')).toEqual({ values: defaults });
+    for (const control of controls) {
+      if (control.type !== ControlType.Range || !control.nativeDefault)
+        continue;
+      const result = parseTuning(
+        controls,
+        JSON.stringify({ [control.id]: control.max }),
+      );
+      expect(result).toHaveProperty(`values.${control.id}`, control.max);
+    }
+  }
+});

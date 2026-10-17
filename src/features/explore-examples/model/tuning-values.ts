@@ -6,7 +6,9 @@ function isObjectRecord(value: unknown): value is Record<string, unknown> {
 }
 export function defaultTuning(controls: TuningControl[]): TuningValues {
   return Object.fromEntries<TuningValue>(
-    controls.map((c) => [c.id, c.defaultValue]),
+    controls
+      .filter((c) => !(c.type === ControlType.Range && c.nativeDefault))
+      .map((c) => [c.id, c.defaultValue]),
   );
 }
 export function updateTuning(

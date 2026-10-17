@@ -8,18 +8,21 @@ export const universalControls = {
     text(ControlId.Label, 'Action label', 'Add a point'),
     toggle(ControlId.Enabled, 'Enabled', true),
     range(ControlId.Radius, 'Corner radius', {
+      nativeDefault: true,
       min: 0,
       max: 32,
       step: 2,
       defaultValue: 12,
     }),
     range(ControlId.Padding, 'Padding', {
+      nativeDefault: true,
       min: 0,
       max: 28,
       step: 2,
       defaultValue: 12,
     }),
     range(ControlId.Opacity, 'Opacity', {
+      nativeDefault: true,
       min: 0.2,
       max: 1,
       step: 0.1,
@@ -81,6 +84,7 @@ export const universalControls = {
       defaultValue: 60,
     }),
     range(ControlId.FontSize, 'Text size', {
+      nativeDefault: true,
       min: 12,
       max: 28,
       step: 1,

@@ -30,6 +30,7 @@ export type TuningControl =
       max: number;
       step: number;
       defaultValue: number;
+      nativeDefault?: true;
     })
   | (BaseControl & { type: ControlType.Text; defaultValue: string });
 const TuningContext = createContext<{

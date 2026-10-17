@@ -1,0 +1,55 @@
+appId: ${APP_ID}
+name: Native nested bottom-sheet state recovery
+---
+- runFlow: ../support/open.yaml
+- scrollUntilVisible:
+    element:
+      id: catalog-u-sheet
+- tapOn:
+    id: catalog-u-sheet
+- tapOn: Customize
+- scrollUntilVisible:
+    element: Snap points
+- tapOn: half \+ full
+- tapOn: full
+- scrollUntilVisible:
+    element: Open full sheet
+    direction: UP
+- tapOn: Open full sheet
+- assertVisible: Close sheet
+- takeScreenshot: nested-full-sheet
+- tapOn: Close sheet
+- tapOn: Open full sheet
+- assertVisible: Close sheet
+- tapOn: Close sheet
+- tapOn: Open full-height sheet
+- assertVisible: Close sheet
+- tapOn: Close sheet
+- scrollUntilVisible:
+    element: Snap points
+- tapOn: full
+- tapOn: fraction 0.3
+- scrollUntilVisible:
+    element: Open fraction 0.3 sheet
+    direction: UP
+- tapOn: Open fraction 0.3 sheet
+- assertVisible: Close sheet
+- takeScreenshot: nested-fraction-after-shortcut
+- swipe:
+    start: 50%, 72%
+    end: 50%, 97%
+- assertVisible: Open fraction 0.3 sheet
+- tapOn: Open fraction 0.3 sheet
+- assertVisible: Close sheet
+- takeScreenshot: nested-fraction-reopened-after-drag
+- tapOn: Close sheet
+- scrollUntilVisible:
+    element: Reset example
+- tapOn: Reset example
+- scrollUntilVisible:
+    element: Open half \+ full sheet
+    direction: UP
+- tapOn: Open half \+ full sheet
+- assertVisible: Close sheet
+- takeScreenshot: nested-sheet-reset-default
+- tapOn: Close sheet

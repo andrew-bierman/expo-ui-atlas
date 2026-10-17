@@ -9,9 +9,9 @@ import {
   TextInput,
   useNativeState,
 } from '@expo/ui';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { ControlType } from '../model/control-identifiers';
+import { type ControlId, ControlType } from '../model/control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from '../model/tuning';
 
 function TextControl({
@@ -31,10 +31,12 @@ export function TuningControls({
   controls,
   values,
   onChange,
+  onClear,
 }: {
   controls: TuningControl[];
   values: TuningValues;
   onChange: (id: string, value: TuningValue) => void;
+  onClear: (id: ControlId) => void;
 }) {
   return (
     <View style={{ gap: 16 }}>
@@ -48,7 +50,7 @@ export function TuningControls({
           <Column spacing={8}>
             <Text>
               {control.type === ControlType.Range
-                ? `${control.label}: ${values[control.id]}`
+                ? `${control.label}: ${values[control.id] ?? 'Native default'}`
                 : control.label}
             </Text>
             {control.description ? <Text>{control.description}</Text> : null}
@@ -68,14 +70,31 @@ export function TuningControls({
                 onValueChange={(value) => onChange(control.id, value)}
               />
             ) : control.type === ControlType.Range ? (
-              <Slider
-                value={Number(values[control.id])}
-                min={control.min}
-                max={control.max}
-                step={control.step}
-                onValueChange={(value) => onChange(control.id, value)}
-                testID={`knob-${control.id}`}
-              />
+              <Column spacing={8}>
+                {control.nativeDefault ? (
+                  <Switch
+                    label={`Override ${control.label.toLowerCase()}`}
+                    testID={`override-${control.id}`}
+                    value={values[control.id] !== undefined}
+                    onValueChange={(enabled) =>
+                      enabled
+                        ? onChange(control.id, control.defaultValue)
+                        : onClear(control.id)
+                    }
+                  />
+                ) : null}
+                <Slider
+                  value={Number(values[control.id] ?? control.defaultValue)}
+                  disabled={
+                    control.nativeDefault && values[control.id] === undefined
+                  }
+                  min={control.min}
+                  max={control.max}
+                  step={control.step}
+                  onValueChange={(value) => onChange(control.id, value)}
+                  testID={`knob-${control.id}`}
+                />
+              </Column>
             ) : (
               <TextControl
                 value={String(values[control.id])}
@@ -97,8 +116,11 @@ export function ConfigEditor({
 }) {
   const input = useNativeState(value);
   const error = useNativeState('');
+  const dirty = useRef(false);
   useEffect(() => {
-    input.set(value);
+    if (!dirty.current) {
+      if (input.get() !== value) input.set(value);
+    }
   }, [input, value]);
   return (
     <View style={{ gap: 8 }}>
@@ -109,8 +131,8 @@ export function ConfigEditor({
       >
         <Column spacing={12}>
           <Text>
-            Edit the values below, then apply. Unsupported keys and values are
-            rejected.
+            Edit the values below, then apply. Unapplied edits stay until Apply
+            or Reset. Unsupported keys and values are rejected.
           </Text>
           <TextInput
             value={input}
@@ -119,13 +141,19 @@ export function ConfigEditor({
             numberOfLines={8}
             autoCapitalize="none"
             autoCorrect={false}
+            onChangeText={(text) => {
+              dirty.current = text !== value;
+              if (dirty.current) error.set('');
+            }}
           />
           <Button
             label="Apply configuration"
             variant="outlined"
-            onPress={() =>
-              error.set(onApply(input.get()) ?? 'Configuration applied')
-            }
+            onPress={() => {
+              const message = onApply(input.get());
+              if (!message) dirty.current = false;
+              error.set(message ?? 'Configuration applied');
+            }}
           />
           <TextInput value={error} readOnly />
         </Column>

@@ -1,0 +1,82 @@
+appId: ${APP_ID}
+name: Native customization defaults and JSON draft recovery
+---
+- runFlow: ../support/open.yaml
+- tapOn:
+    id: catalog-u-button
+- tapOn: Customize
+- scrollUntilVisible:
+    element: Apply configuration
+- tapOn: Apply configuration
+- assertVisible: Configuration applied
+- repeat:
+    times: 4
+    while:
+      notVisible: "Corner radius: Native default"
+    commands:
+      - swipe:
+          start: 95%, 25%
+          end: 95%, 75%
+- scrollUntilVisible:
+    element: 'Corner radius: Native default'
+- assertVisible: 'Corner radius: Native default'
+- assertVisible: 'Padding: Native default'
+- tapOn:
+    id: override-radius
+    point: "90%,50%"
+- assertVisible: 'Corner radius: 12'
+- tapOn:
+    id: override-radius
+    point: "90%,50%"
+- assertVisible: 'Corner radius: Native default'
+- scrollUntilVisible:
+    element:
+      id: configuration-input
+- tapOn:
+    id: configuration-input
+- inputText: "\nDRAFT_EDIT\n"
+- swipe:
+    start: 95%, 25%
+    end: 95%, 35%
+- tapOn:
+    text: system
+    below: Layout direction
+- tapOn: rightToLeft
+- scrollUntilVisible:
+    element:
+      id: configuration-input
+- assertVisible:
+    id: configuration-input
+    text: (?s).*DRAFT_EDIT.*
+- takeScreenshot: dirty-json-preserved-after-inspector
+- swipe:
+    start: 95%, 55%
+    end: 95%, 25%
+- scrollUntilVisible:
+    element: Apply configuration
+- tapOn: Apply configuration
+- assertVisible: Enter valid JSON.
+- takeScreenshot: invalid-json-rejected
+- swipe:
+    start: 95%, 25%
+    end: 95%, 55%
+- assertVisible: rightToLeft
+- repeat:
+    times: 6
+    while:
+      notVisible: Reset example
+    commands:
+      - swipe:
+          start: 95%, 25%
+          end: 95%, 50%
+- tapOn: Reset example
+- scrollUntilVisible:
+    element: "Corner radius: Native default"
+- assertVisible: "Corner radius: Native default"
+- scrollUntilVisible:
+    element:
+      id: configuration-input
+- assertNotVisible:
+    id: configuration-input
+    text: (?s).*DRAFT_EDIT.*
+- takeScreenshot: customization-reset-defaults

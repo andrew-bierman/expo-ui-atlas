@@ -125,6 +125,13 @@ export function ExampleCard({
             controls={controls}
             values={values}
             onChange={change}
+            onClear={(id) =>
+              setOverrides((old) => {
+                const next = { ...old };
+                delete next[id];
+                return next;
+              })
+            }
           />
           <ConfigEditor
             key={revision}

@@ -12,7 +12,7 @@ Some registry keys stay literal to keep registration inventories statically read
 
 ## Defining a control
 
-Use the shared builders inside the example feature. A selection must have at least one option; its default must belong to the declared options. Range settings use named fields so argument order cannot silently exchange a step and a default.
+Use the shared builders inside the example feature. A selection must have at least one option; its default must belong to the declared options. Range settings use named fields so argument order cannot silently exchange a step and a default. Set `nativeDefault: true` for optional native style ranges. These stay absent from applied configuration until Override is enabled; the range default is a starting sample, not the native framework default.
 
 ```tsx
 import { range, select, toggle } from '../model/control-builders';
