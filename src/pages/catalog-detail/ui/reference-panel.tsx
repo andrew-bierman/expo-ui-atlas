@@ -1,4 +1,4 @@
-import { type ComponentRef, type ReactElement, useRef, useState } from 'react';
+import { type ComponentRef, useRef, useState } from 'react';
 import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 import {
   type CatalogEntryId,
@@ -20,13 +20,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-export function ReferencePanel({
-  entryId,
-  header,
-}: {
-  entryId: CatalogEntryId;
-  header: ReactElement;
-}) {
+export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
   const pages = referencesForEntry(entryId);
   const [selectedId, setSelectedId] = useState(pages[0]?.id);
   const page = findReference(selectedId ?? '');
@@ -37,7 +31,6 @@ export function ReferencePanel({
       ref={scroll}
       contentContainerStyle={styles.content}
     >
-      {header}
       <Body>
         Official Expo documentation · SDK {referenceManifest.sdkVersion} ·
         Bundled {referenceManifest.fetchedAt.slice(0, 10)} · Available offline

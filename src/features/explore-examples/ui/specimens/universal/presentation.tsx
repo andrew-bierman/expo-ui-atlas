@@ -74,11 +74,7 @@ export function Sheet() {
             children are React Native views, so this Expo UI button gets a fresh
             Host.
           </RNText>
-          <SpecimenHost
-            matchContents={{ vertical: true }}
-            ignoreSafeArea="all"
-            colorScheme={t.dark ? 'dark' : 'light'}
-          >
+          <SpecimenHost matchContents={{ vertical: true }} ignoreSafeArea="all">
             <Column>
               <Button label="Close sheet" onPress={() => setOpen(false)} />
               <Text>Native content inside a new Host</Text>

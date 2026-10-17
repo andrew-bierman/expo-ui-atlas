@@ -10,8 +10,7 @@ import {
   useNativeState,
 } from '@expo/ui';
 import { useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
-import { useTheme } from '../../../shared/theme';
+import { View } from 'react-native';
 import { ControlType } from '../model/control-identifiers';
 import type { TuningControl, TuningValue, TuningValues } from '../model/tuning';
 
@@ -37,20 +36,13 @@ export function TuningControls({
   values: TuningValues;
   onChange: (id: string, value: TuningValue) => void;
 }) {
-  const t = useTheme();
   return (
-    <ScrollView
-      nestedScrollEnabled
-      style={{ maxHeight: 360 }}
-      contentContainerStyle={{ gap: 18, paddingVertical: 8 }}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View style={{ gap: 16 }}>
       {controls.map((control) => (
         <Host
           key={control.id}
           matchContents={{ vertical: true }}
           ignoreSafeArea="all"
-          colorScheme={t.dark ? 'dark' : 'light'}
           style={{ width: '100%' }}
         >
           <Column spacing={8}>
@@ -93,7 +85,7 @@ export function TuningControls({
           </Column>
         </Host>
       ))}
-    </ScrollView>
+    </View>
   );
 }
 export function ConfigEditor({
@@ -103,7 +95,6 @@ export function ConfigEditor({
   value: string;
   onApply: (value: string) => string | undefined;
 }) {
-  const t = useTheme();
   const input = useNativeState(value);
   const error = useNativeState('');
   useEffect(() => {
@@ -114,7 +105,6 @@ export function ConfigEditor({
       <Host
         matchContents={{ vertical: true }}
         ignoreSafeArea="all"
-        colorScheme={t.dark ? 'dark' : 'light'}
         style={{ width: '100%' }}
       >
         <Column spacing={12}>
@@ -124,6 +114,7 @@ export function ConfigEditor({
           </Text>
           <TextInput
             value={input}
+            testID="configuration-input"
             multiline
             numberOfLines={8}
             autoCapitalize="none"

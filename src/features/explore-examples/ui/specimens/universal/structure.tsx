@@ -129,18 +129,13 @@ export function Disclosure() {
   );
 }
 export function SettingsForm() {
-  const t = useTheme();
   const height = useKnob(ControlId.Height, 320);
   const uppercase = useKnob(ControlId.Uppercase, false);
   const showFooter = useKnob(ControlId.ShowFooter, true);
   const [wifi, setWifi] = useState(true);
   const [offline, setOffline] = useState(false);
   return (
-    <SpecimenHost
-      style={{ height, width: '100%' }}
-      ignoreSafeArea="all"
-      colorScheme={t.dark ? 'dark' : 'light'}
-    >
+    <SpecimenHost style={{ height, width: '100%' }} ignoreSafeArea="all">
       <FieldGroup>
         <FieldGroup.Section title="Connection" titleUppercase={uppercase}>
           <Switch label="Use Wi-Fi" value={wifi} onValueChange={setWifi} />
@@ -173,11 +168,7 @@ export function Lists() {
   return (
     <View style={{ gap: 12 }}>
       <RNText style={{ color: t.text }}>Last opened: {selected}</RNText>
-      <SpecimenHost
-        style={{ height, width: '100%' }}
-        ignoreSafeArea="all"
-        colorScheme={t.dark ? 'dark' : 'light'}
-      >
+      <SpecimenHost style={{ height, width: '100%' }} ignoreSafeArea="all">
         <List>
           {Array.from(
             { length: rows },

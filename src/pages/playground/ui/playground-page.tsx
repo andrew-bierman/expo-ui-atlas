@@ -1,112 +1,47 @@
-import { Column, Host, Picker, Text } from '@expo/ui';
-import { useState } from 'react';
-import { Platform, ScrollView, View } from 'react-native';
-import {
-  CatalogEntryId,
-  CatalogFilter,
-  catalog,
-  Family,
-  families,
-  filterCatalog,
-} from '../../../entities/catalog-entry';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Platform, ScrollView } from 'react-native';
+import { Family, findEntry } from '../../../entities/catalog-entry';
 import {
   ExampleCard,
   nativeExamples,
   universalExamples,
 } from '../../../features/explore-examples';
-import { useTheme } from '../../../shared/theme';
-import { Body, NativeSearchBar, Notice, SearchField } from '../../../shared/ui';
+import { Notice } from '../../../shared/ui';
 export function PlaygroundPage() {
-  const t = useTheme();
-  const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState(CatalogEntryId.UniversalButton);
-  const matches = filterCatalog(
-    catalog,
-    query,
-    CatalogFilter.All,
-    CatalogFilter.All,
-  ).filter((entry) => entry.platforms.some((p) => p === Platform.OS));
-  const entry = matches.find((e) => e.id === selected) ?? matches[0];
-  const examples = entry
-    ? ((entry.family === Family.Universal ? universalExamples : nativeExamples)[
-        entry.id
-      ] ?? [])
-    : [];
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const entry = findEntry(id);
+  const supported = entry?.platforms.some((p) => p === Platform.OS);
+  const examples =
+    entry && supported
+      ? ((entry.family === Family.Universal
+          ? universalExamples
+          : nativeExamples)[entry.id] ?? [])
+      : [];
   return (
     <>
-      <NativeSearchBar
-        value={query}
-        onChange={setQuery}
-        placeholder="Find a component to customize"
+      <Stack.Screen
+        options={{ title: entry ? `Customize ${entry.name}` : 'Customize' }}
       />
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button onPress={() => router.back()}>
+          Done
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
       <ScrollView
-        style={{ flex: 1, backgroundColor: t.background }}
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{
-          padding: 20,
-          gap: 20,
-          maxWidth: 900,
-          width: '100%',
-          alignSelf: 'center',
-          paddingBottom: 40,
-        }}
+        automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ padding: 16, gap: 24 }}
       >
-        <Host
-          matchContents={{ vertical: true }}
-          ignoreSafeArea="all"
-          style={{ width: '100%' }}
-        >
-          <Column spacing={12}>
-            <Text>
-              Choose any collection available on this platform. Open Customize
-              to edit its real component props and native environment.
-            </Text>
-          </Column>
-        </Host>
-        {Platform.OS === 'web' ? (
-          <SearchField
-            value={query}
-            onChange={setQuery}
-            placeholder="Find a component to customize…"
-          />
-        ) : null}
-        {entry ? (
-          <Host
-            matchContents={{ vertical: true }}
-            ignoreSafeArea="all"
-            colorScheme={t.dark ? 'dark' : 'light'}
-            style={{ width: '100%' }}
-          >
-            <Picker selectedValue={entry.id} onValueChange={setSelected}>
-              {matches.map((e) => (
-                <Picker.Item
-                  key={e.id}
-                  value={e.id}
-                  label={`${families[e.family].label} · ${e.name}`}
-                />
-              ))}
-            </Picker>
-          </Host>
+        {examples.length ? (
+          examples.map((example, index) => (
+            <ExampleCard key={example.id} example={example} index={index} />
+          ))
         ) : (
-          <Notice title="No matching components">
-            Try a broader search. Native-only examples appear on their matching
-            device.
+          <Notice title="Unavailable on this platform">
+            Choose a component available on this device.
           </Notice>
         )}
-        {entry ? (
-          <View style={{ gap: 8 }}>
-            <Body>{entry.summary}</Body>
-            {entry.notes ? <Body>{entry.notes}</Body> : null}
-          </View>
-        ) : null}
-        {examples.map((example, index) => (
-          <ExampleCard
-            key={`${entry?.id}-${example.id}`}
-            example={example}
-            index={index}
-          />
-        ))}
       </ScrollView>
     </>
   );

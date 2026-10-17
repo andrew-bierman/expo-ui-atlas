@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { ControlId, ControlType } from './control-identifiers';
 import type { TuningControl } from './tuning';
-import { defaultTuning, updateTuning } from './tuning-values';
+import { defaultTuning, parseTuning, updateTuning } from './tuning-values';
 
 const controls: TuningControl[] = [
   {
@@ -35,6 +35,37 @@ test('tuning starts from declared values and rejects invalid options and types',
   expect(updateTuning(controls, values, 'size', Number.NaN)).toBe(values);
   expect(updateTuning(controls, values, 'missing', 3)).toBe(values);
   expect(updateTuning(controls, values, 'style', 'text').style).toBe('text');
+});
+
+test('configuration rejects non-object roots, nested values and overflowing numbers', () => {
+  for (const root of ['null', 'true', '42', '"text"']) {
+    expect(parseTuning(controls, root)).toEqual({
+      error: 'Use a JSON object of control values.',
+    });
+  }
+  for (const value of ['null', '[]', '{}']) {
+    expect(parseTuning(controls, `{"size":${value}}`)).toEqual({
+      error: 'Unsupported value for size',
+    });
+  }
+  expect(parseTuning(controls, '{"size":1e400}')).toEqual({
+    error: 'Invalid value for size',
+  });
+  expect(parseTuning(controls, '{"size":"20"}')).toEqual({
+    error: 'Invalid value for size',
+  });
+});
+
+test('configuration failures do not contaminate later imports or declared defaults', () => {
+  const defaults = defaultTuning(controls);
+  expect(parseTuning(controls, '{"style":"text","enabled":0}')).toEqual({
+    error: 'Invalid value for enabled',
+  });
+  expect(parseTuning(controls, '{}')).toEqual({ values: defaults });
+  expect(defaultTuning(controls)).toEqual(defaults);
+  expect(parseTuning(controls, '{"__proto__":{"enabled":false}}')).toEqual({
+    error: 'Unknown control: __proto__',
+  });
 });
 test('numeric tuning clamps and snaps to supported increments without mutating old state', () => {
   const values = defaultTuning(controls);

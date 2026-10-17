@@ -26,7 +26,7 @@ Define component controls in the family’s `controls-schema.ts` and connect eac
 
 Do not offer controls that only change a caption or silently do nothing. Prefer complete enum choices and meaningful comparisons to one combined “style” switch. Specialized contexts must explain their requirements. Run `bun scripts/variant-report.ts` after updating schemas, then tests and all-platform exports. The schema test verifies enum defaults, unique keys, bounds and JSON round trips.
 
-The app shell uses Expo UI built-ins. React Native remains appropriate for outer safe areas, virtualized catalog layout, and explicit RNHostView islands. Route files stay thin; Catalog, Playground and Guide are separate page slices beneath Expo Router native tabs.
+The app shell uses Expo UI built-ins. React Native remains appropriate for virtualized variant galleries and explicit RNHostView islands. Route files stay thin; Catalog and Guide use Expo Router native tabs, while component customization and documentation open as native sheets.
 
 Component schemas also produce the default ready-made variant gallery. Add `previewValues` to a control when another prop is required to see its effect (for example, `chartType: 'line'` for a line-width control). All enum options and both boolean states are enumerated; numeric samples use minimum/default/maximum. Check labels against the rendered result, not only schema types. Do not generate Cartesian combinations of independent controls. Preview context must use valid keys/values from the same schema; the schema audit verifies this.
 

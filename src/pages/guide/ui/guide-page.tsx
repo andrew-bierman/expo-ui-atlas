@@ -22,11 +22,11 @@ export function GuidePage() {
         <FieldGroup.Section title="Try, customize, compare.">
           <Text>
             Open a collection to browse ready-made variants without
-            configuration. Switch to Playground when you want to combine
-            settings. Component controls change actual native props; environment
-            controls change appearance, tint, direction, width, and inset. Edit
-            the JSON to apply a repeatable configuration. Reset restores both
-            props and interaction state.
+            configuration. Open Customize when you want to combine settings.
+            Component controls change actual native props; environment controls
+            change appearance, tint, direction, width, and inset. Edit the JSON
+            to apply a repeatable configuration. Reset restores both props and
+            interaction state.
           </Text>
         </FieldGroup.Section>
         <FieldGroup.Section title="Know the boundaries.">

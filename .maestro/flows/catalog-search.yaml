@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: Native search and recovery
+---
+- runFlow: ../support/open.yaml
+- runFlow:
+    when:
+      visible: Search
+    commands:
+      - tapOn: Search
+- tapOn: Search components
+- inputText: zz-no-such-component
+- assertVisible: No matching components.*
+- takeScreenshot: search-empty
+- tapOn: Clear filters
+- assertVisible: 65 collections
+- assertNotVisible: zz-no-such-component
+- takeScreenshot: search-cleared

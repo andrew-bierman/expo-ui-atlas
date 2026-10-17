@@ -295,7 +295,7 @@ Reviewed against installed `@expo/ui 58.0.20`. The atlas contains 65 collections
 
 ## Device smoke checklist
 
-Native execution has not been performed in this run. Existing simulators belonged to another Codex session and were left alone. Typechecks and Hermes bundles establish import/API compatibility, not native runtime correctness.
+Automated native checks live in `.maestro/`; see its README for dedicated-device setup and test scope. Typechecks and Hermes bundles establish import/API compatibility, not native runtime correctness. Test controls and native presentation on each supported platform before release.
 
 On SDK 58 Expo Go on each platform:
 

@@ -48,6 +48,27 @@ test('gallery exposes every enum case and boolean state as ready-to-use examples
     style: 'outlined',
   });
 });
+
+test('a boundary default appears once and dependency context cannot replace the varied setting', () => {
+  const previewValues = { [ControlId.Size]: 99, [ControlId.Enabled]: true };
+  const variants = buildVariants([
+    {
+      id: ControlId.Size,
+      label: 'Size',
+      type: ControlType.Range,
+      min: 10,
+      max: 40,
+      step: 5,
+      defaultValue: 10,
+      previewValues,
+    },
+  ]);
+  expect(variants.map((variant) => variant.values)).toEqual([
+    { size: 10, enabled: true },
+    { size: 40, enabled: true },
+  ]);
+  expect(previewValues).toEqual({ size: 99, enabled: true });
+});
 test('continuous values have labeled boundary/default samples; free text stays in the playground', () => {
   const variants = buildVariants(controls);
   expect(

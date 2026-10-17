@@ -10,17 +10,14 @@ import {
   useNativeState,
 } from '@expo/ui';
 import { type PropsWithChildren, useState } from 'react';
-import { useTheme } from '../../../../../shared/theme';
 import { ControlId } from '../../../model/control-identifiers';
 import { useKnob, useTunedState, useTuningValue } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 export function Stage({ children }: PropsWithChildren) {
-  const t = useTheme();
   return (
     <SpecimenHost
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      colorScheme={t.dark ? 'dark' : 'light'}
       style={{ width: '100%' }}
     >
       <Column spacing={16}>{children}</Column>

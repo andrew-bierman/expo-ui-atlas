@@ -1,0 +1,56 @@
+appId: ${APP_ID}
+name: Native navigation and safe-area reachability
+---
+- runFlow: ../support/open.yaml
+- tapOn: Filters
+- assertVisible: All APIs
+- tapOn: Filters
+- takeScreenshot: catalog-top
+- tapOn:
+    id: catalog-u-button
+- assertVisible: Docs
+- scrollUntilVisible:
+    element: Add a point
+    centerElement: true
+- tapOn:
+    text: Add a point
+    index: 0
+- assertVisible: 'Score: 1'
+- takeScreenshot: button-interaction
+- tapOn:
+    text: Reset example
+    index: 0
+- assertVisible: 'Score: 0'
+- tapOn: Docs
+- assertVisible: Official Expo documentation.*
+- takeScreenshot: docs-sheet
+- tapOn: Done
+- tapOn: Customize
+- scrollUntilVisible:
+    element:
+      id: configuration-input
+    visibilityPercentage: 100
+- tapOn:
+    id: configuration-input
+- takeScreenshot: customization-keyboard
+- swipe:
+    start: 95%, 55%
+    end: 95%, 25%
+- takeScreenshot: customization-keyboard-scrolled
+- scrollUntilVisible:
+    element: Apply configuration
+    visibilityPercentage: 100
+- tapOn: Apply configuration
+- assertVisible: Configuration applied
+- takeScreenshot: customization-bottom
+- tapOn: Done
+- tapOn:
+    id: BackButton
+- tapOn: Guide
+- assertVisible: Expo UI Atlas
+- takeScreenshot: guide-top
+- scrollUntilVisible:
+    element: Open SDK 58 Expo UI documentation
+    visibilityPercentage: 100
+- assertVisible: Open SDK 58 Expo UI documentation
+- takeScreenshot: guide-bottom

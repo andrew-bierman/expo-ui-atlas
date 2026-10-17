@@ -1,6 +1,6 @@
 import { Host, TextInput, useNativeState } from '@expo/ui';
 import { useEffect } from 'react';
-import { layout, useTheme } from '../theme';
+import { layout } from '../theme';
 export function SearchField({
   value,
   onChange,
@@ -10,7 +10,6 @@ export function SearchField({
   onChange: (value: string) => void;
   placeholder?: string;
 }) {
-  const t = useTheme();
   const text = useNativeState(value);
   useEffect(() => {
     if (text.get() !== value) text.set(value);
@@ -19,7 +18,6 @@ export function SearchField({
     <Host
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      colorScheme={t.colorScheme}
       style={{ width: layout.fullWidth }}
       accessibilityLabel="Search components"
     >

@@ -1,9 +1,9 @@
 import { DarkTheme, DefaultTheme } from 'expo-router/react-navigation';
 import { Component, type PropsWithChildren, useState } from 'react';
 import { View } from 'react-native';
-import { useTheme } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
 import { environmentControls } from '../config/environment';
+import { ControlId } from '../model/control-identifiers';
 import {
   TuningProvider,
   type TuningValue,
@@ -47,34 +47,30 @@ export function ExampleCard({
   initialValues?: TuningValues;
   customization?: boolean;
 }) {
-  const t = useTheme();
   const [revision, setRevision] = useState(0);
   const [showCode, setShowCode] = useState(false);
-  const [customize, setCustomize] = useState(false);
   const controls = [...(example.controls ?? []), ...environmentControls];
   const [overrides, setOverrides] = useState<TuningValues>(initialValues);
   const values = { ...defaultTuning(controls), ...overrides };
   const change = (id: string, value: TuningValue) =>
     setOverrides((old) => updateTuning(controls, old, id, value));
-  const previewDark =
-    values.appearance === 'dark' || (values.appearance === 'system' && t.dark);
   const Demo = example.component;
   return (
     <View style={{ gap: 12 }}>
       <View style={{ padding: 20, gap: 10 }}>
         <Body>{`${index + 1}. ${example.title}`}</Body>
-        <Body>{example.description}</Body>
+        {example.description ? <Body>{example.description}</Body> : null}
       </View>
       <View
         style={{
           minHeight: 100,
           padding: Number(values.previewPadding),
           backgroundColor:
-            values.appearance === 'system'
-              ? t.background
-              : previewDark
-                ? DarkTheme.colors.card
-                : DefaultTheme.colors.card,
+            values[ControlId.Appearance] === 'dark'
+              ? DarkTheme.colors.background
+              : values[ControlId.Appearance] === 'light'
+                ? DefaultTheme.colors.background
+                : undefined,
         }}
       >
         <View
@@ -98,13 +94,6 @@ export function ExampleCard({
           flexWrap: 'wrap',
         }}
       >
-        {customization ? (
-          <Pill
-            label="Customize"
-            selected={customize}
-            onPress={() => setCustomize((v) => !v)}
-          />
-        ) : null}
         <Pill
           label="Reset example"
           onPress={() => {
@@ -112,7 +101,7 @@ export function ExampleCard({
             setRevision((v) => v + 1);
           }}
         />
-        {example.code ? (
+        {customization && example.code ? (
           <Pill
             label={showCode ? 'Hide recipe' : 'View recipe'}
             selected={showCode}
@@ -120,7 +109,7 @@ export function ExampleCard({
           />
         ) : null}
       </View>
-      {customize ? (
+      {customization ? (
         <View
           style={{
             padding: 20,
