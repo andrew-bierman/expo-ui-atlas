@@ -1,6 +1,6 @@
 import { Host, TextInput, useNativeState } from '@expo/ui';
 import { useEffect } from 'react';
-import { layout, radius, spacing, typography, useTheme } from '../theme';
+import { layout, useTheme } from '../theme';
 export function SearchField({
   value,
   onChange,
@@ -27,16 +27,7 @@ export function SearchField({
         value={text}
         onChangeText={onChange}
         placeholder={placeholder}
-        textStyle={{ color: t.text, ...typography.input }}
-        placeholderTextColor={t.muted}
         autoCapitalize="none"
-        style={{
-          backgroundColor: t.surface,
-          padding: spacing.md,
-          borderRadius: radius.lg,
-          borderWidth: layout.hairline,
-          borderColor: t.border,
-        }}
         testID="catalog-search"
       />
     </Host>

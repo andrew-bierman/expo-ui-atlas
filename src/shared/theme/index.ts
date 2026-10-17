@@ -1,7 +1,6 @@
 export {
   colorScheme,
   layout,
-  radius,
   spacing,
   type ThemeColorScheme,
   typography,

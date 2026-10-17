@@ -1,32 +1,15 @@
-import { Button, Host, Text } from '@expo/ui';
+import { Button, Column, Host, ListItem, Text } from '@expo/ui';
 
-import { View } from 'react-native';
-import { layout, radius, spacing, typography, useTheme } from '../theme';
-export function Body({
-  children,
-  muted = false,
-}: {
-  children: string | number | (string | number)[];
-  muted?: boolean;
-}) {
-  const t = useTheme();
-  const content = Array.isArray(children)
-    ? children.join('')
-    : String(children);
+type Content = string | number | (string | number)[];
+export function Body({ children }: { children: Content; muted?: boolean }) {
   return (
     <Host
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      style={{ width: layout.fullWidth }}
-      colorScheme={t.colorScheme}
+      style={{ width: '100%' }}
     >
-      <Text
-        textStyle={{
-          color: muted ? t.muted : t.text,
-          ...typography.body,
-        }}
-      >
-        {content}
+      <Text>
+        {Array.isArray(children) ? children.join('') : String(children)}
       </Text>
     </Host>
   );
@@ -40,32 +23,16 @@ export function Pill({
   selected?: boolean;
   onPress?: () => void;
 }) {
-  const t = useTheme();
   return (
-    <Host
-      matchContents
-      ignoreSafeArea="all"
-      colorScheme={t.colorScheme}
-      style={{ minHeight: layout.minTouchTarget, justifyContent: 'center' }}
-      accessibilityState={{ selected }}
-    >
+    <Host matchContents ignoreSafeArea="all" accessibilityState={{ selected }}>
       {onPress ? (
         <Button
           label={label}
-          variant={selected ? 'filled' : 'outlined'}
+          variant={selected ? 'filled' : 'text'}
           onPress={onPress}
         />
       ) : (
-        <Text
-          textStyle={{ color: t.text, ...typography.caption }}
-          style={{
-            padding: spacing.sm,
-            borderRadius: radius.lg,
-            backgroundColor: t.soft,
-          }}
-        >
-          {label}
-        </Text>
+        <Text>{label}</Text>
       )}
     </Host>
   );
@@ -75,29 +42,23 @@ export function Notice({
   children,
 }: {
   title: string;
-  children: string | number | (string | number)[];
+  children: Content;
 }) {
-  const t = useTheme();
   return (
-    <View
-      style={{
-        padding: spacing.lg,
-        gap: spacing.xs,
-        borderRadius: radius.xl,
-        borderCurve: 'continuous',
-        backgroundColor: t.soft,
-      }}
+    <Host
+      matchContents={{ vertical: true }}
+      ignoreSafeArea="all"
+      style={{ width: '100%' }}
     >
-      <Host
-        matchContents={{ vertical: true }}
-        ignoreSafeArea="all"
-        style={{ width: layout.fullWidth }}
-      >
-        <Text textStyle={{ color: t.text, ...typography.headline }}>
+      <Column>
+        <ListItem
+          supportingText={
+            Array.isArray(children) ? children.join('') : String(children)
+          }
+        >
           {title}
-        </Text>
-      </Host>
-      <Body muted>{children}</Body>
-    </View>
+        </ListItem>
+      </Column>
+    </Host>
   );
 }

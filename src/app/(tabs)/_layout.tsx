@@ -12,7 +12,7 @@ export default function TabsLayout() {
       }}
     >
       <NativeTabs>
-        <NativeTabs.Trigger name="index">
+        <NativeTabs.Trigger name="(catalog)">
           <NativeTabs.Trigger.Icon sf="square.grid.2x2" md="apps" />
           <NativeTabs.Trigger.Label>Catalog</NativeTabs.Trigger.Label>
         </NativeTabs.Trigger>

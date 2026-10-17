@@ -10,10 +10,9 @@ import {
   useNativeState,
 } from '@expo/ui';
 import { type PropsWithChildren, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../../../shared/theme';
 import { ControlId } from '../../../model/control-identifiers';
-import { useKnob, useTunedState } from '../../../model/tuning';
+import { useKnob, useTunedState, useTuningValue } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 export function Stage({ children }: PropsWithChildren) {
   const t = useTheme();
@@ -36,16 +35,20 @@ export function Buttons() {
   );
   const label = useKnob(ControlId.Label, 'Add a point');
   const enabled = useKnob(ControlId.Enabled, true);
-  const radius = useKnob(ControlId.Radius, 12);
-  const padding = useKnob(ControlId.Padding, 12);
-  const opacity = useKnob(ControlId.Opacity, 1);
+  const radius = useTuningValue(ControlId.Radius);
+  const padding = useTuningValue(ControlId.Padding);
+  const opacity = useTuningValue(ControlId.Opacity);
   return (
     <Stage>
       <Button
         label={label}
         variant={variant}
         disabled={!enabled}
-        style={{ borderRadius: radius, padding, opacity }}
+        style={{
+          borderRadius: typeof radius === 'number' ? radius : undefined,
+          padding: typeof padding === 'number' ? padding : undefined,
+          opacity: typeof opacity === 'number' ? opacity : undefined,
+        }}
         onPress={() => setPresses((v) => v + 1)}
       />
       {(['filled', 'outlined', 'text'] as const).map((v) => (
@@ -178,7 +181,7 @@ export function TextFields() {
   const secure = useKnob(ControlId.Secure, false);
   const lines = useKnob(ControlId.Lines, 3);
   const maxLength = useKnob(ControlId.MaxLength, 60);
-  const fontSize = useKnob(ControlId.FontSize, 16);
+  const fontSize = useTuningValue(ControlId.FontSize);
   const keyboard = useKnob<
     | 'default'
     | 'email-address'
@@ -206,21 +209,14 @@ export function TextFields() {
         secureTextEntry={secure}
         keyboardType={keyboard}
         autoCapitalize={capitalize}
-        textStyle={{ fontSize }}
-        style={styles.textInput}
+        textStyle={typeof fontSize === 'number' ? { fontSize } : undefined}
       />
       <Text>{`${echo.length}/${maxLength} characters · ${submitted}`}</Text>
-      <TextInput
-        placeholder="A few field notes…"
-        multiline
-        numberOfLines={3}
-        style={styles.textInput}
-      />
+      <TextInput placeholder="A few field notes…" multiline numberOfLines={3} />
       <TextInput
         placeholder="Password (demo only)"
         secureTextEntry
         autoCapitalize="none"
-        style={styles.textInput}
       />
       <TextInput defaultValue="Read-only specimen" readOnly />
       <Button
@@ -234,11 +230,3 @@ export function TextFields() {
     </Stage>
   );
 }
-const styles = StyleSheet.create({
-  textInput: {
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#7a9482',
-    borderRadius: 12,
-  },
-});

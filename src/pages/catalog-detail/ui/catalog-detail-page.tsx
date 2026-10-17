@@ -1,6 +1,6 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Platform, ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, View } from 'react-native';
 import {
   Family,
   families,
@@ -43,29 +43,8 @@ export default function Detail() {
     ] ?? [];
   const header = (
     <View style={{ gap: 22 }}>
-      <Text
-        style={{
-          color: t.text,
-          fontSize: 12,
-          fontWeight: '800',
-          letterSpacing: 1.5,
-        }}
-      >
-        {families[entry.family].label.toUpperCase()} /{' '}
-        {entry.category.toUpperCase()}
-      </Text>
-      <Text
-        accessibilityRole="header"
-        style={{
-          color: t.text,
-          fontSize: 42,
-          fontWeight: '600',
-          letterSpacing: -1.4,
-        }}
-      >
-        {entry.name}
-      </Text>
-      <Body muted>{entry.summary}</Body>
+      <Body>{`${families[entry.family].label} · ${entry.category}`}</Body>
+      <Body>{entry.summary}</Body>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <Pill
           label={entry.platforms.map((p) => platformLabels[p]).join(' + ')}
@@ -90,10 +69,8 @@ export default function Detail() {
   );
   const footer = (
     <View style={{ gap: 10 }}>
-      <Text style={{ color: t.text, fontWeight: '700' }}>
-        Building blocks in this collection
-      </Text>
-      <Body muted>{entry.exports.join(' · ')}</Body>
+      <Body>Building blocks in this collection</Body>
+      <Body>{entry.exports.join(' · ')}</Body>
     </View>
   );
   const content =
@@ -108,6 +85,7 @@ export default function Detail() {
       />
     ) : (
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ padding: 20, paddingBottom: 60, gap: 22 }}
       >
         {header}

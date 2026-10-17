@@ -22,23 +22,11 @@ function TextControl({
   value: string;
   onChange: (value: string) => void;
 }) {
-  const t = useTheme();
   const text = useNativeState(value);
   useEffect(() => {
     if (text.get() !== value) text.set(value);
   }, [text, value]);
-  return (
-    <TextInput
-      value={text}
-      onChangeText={onChange}
-      style={{
-        borderWidth: 1,
-        borderColor: t.border,
-        borderRadius: 10,
-        padding: 12,
-      }}
-    />
-  );
+  return <TextInput value={text} onChangeText={onChange} />;
 }
 export function TuningControls({
   controls,
@@ -66,18 +54,12 @@ export function TuningControls({
           style={{ width: '100%' }}
         >
           <Column spacing={8}>
-            <Text
-              textStyle={{ color: t.text, fontSize: 13, fontWeight: '600' }}
-            >
+            <Text>
               {control.type === ControlType.Range
                 ? `${control.label}: ${values[control.id]}`
                 : control.label}
             </Text>
-            {control.description ? (
-              <Text textStyle={{ color: t.muted, fontSize: 12 }}>
-                {control.description}
-              </Text>
-            ) : null}
+            {control.description ? <Text>{control.description}</Text> : null}
             {control.type === ControlType.Select ? (
               <Picker
                 selectedValue={String(values[control.id])}
@@ -136,7 +118,7 @@ export function ConfigEditor({
         style={{ width: '100%' }}
       >
         <Column spacing={12}>
-          <Text textStyle={{ color: t.text, fontSize: 13 }}>
+          <Text>
             Edit the values below, then apply. Unsupported keys and values are
             rejected.
           </Text>
@@ -146,13 +128,6 @@ export function ConfigEditor({
             numberOfLines={8}
             autoCapitalize="none"
             autoCorrect={false}
-            textStyle={{ fontFamily: 'monospace', fontSize: 12, color: t.text }}
-            style={{
-              borderWidth: 1,
-              borderColor: t.border,
-              borderRadius: 12,
-              padding: 12,
-            }}
           />
           <Button
             label="Apply configuration"
@@ -161,11 +136,7 @@ export function ConfigEditor({
               error.set(onApply(input.get()) ?? 'Configuration applied')
             }
           />
-          <TextInput
-            value={error}
-            readOnly
-            textStyle={{ color: t.muted, fontSize: 12 }}
-          />
+          <TextInput value={error} readOnly />
         </Column>
       </Host>
     </View>

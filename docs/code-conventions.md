@@ -37,7 +37,7 @@ Keep SDK-specific choices in a named, readonly list when the schema and native r
 
 ## Numbers and visual values
 
-Shared spacing, radius, typography, touch targets and color schemes belong to `shared/theme`. Meaningful list-window and layout settings have named configuration fields. Use named constants for behavior thresholds, repeated layout values and protocol values.
+Shared layout spacing, Markdown typography and system appearance helpers belong to `shared/theme`. Native UI owns control geometry and typography. Meaningful list-window and layout settings have named configuration fields. Use named constants for behavior thresholds, repeated layout values and protocol values.
 
 A catalog also needs intentional demonstration data: a slider’s bounds, a chart point, an animation duration being demonstrated, or a specimen color. Declare these where their purpose is visible—in a control’s `min`/`max`/`step`/`defaultValue`, a named sample object, or a component’s local demo configuration. Do not move each sample number into a global enum or replace it with a meaningless name such as `VALUE_24`. These values are examples, not hidden application rules.
 
@@ -48,3 +48,5 @@ A catalog also needs intentional demonstration data: a slider’s bounds, a char
 ## Native fidelity
 
 Specimens inherit native theme and locale direction unless the example explicitly demonstrates a different configuration. This applies to the catalog chrome as well: use Expo Router’s default light/dark navigation themes unchanged, leave native tab styling unset, and do not seed shared-control Hosts. Non-interactive labels use ordinary text rather than the accent color. Playground appearance, accent and direction start at `system`; explicit overrides remain available. A seeded palette or modifier example can declare its own settings because those settings are the subject being demonstrated. Keep surrounding presentation quiet and controls recognizable.
+
+Catalog screens use Expo UI native components and Expo Router native navigation titles. React Native containers use Router `Color` semantic system colors. Keep styling limited to layout, Markdown readability, and explicit component/modifier demonstrations; native controls and text inherit their platform appearance.

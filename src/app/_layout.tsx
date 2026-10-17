@@ -14,6 +14,7 @@ export default function Layout() {
       <Stack
         screenOptions={{
           headerBackButtonDisplayMode: 'minimal',
+          contentStyle: { backgroundColor: t.background },
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

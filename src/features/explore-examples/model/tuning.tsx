@@ -47,6 +47,10 @@ export function TuningProvider({
   const context = useMemo(() => ({ values, onChange }), [values, onChange]);
   return <TuningContext value={context}>{children}</TuningContext>;
 }
+/** Returns an explicit override without supplying a custom native default. */
+export function useTuningValue(id: ControlId): TuningValue | undefined {
+  return useContext(TuningContext).values[id];
+}
 export function useKnob<T extends TuningValue>(id: ControlId, fallback: T): T {
   const { values } = useContext(TuningContext);
   const value = values[id];

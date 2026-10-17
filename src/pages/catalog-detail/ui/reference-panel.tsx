@@ -32,14 +32,18 @@ export function ReferencePanel({
   const page = findReference(selectedId ?? '');
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   return (
-    <ScrollView ref={scroll} contentContainerStyle={styles.content}>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      ref={scroll}
+      contentContainerStyle={styles.content}
+    >
       {header}
-      <Body muted>
+      <Body>
         Official Expo documentation · SDK {referenceManifest.sdkVersion} ·
         Bundled {referenceManifest.fetchedAt.slice(0, 10)} · Available offline
       </Body>
       {pages.length === 1 ? (
-        <Body muted>
+        <Body>
           No dedicated component page is indexed for this collection in this
           SDK. The official family overview is available below.
         </Body>
@@ -89,9 +93,7 @@ export function ReferencePanel({
           />
         </>
       ) : (
-        <Body muted>
-          No bundled reference is available for this collection.
-        </Body>
+        <Body>No bundled reference is available for this collection.</Body>
       )}
     </ScrollView>
   );

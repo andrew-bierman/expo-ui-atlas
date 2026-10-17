@@ -14,3 +14,5 @@
 - Show native defaults first. Do not apply the catalog brand’s tint, seed palette, direction or decorative modifiers to every specimen. Keep customization and explicit themed/modifier demonstrations clearly separate. Prefer simple native compositions over extra wrappers or decorative UI.
 
 - Native defaults apply to catalog chrome too: use the framework navigation themes unchanged, leave NativeTabs styling unset, and do not seed shared-control Hosts with a brand color.
+
+- Build catalog screens with Expo UI native rows, grouped sections, text and controls, and Expo Router native stacks/tabs. Use Router Color semantic system colors for React Native containers. Keep styles to layout and explicit specimen demonstrations; do not add hero typography, decorative cards/badges, or a custom visual design system.

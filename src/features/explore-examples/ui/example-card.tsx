@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme } from 'expo-router/react-navigation';
 import { Component, type PropsWithChildren, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
 import { environmentControls } from '../config/environment';
@@ -27,10 +27,10 @@ class SpecimenBoundary extends Component<
   }
   override render() {
     return this.state.error ? (
-      <Text style={{ color: '#ad4b2c', padding: 20 }}>
+      <Body>
         This specimen could not render. Check your Expo Go version, then reset
         to try again.
-      </Text>
+      </Body>
     ) : (
       this.props.children
     );
@@ -60,43 +60,21 @@ export function ExampleCard({
     values.appearance === 'dark' || (values.appearance === 'system' && t.dark);
   const Demo = example.component;
   return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: t.border,
-        borderRadius: 22,
-        overflow: 'hidden',
-        backgroundColor: t.surface,
-      }}
-    >
+    <View style={{ gap: 12 }}>
       <View style={{ padding: 20, gap: 10 }}>
-        <Text
-          style={{
-            color: t.text,
-            fontSize: 11,
-            fontWeight: '700',
-            letterSpacing: 1.4,
-          }}
-        >
-          SPECIMEN {String(index + 1).padStart(2, '0')}
-        </Text>
-        <Text
-          accessibilityRole="header"
-          style={{ color: t.text, fontSize: 22, fontWeight: '600' }}
-        >
-          {example.title}
-        </Text>
-        <Body muted>{example.description}</Body>
+        <Body>{`${index + 1}. ${example.title}`}</Body>
+        <Body>{example.description}</Body>
       </View>
       <View
         style={{
           minHeight: 100,
           padding: Number(values.previewPadding),
-          backgroundColor: previewDark
-            ? DarkTheme.colors.card
-            : DefaultTheme.colors.card,
-          borderTopWidth: 1,
-          borderColor: t.border,
+          backgroundColor:
+            values.appearance === 'system'
+              ? t.background
+              : previewDark
+                ? DarkTheme.colors.card
+                : DefaultTheme.colors.card,
         }}
       >
         <View
@@ -118,8 +96,6 @@ export function ExampleCard({
           gap: 8,
           flexDirection: 'row',
           flexWrap: 'wrap',
-          borderTopWidth: 1,
-          borderColor: t.border,
         }}
       >
         {customization ? (
@@ -149,14 +125,10 @@ export function ExampleCard({
           style={{
             padding: 20,
             gap: 18,
-            borderTopWidth: 1,
-            borderColor: t.border,
           }}
         >
-          <Text style={{ color: t.text, fontWeight: '700', fontSize: 18 }}>
-            Live controls
-          </Text>
-          <Body muted>
+          <Body>Live controls</Body>
+          <Body>
             Change component props and the native environment. Your experiment
             stays local to this specimen.
           </Body>
@@ -177,21 +149,7 @@ export function ExampleCard({
           />
         </View>
       ) : null}
-      {showCode && example.code ? (
-        <Text
-          selectable
-          style={{
-            padding: 20,
-            fontFamily: 'monospace',
-            fontSize: 12,
-            lineHeight: 20,
-            color: t.text,
-            backgroundColor: t.soft,
-          }}
-        >
-          {example.code}
-        </Text>
-      ) : null}
+      {showCode && example.code ? <Body>{example.code}</Body> : null}
     </View>
   );
 }

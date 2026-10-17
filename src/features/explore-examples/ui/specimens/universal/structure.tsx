@@ -20,7 +20,6 @@ import { useKnob, useTunedState } from '../../../model/tuning';
 import { SpecimenHost } from '../../specimen-host';
 import { Stage } from './controls';
 export function Typography() {
-  const t = useTheme();
   const [fontSize, setFontSize] = useTunedState<number>(ControlId.FontSize, 28);
   const content = useKnob(ControlId.Text, 'The great outdoors');
   const weight = useKnob<
@@ -37,18 +36,17 @@ export function Typography() {
           fontWeight: weight,
           fontFamily: family === 'system' ? undefined : family,
           letterSpacing: tracking,
-          color: t.accent,
         }}
       >
         {content}
       </Text>
-      <Text textStyle={{ fontSize: 16, color: t.muted, lineHeight: 24 }}>
+      <Text textStyle={{ fontSize: 16, lineHeight: 24 }}>
         Native text with custom size, weight, color, and line height.
       </Text>
       <Text
         numberOfLines={lineLimit}
         style={{ width: 220 }}
-        textStyle={{ fontSize: 14, color: t.text }}
+        textStyle={{ fontSize: 14 }}
       >
         This very long field note truncates to a single line when the text runs
         out of room.

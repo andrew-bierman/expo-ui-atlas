@@ -1,7 +1,6 @@
 import { Column, Host, Picker, Text } from '@expo/ui';
 import { useState } from 'react';
 import { Platform, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   CatalogEntryId,
   CatalogFilter,
@@ -34,90 +33,72 @@ export function PlaygroundPage() {
       ] ?? [])
     : [];
   return (
-    <SafeAreaView
+    <ScrollView
       style={{ flex: 1, backgroundColor: t.background }}
-      edges={['top', 'left', 'right']}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{
+        padding: 20,
+        gap: 20,
+        maxWidth: 900,
+        width: '100%',
+        alignSelf: 'center',
+        paddingBottom: 40,
+      }}
+      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView
-        contentContainerStyle={{
-          padding: 20,
-          gap: 20,
-          maxWidth: 900,
-          width: '100%',
-          alignSelf: 'center',
-          paddingBottom: 40,
-        }}
-        keyboardShouldPersistTaps="handled"
+      <Host
+        matchContents={{ vertical: true }}
+        ignoreSafeArea="all"
+        style={{ width: '100%' }}
       >
+        <Column spacing={12}>
+          <Text>
+            Choose any collection available on this platform. Open Customize to
+            edit its real component props and native environment.
+          </Text>
+        </Column>
+      </Host>
+      <SearchField
+        value={query}
+        onChange={setQuery}
+        placeholder="Find a component to customize…"
+      />
+      {entry ? (
         <Host
           matchContents={{ vertical: true }}
           ignoreSafeArea="all"
+          colorScheme={t.dark ? 'dark' : 'light'}
           style={{ width: '100%' }}
         >
-          <Column spacing={12}>
-            <Text
-              textStyle={{
-                color: t.text,
-                fontSize: 12,
-                fontWeight: '800',
-                letterSpacing: 1.5,
-              }}
-            >
-              LIVE WORKBENCH
-            </Text>
-            <Text
-              textStyle={{ color: t.text, fontSize: 38, fontWeight: '600' }}
-            >
-              Make it your own.
-            </Text>
-            <Text textStyle={{ color: t.muted, fontSize: 16 }}>
-              Choose any collection available on this platform. Open Customize
-              to edit its real component props and native environment.
-            </Text>
-          </Column>
+          <Picker selectedValue={entry.id} onValueChange={setSelected}>
+            {matches.map((e) => (
+              <Picker.Item
+                key={e.id}
+                value={e.id}
+                label={`${families[e.family].label} · ${e.name}`}
+              />
+            ))}
+          </Picker>
         </Host>
-        <SearchField
-          value={query}
-          onChange={setQuery}
-          placeholder="Find a component to customize…"
+      ) : (
+        <Notice title="No matching components">
+          Try a broader search. Native-only examples appear on their matching
+          device.
+        </Notice>
+      )}
+      {entry ? (
+        <View style={{ gap: 8 }}>
+          <Body>{entry.summary}</Body>
+          {entry.notes ? <Body>{entry.notes}</Body> : null}
+        </View>
+      ) : null}
+      {examples.map((example, index) => (
+        <ExampleCard
+          key={`${entry?.id}-${example.id}`}
+          example={example}
+          index={index}
         />
-        {entry ? (
-          <Host
-            matchContents={{ vertical: true }}
-            ignoreSafeArea="all"
-            colorScheme={t.dark ? 'dark' : 'light'}
-            style={{ width: '100%' }}
-          >
-            <Picker selectedValue={entry.id} onValueChange={setSelected}>
-              {matches.map((e) => (
-                <Picker.Item
-                  key={e.id}
-                  value={e.id}
-                  label={`${families[e.family].label} · ${e.name}`}
-                />
-              ))}
-            </Picker>
-          </Host>
-        ) : (
-          <Notice title="No matching components">
-            Try a broader search. Native-only examples appear on their matching
-            device.
-          </Notice>
-        )}
-        {entry ? (
-          <View style={{ gap: 8 }}>
-            <Body>{entry.summary}</Body>
-            {entry.notes ? <Body muted>{entry.notes}</Body> : null}
-          </View>
-        ) : null}
-        {examples.map((example, index) => (
-          <ExampleCard
-            key={`${entry?.id}-${example.id}`}
-            example={example}
-            index={index}
-          />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+      ))}
+    </ScrollView>
   );
 }

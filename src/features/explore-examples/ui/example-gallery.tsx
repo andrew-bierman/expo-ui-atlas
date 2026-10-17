@@ -1,6 +1,6 @@
 import { Column, Host, Picker, Text } from '@expo/ui';
 import { type ReactElement, useCallback, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useTheme } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
 import { ControlId } from '../model/control-identifiers';
@@ -22,16 +22,16 @@ const galleryWindow = {
 } as const;
 const galleryLayout = { maxWidth: 900, bottomInset: 60 } as const;
 
-const styles = StyleSheet.create({
+const styles = {
   content: {
     padding: 20,
     paddingBottom: galleryLayout.bottomInset,
     maxWidth: galleryLayout.maxWidth,
-    width: '100%',
-    alignSelf: 'center',
+    width: '100%' as const,
+    alignSelf: 'center' as const,
     gap: 22,
   },
-});
+};
 
 interface GalleryRow {
   key: string;
@@ -105,6 +105,7 @@ export function ExampleGallery({
   );
   return (
     <FlatList
+      contentInsetAdjustmentBehavior="automatic"
       key={mode}
       data={visible}
       keyExtractor={(row) => row.key}
@@ -135,9 +136,7 @@ export function ExampleGallery({
             style={{ width: '100%' }}
           >
             <Column spacing={12}>
-              <Text
-                textStyle={{ color: t.text, fontSize: 24, fontWeight: '600' }}
-              >
+              <Text>
                 {mode === GalleryMode.Variants
                   ? 'See the variations.'
                   : 'Try your own combination.'}
@@ -163,12 +162,12 @@ export function ExampleGallery({
               ) : null}
             </Column>
           </Host>
-          <Body muted>
+          <Body>
             {mode === GalleryMode.Variants
               ? 'Ready-made, interactive examples—no setup needed. Every listed style and on/off state is included. Numeric settings show minimum, default, and maximum samples. Comparisons isolate one setting, with related settings enabled where needed. Use Playground to combine them.'
               : 'Customization is optional. Open Customize to mix props, adjust the preview, or apply JSON. Reset restores the starting example.'}
           </Body>
-          <Body muted>
+          <Body>
             Examples farther down load as you scroll. Local interactions may
             reset when an example leaves the rendered window.
           </Body>

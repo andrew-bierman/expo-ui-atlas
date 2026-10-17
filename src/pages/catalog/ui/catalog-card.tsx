@@ -1,7 +1,9 @@
-import { Button, Column, Host, Text } from '@expo/ui';
-import { Platform } from 'react-native';
-import { type CatalogEntry, families } from '../../../entities/catalog-entry';
-import { useTheme } from '../../../shared/theme';
+import { Host, ListItem } from '@expo/ui';
+import {
+  type CatalogEntry,
+  families,
+  platformLabels,
+} from '../../../entities/catalog-entry';
 export function CatalogCard({
   entry,
   onPress,
@@ -9,48 +11,19 @@ export function CatalogCard({
   entry: CatalogEntry;
   onPress: () => void;
 }) {
-  const t = useTheme();
   return (
     <Host
       matchContents={{ vertical: true }}
       ignoreSafeArea="all"
-      colorScheme={t.dark ? 'dark' : 'light'}
-      style={{ flex: 1, marginBottom: 16 }}
+      style={{ width: '100%' }}
     >
-      <Button
-        variant="outlined"
+      <ListItem
         onPress={onPress}
-        style={{
-          height: Platform.OS === 'web' ? 'auto' : undefined,
-          padding: 18,
-          borderRadius: 20,
-          borderWidth: 1,
-          borderColor: t.border,
-          backgroundColor: t.surface,
-        }}
+        supportingText={`${families[entry.family].label} · ${entry.category} · ${entry.platforms.map((p) => platformLabels[p]).join(', ')}
+${entry.summary}`}
       >
-        <Column spacing={12}>
-          <Text
-            textStyle={{
-              color: t.text,
-              fontSize: 11,
-              fontWeight: '800',
-              letterSpacing: 1,
-            }}
-          >{`${families[entry.family].label.toUpperCase()} / ${entry.category.toUpperCase()}`}</Text>
-          <Text textStyle={{ color: t.text, fontSize: 24, fontWeight: '600' }}>
-            {entry.name}
-          </Text>
-          <Text textStyle={{ color: t.muted, fontSize: 15, lineHeight: 23 }}>
-            {entry.summary}
-          </Text>
-          <Text textStyle={{ color: t.muted, fontSize: 11 }}>
-            {entry.platforms
-              .map((p) => ({ ios: 'iOS', android: 'Android', web: 'Web' })[p])
-              .join(' + ')}
-          </Text>
-        </Column>
-      </Button>
+        {entry.name}
+      </ListItem>
     </Host>
   );
 }
