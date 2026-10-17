@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Support and common questions
+    url: https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md
+    about: Read troubleshooting and platform availability information.
+  - name: Privacy policy
+    url: https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md
+    about: How the app handles sample inputs and support requests.

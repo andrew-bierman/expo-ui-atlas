@@ -1,0 +1,3 @@
+# Retain upstream license text verbatim, including original whitespace/endings.
+docs/dependency-notices.md -text -whitespace linguist-generated=true
+src/shared/legal/content.json linguist-generated=true

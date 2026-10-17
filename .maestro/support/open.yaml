@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+---
+- stopApp
+- openLink: ${EXPO_URL}
+- tapOn:
+    text: Open
+    optional: true
+- runFlow:
+    when:
+      visible: SDK version.*
+    commands:
+      - tapOn:
+          text: Continue
+          optional: true
+      - tapOn:
+          id: xmark
+- extendedWaitUntil:
+    visible: 65 collections
+    timeout: 60000

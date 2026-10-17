@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Expo UI Atlas",
+    "slug": "expo-ui-atlas",
+    "scheme": "expo-ui-atlas",
+    "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon-atlas.png",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.andrewbierman.expouiatlas",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon-atlas.png",
+        "backgroundColor": "#082F78"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon-atlas.png"
+    },
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "0ca59813-75c5-4dbe-a187-e038edf508d1"
+      }
+    },
+    "owner": "andrewbierman"
+  }
+}
