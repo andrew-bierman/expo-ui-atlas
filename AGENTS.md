@@ -1,5 +1,6 @@
 # Project conventions
 
+- Use Gitmoji for commit messages: prefix each commit subject with the emoji that best describes the change, followed by a concise, descriptive summary.
 - Use Feature-Sliced Design. Read `docs/architecture.md` before introducing or moving modules.
 - Keep `src/app` limited to Expo Router routes and app composition; put screen implementations in page slices.
 - Import other slices through their public entrypoint. Dependencies point downward: app → pages → features → entities → shared. No sibling-slice imports.

@@ -33,6 +33,17 @@ See [coverage](docs/coverage.md) for the complete inventory and the distinction 
 
 Component details open to **Variants**: ready-made live examples for every listed enum choice and on/off state, with minimum/default/maximum samples for numeric settings. Scroll through the variants directly. **Customize** opens a separate native sheet to combine real props, modifiers, and environment settings. **Docs** opens bundled official Markdown in its own sheet. There are **277 component-specific controls** plus five shared preview controls. Optional native style ranges stay on **Native default** until Override is enabled. Edit/apply JSON to reproduce a configuration; unapplied drafts survive inspector changes, and Reset restores defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
 
+## Ship to the App Store
+
+The installed release runs independently of Expo Go and Metro. Start with the [Apple review and release runbook](docs/release/app-store.md), then use the prepared [listing copy and reviewer walkthrough](docs/release/metadata.md).
+
+```sh
+bunx eas-cli@23.2.0 build --platform ios --profile production
+bunx eas-cli@23.2.0 submit --platform ios --profile production --id YOUR_VERIFIED_BUILD_ID
+```
+
+Before those commands, complete the runbook's public support/privacy URLs, App Store Connect record, signing, release-device testing, and listing requirements. Uploading a build does not submit it for App Review or make it public. Production inherits the existing TestFlight store-distribution profile and uses remote, incrementing build numbers. No public launch or standalone production validation has been completed yet.
+
 ## Organization
 
 ```text
@@ -71,7 +82,7 @@ bunx expo export --platform all
 
 CI runs Biome, React Native ESLint rules, types, tests, dependency alignment, and all-platform bundles. Native Maestro flows are in [.maestro](.maestro/README.md) and require an explicit dedicated device. Tests enforce FSD layer/public-API boundaries and catch search/filter errors, missing IDs, platform metadata regressions, SDK export drift, and metadata/renderer registration mismatches.
 
-Validation includes 42 unit tests (2,939 assertions), inspector-schema configuration round trips, all three platform bundles, and browser interaction checks. Native Maestro checks use a dedicated iOS simulator so other sessions' devices remain untouched. The flows exercise search recovery, button interaction/reset, documentation sheets, customization with the keyboard open, and navigation/scroll reachability. These focused checks do not exercise every native specimen or replace Android device testing. Use the broader checklist in [coverage](docs/coverage.md#device-smoke-checklist).
+Validation includes 43 unit tests (2,943 assertions), inspector-schema configuration round trips, all three platform bundles, and browser interaction checks. Native Maestro checks use a dedicated iOS simulator so other sessions' devices remain untouched. The flows exercise search recovery, button interaction/reset, documentation sheets, customization with the keyboard open, and navigation/scroll reachability. These focused checks do not exercise every native specimen or replace Android device testing. Use the broader checklist in [coverage](docs/coverage.md#device-smoke-checklist).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog and [architecture](docs/architecture.md) for Feature-Sliced Design boundaries.
 

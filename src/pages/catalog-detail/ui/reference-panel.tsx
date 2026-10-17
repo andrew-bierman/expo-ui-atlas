@@ -7,6 +7,7 @@ import {
   referencesForEntry,
 } from '../../../entities/catalog-entry';
 import { useTranslation } from '../../../shared/config';
+import { expoDocsLicense } from '../../../shared/legal';
 import { MarkdownDocument } from '../../../shared/markdown';
 import { layout, spacing } from '../../../shared/theme';
 import { Body, Pill } from '../../../shared/ui';
@@ -87,6 +88,10 @@ export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
       ) : (
         <Body>{t('reference.missing')}</Body>
       )}
+      <MarkdownDocument
+        source={expoDocsLicense.text}
+        sourceUrl={expoDocsLicense.sourceUrl}
+      />
     </ScrollView>
   );
 }
