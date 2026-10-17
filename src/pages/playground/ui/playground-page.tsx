@@ -15,7 +15,7 @@ import {
   universalExamples,
 } from '../../../features/explore-examples';
 import { useTheme } from '../../../shared/theme';
-import { Body, Notice, SearchField } from '../../../shared/ui';
+import { Body, NativeSearchBar, Notice, SearchField } from '../../../shared/ui';
 export function PlaygroundPage() {
   const t = useTheme();
   const [query, setQuery] = useState('');
@@ -33,72 +33,81 @@ export function PlaygroundPage() {
       ] ?? [])
     : [];
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: t.background }}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{
-        padding: 20,
-        gap: 20,
-        maxWidth: 900,
-        width: '100%',
-        alignSelf: 'center',
-        paddingBottom: 40,
-      }}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Host
-        matchContents={{ vertical: true }}
-        ignoreSafeArea="all"
-        style={{ width: '100%' }}
-      >
-        <Column spacing={12}>
-          <Text>
-            Choose any collection available on this platform. Open Customize to
-            edit its real component props and native environment.
-          </Text>
-        </Column>
-      </Host>
-      <SearchField
+    <>
+      <NativeSearchBar
         value={query}
         onChange={setQuery}
-        placeholder="Find a component to customize…"
+        placeholder="Find a component to customize"
       />
-      {entry ? (
+      <ScrollView
+        style={{ flex: 1, backgroundColor: t.background }}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{
+          padding: 20,
+          gap: 20,
+          maxWidth: 900,
+          width: '100%',
+          alignSelf: 'center',
+          paddingBottom: 40,
+        }}
+        keyboardShouldPersistTaps="handled"
+      >
         <Host
           matchContents={{ vertical: true }}
           ignoreSafeArea="all"
-          colorScheme={t.dark ? 'dark' : 'light'}
           style={{ width: '100%' }}
         >
-          <Picker selectedValue={entry.id} onValueChange={setSelected}>
-            {matches.map((e) => (
-              <Picker.Item
-                key={e.id}
-                value={e.id}
-                label={`${families[e.family].label} · ${e.name}`}
-              />
-            ))}
-          </Picker>
+          <Column spacing={12}>
+            <Text>
+              Choose any collection available on this platform. Open Customize
+              to edit its real component props and native environment.
+            </Text>
+          </Column>
         </Host>
-      ) : (
-        <Notice title="No matching components">
-          Try a broader search. Native-only examples appear on their matching
-          device.
-        </Notice>
-      )}
-      {entry ? (
-        <View style={{ gap: 8 }}>
-          <Body>{entry.summary}</Body>
-          {entry.notes ? <Body>{entry.notes}</Body> : null}
-        </View>
-      ) : null}
-      {examples.map((example, index) => (
-        <ExampleCard
-          key={`${entry?.id}-${example.id}`}
-          example={example}
-          index={index}
-        />
-      ))}
-    </ScrollView>
+        {Platform.OS === 'web' ? (
+          <SearchField
+            value={query}
+            onChange={setQuery}
+            placeholder="Find a component to customize…"
+          />
+        ) : null}
+        {entry ? (
+          <Host
+            matchContents={{ vertical: true }}
+            ignoreSafeArea="all"
+            colorScheme={t.dark ? 'dark' : 'light'}
+            style={{ width: '100%' }}
+          >
+            <Picker selectedValue={entry.id} onValueChange={setSelected}>
+              {matches.map((e) => (
+                <Picker.Item
+                  key={e.id}
+                  value={e.id}
+                  label={`${families[e.family].label} · ${e.name}`}
+                />
+              ))}
+            </Picker>
+          </Host>
+        ) : (
+          <Notice title="No matching components">
+            Try a broader search. Native-only examples appear on their matching
+            device.
+          </Notice>
+        )}
+        {entry ? (
+          <View style={{ gap: 8 }}>
+            <Body>{entry.summary}</Body>
+            {entry.notes ? <Body>{entry.notes}</Body> : null}
+          </View>
+        ) : null}
+        {examples.map((example, index) => (
+          <ExampleCard
+            key={`${entry?.id}-${example.id}`}
+            example={example}
+            index={index}
+          />
+        ))}
+      </ScrollView>
+    </>
   );
 }
