@@ -1,10 +1,10 @@
 import { writeFileSync } from 'node:fs';
-import { catalog } from '../src/catalog/catalog';
 import {
+  catalog,
   contextualSwiftExports,
+  inventory,
   supportExports,
-} from '../src/catalog/coverage';
-import inventory from '../src/catalog/inventory.json';
+} from '../src/entities/catalog-entry';
 
 const lines = [
   '# Expo UI coverage',

@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useTheme } from '../theme/theme';
+import { useTheme } from '../shared/theme';
 export default function Layout() {
   const t = useTheme();
   return (

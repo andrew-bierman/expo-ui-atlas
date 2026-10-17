@@ -34,13 +34,15 @@ See [coverage](docs/coverage.md) for the complete inventory and the distinction 
 ## Organization
 
 ```text
-src/app/                    Expo Router browse and detail routes
-src/catalog/                Serializable metadata, search, export inventory, tests
-src/components/             Shared example card, reset/error boundary, UI primitives
-src/examples/universal/     Focused live universal specimens
-src/examples/native/        Platform entrypoints and focused native specimens
-src/theme/                  Catalog appearance tokens
-scripts/ui-inventory.ts     Reads public runtime exports from installed types
+src/app/                         Thin Expo Router routes and app composition
+src/pages/catalog/               Browse page slice (ui)
+src/pages/catalog-detail/        Detail page slice (ui)
+src/pages/not-found/             Missing-route page slice (ui)
+src/features/explore-examples/   Live specimens and reset/error-boundary UI
+src/entities/catalog-entry/      Catalog model, metadata, inventory, and tests
+src/shared/ui/                   Context-free UI primitives
+src/shared/theme/                Appearance tokens and hook
+scripts/                        Inventory/report tooling and FSD boundary checks
 ```
 
 Metadata never imports native renderers. Metro chooses `index.ios.tsx` / `index.android.tsx`; the fallback exports no native examples. Unsupported-platform details explain availability. A per-specimen React error boundary can recover JS render errors; it cannot intercept native crashes.
@@ -56,8 +58,8 @@ bunx expo-doctor
 bunx expo export --platform all
 ```
 
-CI runs formatting/lint, types, tests, dependency alignment, and all-platform bundles. Tests catch search/filter errors, missing IDs, platform metadata regressions, SDK export drift, and metadata/renderer registration mismatches.
+CI runs formatting/lint, types, tests, dependency alignment, and all-platform bundles. Tests enforce FSD layer/public-API boundaries and catch search/filter errors, missing IDs, platform metadata regressions, SDK export drift, and metadata/renderer registration mismatches.
 
 Initial validation included all three platform bundles and desktop/mobile browser interaction checks. **Native runtime testing remains a device check:** no simulator was operated because another Codex session was using simulators. Bundling and types do not prove native presentation or gesture behavior. Use the checklist in [coverage](docs/coverage.md#device-smoke-checklist).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog.
+See [CONTRIBUTING.md](CONTRIBUTING.md) to extend the catalog and [architecture](docs/architecture.md) for Feature-Sliced Design boundaries.

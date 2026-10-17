@@ -42,7 +42,7 @@ if (import.meta.main) {
     families: readInventory(),
   };
   writeFileSync(
-    'src/catalog/inventory.json',
+    'src/entities/catalog-entry/data/inventory.json',
     `${JSON.stringify(inventory, null, 2)}\n`,
   );
 }
