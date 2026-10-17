@@ -14,6 +14,10 @@ Prepared copy for 1.0.0. Confirm naming/branding rights and name availability be
 
 **Primary language:** English (U.S.)
 
+**Copyright:** 2026 Andrew Bierman
+
+**Proposed price:** Free (confirm in App Store Connect)
+
 **Keywords:** swiftui,components,controls,interface,catalog,reference,react,native,design,developer
 
 **Promotional text:** Explore live native controls, compare ready-made variations, and experiment with component settings. Includes bundled Expo UI reference pages.
@@ -46,13 +50,13 @@ Suggested walkthrough:
 4. Open Docs to read bundled original SDK-matched reference text in a separate sheet. Close with Done.
 5. Return to Catalog and explore SwiftUI collections such as Swift Charts, menus, forms, and sheets. These are real iOS components; availability can depend on the OS version.
 6. Open a Compose collection to see its explicit Android availability notice. Android-only examples are indexed for cross-platform reference and are intentionally not rendered on iOS.
-7. Open Guide for scope, usage, and component context. Core examples and bundled documentation also work offline; external links/media require connectivity.
+7. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and bundled documentation also work offline; external links/media require connectivity.
 
 The app has no backend that reviewers need to start. iOS and Android use different platform entrypoints; Android runtime behavior is not part of the iOS submission. Documentation is attributed to Expo; include the actual bundled license notice and any requested rights documentation with the submission as applicable.
 
 ## Fields the owner must complete
 
-- Public HTTPS Support URL and Privacy Policy URL (private GitHub links do not work).
+- Verify the proposed public URLs after publication: Support `https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md`; Privacy `https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md`. These are configured targets, not yet verified public endpoints.
 - Copyright holder/year and any naming authorization.
 - Reviewer contact name, email, phone; sign-in required: No.
 - Exact processed 1.0.0 build number, screenshots, privacy/age-rating/content-rights answers, storefronts, price and release timing.

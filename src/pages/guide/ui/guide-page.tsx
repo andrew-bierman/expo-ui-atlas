@@ -1,7 +1,16 @@
-import { Button, FieldGroup, Host, Text } from '@expo/ui';
+import { FieldGroup, Host, ListItem, Text } from '@expo/ui';
+import { router } from 'expo-router';
 import { Linking } from 'react-native';
 import { catalog, Family } from '../../../entities/catalog-entry';
 import { appConfig, useTranslation } from '../../../shared/config';
+import { LegalDocumentId } from '../../../shared/legal';
+
+const resourceLabels = {
+  [LegalDocumentId.Privacy]: 'guide.privacyAction',
+  [LegalDocumentId.Support]: 'guide.supportAction',
+  [LegalDocumentId.Notices]: 'guide.noticesAction',
+} as const;
+
 export function GuidePage() {
   const { t } = useTranslation();
   return (
@@ -30,17 +39,29 @@ export function GuidePage() {
           </FieldGroup.Section>
         ))}
         <FieldGroup.Section title={t('guide.docsTitle')}>
-          <Button
-            label={t('guide.docsAction', {
+          <ListItem
+            onPress={() => {
+              void Linking.openURL(appConfig.documentation.overviewUrl);
+            }}
+          >
+            {t('guide.docsAction', {
               sdkMajor: Number.parseInt(
                 appConfig.documentation.sdkVersion,
                 10,
               ).toString(),
             })}
-            onPress={() => {
-              void Linking.openURL(appConfig.documentation.overviewUrl);
-            }}
-          />
+          </ListItem>
+        </FieldGroup.Section>
+        <FieldGroup.Section title={t('guide.resourcesTitle')}>
+          {Object.values(LegalDocumentId).map((document) => (
+            <ListItem
+              key={document}
+              testID={`guide-${document}`}
+              onPress={() => router.push(`/legal/${document}`)}
+            >
+              {t(resourceLabels[document])}
+            </ListItem>
+          ))}
         </FieldGroup.Section>
       </FieldGroup>
     </Host>

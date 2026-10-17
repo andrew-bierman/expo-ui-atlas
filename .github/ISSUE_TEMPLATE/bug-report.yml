@@ -1,0 +1,26 @@
+name: Bug report or support
+description: Describe a broken control, navigation issue, or question.
+title: ""
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "Issues are public. Remove personal information, credentials and sensitive screenshots before posting."
+  - type: input
+    id: environment
+    attributes:
+      label: App version, device and OS
+      placeholder: "1.0.0, iPhone, iOS version; Expo Go or standalone build"
+    validations:
+      required: true
+  - type: input
+    id: collection
+    attributes:
+      label: Collection or screen
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened?
+      description: Include reproduction steps, expected behavior and actual behavior.
+    validations:
+      required: true

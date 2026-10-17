@@ -42,11 +42,21 @@
     "test": "bun test",
     "export:web": "expo export --platform web",
     "export:native": "expo export --platform ios --platform android",
-    "test:e2e": "bash scripts/test-e2e.sh"
+    "test:e2e": "bash scripts/test-e2e.sh",
+    "legal:sync": "bun scripts/sync-legal.ts"
   },
   "private": true,
   "packageManager": "bun@1.3.14",
   "engines": {
     "node": "^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0"
-  }
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrew-bierman/expo-ui-atlas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andrew-bierman/expo-ui-atlas/issues"
+  },
+  "homepage": "https://github.com/andrew-bierman/expo-ui-atlas#readme"
 }

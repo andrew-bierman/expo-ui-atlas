@@ -8,18 +8,19 @@ Prepared October 17, 2026. This is a submission runbook, not a record of Apple a
 | --- | --- |
 | App identity | Expo UI Atlas 1.0.0; `com.andrewbierman.expouiatlas`; personal EAS owner `andrewbierman` |
 | EAS | Linked project `0ca59813-75c5-4dbe-a187-e038edf508d1`; store-distribution profiles; remote build numbers |
-| Icon | Existing 1024 × 1024 PNG is opaque but uses template-style Expo/A artwork; replace with original artwork or confirm usage rights before submission |
-| Code checks | Previous commit: 42 unit tests, all platform exports, five focused iOS Maestro flows; CI green |
+| Icon | Original control-catalog artwork is configured; opaque 1024 × 1024 PNG; inspect the final archive icon before upload |
+| Code checks | 45 unit tests, all-platform exports, React Doctor 100/100; prior five iOS regressions plus the new legal-sheet flow verified; check the current PR for latest CI status |
 | Store build | No iOS EAS builds returned for the linked project during this audit; no standalone release archive verified |
 | Device coverage | iPhone simulator / Expo Go verified; standalone physical iPhone and iPad checks still required |
-| Public URLs | Support and privacy hosting/contact details still required; private repository links are unsuitable |
+| Public URLs | Canonical public-repo URLs and GitHub Issues contact prepared; become reachable after merge/publication; bundled in-app access implemented |
 | Listing | Copy and reviewer walkthrough prepared in [metadata.md](metadata.md); screenshots and App Store Connect fields still required |
-| Third-party content | Expo documentation license is bundled and shown at the end of Docs sheets; full dependency-notice/archive audit remains |
+| Third-party content | App and Expo documentation notices are bundled; installed production dependency notices are exportable offline; unresolved/native archive notice review remains |
 
 ## 1. Finish the release inputs
 
 - Confirm the App Store name is available. This is an independent developer utility, not an official Expo or Apple product. Obtain permission for third-party branding where needed; an attribution sentence does not grant trademark rights. See [Apple 4.1 and 5.2](https://developer.apple.com/app-store/review/guidelines/).
-- Publish the reviewed [privacy policy draft](privacy-policy.md) and [support page draft](support.md) on stable, public HTTPS URLs without login. Replace every bracketed publishing instruction first. Add an easily accessible privacy-policy link inside the app, such as Guide → Privacy. This remains a release blocker until the URL is known and wired up. Apple requires both the metadata URL and in-app access: [5.1.1](https://developer.apple.com/app-store/review/guidelines/#privacy).
+- Publish the [privacy policy](../privacy.md) and [support page](../support.md) at the [proposed public GitHub URLs](open-source.md). Guide now provides bundled offline access to both pages. Verify the external URLs in a signed-out browser after the files reach public main; until then, the configured GitHub links are not release-ready. Apple requires both the metadata URL and in-app access: [5.1.1](https://developer.apple.com/app-store/review/guidelines/#privacy).
+- Follow the [public repository checklist](open-source.md), including the personal Apple-login email still present in old history, before changing repository visibility.
 - Confirm distribution rights/notices for bundled documentation, dependencies, fonts and artwork. The Docs sheet includes the Expo documentation notice; verify it remains in the final binary. Do not add a license to the original app source without the owner's decision.
 - Choose price, storefronts, copyright holder, reviewer contact name/email/phone, and App Store Connect age-rating answers. Never put signing keys, Apple passwords or private contact fields into source control.
 

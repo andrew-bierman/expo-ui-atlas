@@ -13,6 +13,7 @@ jobs:
           bun-version: 1.3.14
       - run: bun install --frozen-lockfile
       - run: bun run check
+      - run: bun run legal:sync --check
       - run: bun run typecheck
       - run: bun test
       - run: bunx expo install --check

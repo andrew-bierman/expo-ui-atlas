@@ -33,3 +33,9 @@ Component schemas also produce the default ready-made variant gallery. Add `prev
 ## Type contracts
 
 Use the enums and shared control builders described in `docs/code-conventions.md`. Do not weaken compiler or lint rules to make a new specimen pass. The compile-time fixtures verify that unknown registry/control IDs, empty choices and invalid selection defaults stay rejected. Shared UI uses theme tokens; intentional sample values stay in named schema fields or local demo data.
+
+## Public contributions and licensing
+
+Original contributions are provided under the repository MIT license. Preserve third-party copyrights and license notices; do not copy proprietary examples or artwork. Keep dependency/license changes reviewable, regenerate notices when dependencies change, and verify the signed native archive separately before distribution. Forks should use their own Expo project/signing setup. Never commit credentials or change the maintainer’s bundle/project identifiers merely to run a local specimen.
+
+Privacy/support/notices Markdown in `docs/` is the single authoring source for the in-app sheets. Run `bun run legal:sync` after changes. Report bugs through the issue form; discuss significant additions first. Issues are public, so remove personal information from logs/screenshots.

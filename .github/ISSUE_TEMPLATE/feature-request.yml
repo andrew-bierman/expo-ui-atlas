@@ -1,0 +1,10 @@
+name: Component coverage or feature request
+description: Suggest a useful component variation or improvement.
+body:
+  - type: textarea
+    id: request
+    attributes:
+      label: What would you like to explore?
+      description: Include the API family, platform and official documentation link if relevant.
+    validations:
+      required: true

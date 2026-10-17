@@ -33,6 +33,15 @@ export default function Layout() {
           }}
         />
         <Stack.Screen
+          name="legal/[document]"
+          options={{
+            presentation: 'formSheet',
+            title: t('navigation.legal'),
+            sheetGrabberVisible: true,
+            sheetAllowedDetents: [...appConfig.navigation.sheets.reference],
+          }}
+        />
+        <Stack.Screen
           name="playground/[id]"
           options={{
             presentation: 'formSheet',

@@ -1,0 +1,30 @@
+appId: ${APP_ID}
+name: Offline privacy support and notices sheets
+---
+- runFlow: ../support/open.yaml
+- tapOn: Guide
+- scrollUntilVisible:
+    element: Privacy policy
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn: Privacy policy
+- assertVisible: Policy version.*
+- takeScreenshot: privacy-policy
+- tapOn: Done
+- scrollUntilVisible:
+    element: Support
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn: Support
+- assertVisible: Expo UI Atlas support
+- tapOn: Done
+- scrollUntilVisible:
+    element: Open-source notices
+    visibilityPercentage: 100
+    centerElement: true
+- tapOn: Open-source notices
+- assertVisible: Export dependency notices
+- assertVisible: Expo UI Atlas.*
+- takeScreenshot: notices-sheet
+- tapOn: Done
+- assertVisible: Guide

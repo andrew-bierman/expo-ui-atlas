@@ -14,9 +14,7 @@
   },
   "submit": {
     "testflight": {
-      "ios": {
-        "appleId": "abbierman@comcast.net"
-      }
+      "ios": {}
     },
     "production": {
       "extends": "testflight"

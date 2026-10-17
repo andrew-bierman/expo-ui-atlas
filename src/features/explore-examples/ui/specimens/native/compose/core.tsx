@@ -616,7 +616,7 @@ export function Artwork() {
           contentDescription="Star vector"
         />
         <C.Image
-          source={require('../../../../../../../assets/icon.png')}
+          source={require('../../../../../../../assets/icon-atlas.png')}
           contentScale={scale}
           contentDescription="Expo app icon"
           modifiers={[M.size(size, size * 0.7)]}

@@ -1,0 +1,5 @@
+# App artwork
+
+`icon-atlas.png` is an original catalog-control mark, prepared with the built-in image generation tool, then resized to an opaque 1024 × 1024 PNG for app configuration. `favicon-atlas.png` is its 48 × 48 derivative. The original app source/assets are covered by the repository MIT license; third-party trademarks are not licensed by that statement.
+
+Generation prompt: “Use case: logo-brand. Asset type: original iOS app icon for an independent developer utility named UI Atlas. Produce a square 1024x1024 opaque PNG, full bleed background (no rounded outer mask). A simple, crisp, restrained abstract catalog of UI controls: a balanced 2x2 arrangement of small white control motifs (toggle, slider, stacked rows, outlined circular selection) centered on a deep ink-blue solid background. Strong clarity at small size. Flat vector-like geometry, generous negative space, no letters, no text, no A shape, no Expo/Apple/Swift/GitHub logos, no trademark emblems, no gradients, no shadows, no device mockup, no watermark. The icon should feel like a native developer tool, original and practical.”

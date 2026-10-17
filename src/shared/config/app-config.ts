@@ -47,6 +47,14 @@ interface AppConfiguration {
     padding: RangeSetting;
   };
   documentation: { sdkVersion: string; overviewUrl: `https://${string}` };
+  publicResources: {
+    repository: `https://${string}`;
+    issues: `https://${string}`;
+    privacy: `https://${string}`;
+    support: `https://${string}`;
+    notices: `https://${string}`;
+    dependencyNotices: `https://${string}`;
+  };
   messages: MessageTree;
 }
 
@@ -99,6 +107,18 @@ export const appConfig = {
     sdkVersion: '58.0.0',
     overviewUrl: 'https://docs.expo.dev/versions/v58.0.0/sdk/ui/',
   },
+  publicResources: {
+    repository: 'https://github.com/andrew-bierman/expo-ui-atlas',
+    issues: 'https://github.com/andrew-bierman/expo-ui-atlas/issues',
+    privacy:
+      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md',
+    support:
+      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md',
+    notices:
+      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/notices.md',
+    dependencyNotices:
+      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/dependency-notices.md',
+  },
   messages: {
     navigation: {
       catalog: 'Catalog',
@@ -108,6 +128,7 @@ export const appConfig = {
       done: 'Done',
       detail: 'Explore specimen',
       documentation: 'Documentation',
+      legal: 'Information',
       customizeTitle: 'Customize {{name}}',
       docsTitle: '{{name}} docs',
     },
@@ -177,6 +198,10 @@ export const appConfig = {
         title: 'Built to extend.',
         body: 'Collections and controls use typed identifiers. Schemas declare allowed choices, defaults and numeric bounds; the same definitions produce ready-made variants and optional playground controls. Adding a choice therefore adds a comparison without duplicating the surrounding screen.',
       },
+      resourcesTitle: 'About and support',
+      privacyAction: 'Privacy policy',
+      supportAction: 'Support',
+      noticesAction: 'Open-source notices',
       docsTitle: 'Official documentation',
       docsAction: 'Open SDK {{sdkMajor}} Expo UI documentation',
     },
@@ -204,6 +229,11 @@ export const appConfig = {
       nativeDefault: 'Native default',
       rangeLabel: '{{label}}: {{value}}',
       override: 'Override {{label}}',
+    },
+    legal: {
+      shareNotices: 'Export dependency notices',
+      notFoundTitle: 'Document not found',
+      notFoundBody: 'Close this sheet and choose a document from Guide.',
     },
     configuration: {
       instructions:
