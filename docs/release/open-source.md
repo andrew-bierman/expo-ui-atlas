@@ -1,19 +1,20 @@
 # Public repository and support links
 
-The repository is still private. These materials are prepared on the feature branch; changing visibility and merging are separate actions. No App Store upload or public deployment has been performed.
+The repository is still private. Build 1.0.0 (7) is accepted in App Store Connect, and the company-hosted support/privacy pages are public. The app has not been submitted to App Review or publicly released. Repository visibility remains a separate owner decision.
 
 ## Public pages
 
 The company website provides support and privacy pages independently of repository visibility:
 
-| App Store field | Proposed URL |
+| Field | Current destination |
 | --- | --- |
 | Support URL | https://biermancollective.com/apps/expo-ui-atlas/support |
 | Privacy Policy URL | https://biermancollective.com/apps/expo-ui-atlas/privacy |
-| Marketing URL (optional) | https://github.com/andrew-bierman/expo-ui-atlas |
+| App Store Marketing URL (optional) | Blank while the repository is private |
+| TestFlight Marketing URL (required) | https://biermancollective.com |
 | Support contact | mailto:admin@biermancollective.com |
 
-Verify the company support/privacy URLs in a signed-out browser after the website pages deploy and before submission. Support is available by business email without a GitHub account. The optional repository marketing URL remains unavailable while the repository is private; do not enter it as a public App Store destination before publication. Repository publication is a separate decision, not a requirement for company-hosted support.
+Both company support/privacy routes returned HTTP 200 and rendered the approved app-specific content after the production deployment. Recheck them before App Review submission. Support is available by business email without a GitHub account. The optional repository marketing URL remains unavailable while the repository is private; do not enter it as a public App Store destination before publication. Repository publication is a separate decision, not a requirement for company-hosted support.
 
 The same privacy/support/notices documents are bundled for offline reading in Guide. Edit `docs/privacy.md`, `docs/support.md`, or `docs/notices.md`, then run `bun run legal:sync`. CI checks for drift. Do not maintain a separately reworded app policy. Keep the company-hosted privacy/support pages consistent with these bundled copies.
 
