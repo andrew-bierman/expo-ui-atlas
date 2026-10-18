@@ -14,7 +14,7 @@ Prepared October 17, 2026. This is a submission runbook, not a record of Apple a
 | Device coverage | Unsigned standalone Release validation and screenshots completed on iPhone/iPad simulators from `3076996`; signed physical-device validation remains |
 | Public URLs | Company support/privacy URLs configured with business email contact; verify website deployment; bundled in-app access implemented |
 | Listing | App Store Connect record `6824046567` created; version 1.0.0 copy, subtitle, Developer Tools category, 4+ rating, free pricing, worldwide availability and manual release saved; screenshot upload and final declarations remain |
-| Third-party content | App and Expo documentation notices are bundled; installed production dependency notices are exportable offline; unresolved/native archive notice review remains |
+| Third-party content | App/Expo documentation notices and dependency export are bundled; seven pinned native prebuilt constituent notices reconciled for RN 0.88.0; rebuilt signed archive still needs verification |
 
 ## App Store Connect setup receipt — October 17, 2026
 
@@ -35,7 +35,7 @@ Unsigned standalone Release validation and screenshots completed on iPhone and i
 - Confirm the App Store name is available. This is an independent developer utility, not an official Expo or Apple product. Obtain permission for third-party branding where needed; an attribution sentence does not grant trademark rights. See [Apple 4.1 and 5.2](https://developer.apple.com/app-store/review/guidelines/).
 - Publish the [privacy policy](../privacy.md) and [support page](../support.md) at the [company website URLs](open-source.md). Guide provides bundled offline access to both pages. Verify the external URLs in a signed-out browser after website deployment. Repository visibility does not control these company pages. Apple requires both the metadata URL and in-app access: [5.1.1](https://developer.apple.com/app-store/review/guidelines/#privacy).
 - Follow the [public repository checklist](open-source.md), including the personal Apple-login email still present in old history, before changing repository visibility.
-- Confirm distribution rights/notices for bundled documentation, dependencies, fonts and artwork. The Docs sheet includes the Expo documentation notice; verify it remains in the final binary. The original app source is MIT-licensed; preserve its license and bundled third-party notices.
+- Confirm distribution rights/notices for bundled documentation, dependencies, fonts and artwork. The Docs sheet includes the Expo documentation notice; verify it remains in the final binary. The offline dependency export now includes the seven original upstream notices for RN 0.88.0's prebuilt native constituents, supplementing the npm graph and existing RN/Hermes root notices. Confirm the rebuilt archive retains that export and the expected native framework inventory. The original app source is MIT-licensed; preserve its license and bundled third-party notices.
 - Choose price, storefronts, copyright holder, reviewer contact name/email/phone, and App Store Connect age-rating answers. Never put signing keys, Apple passwords or private contact fields into source control.
 
 ## 2. Create or select the App Store Connect record

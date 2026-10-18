@@ -11,6 +11,7 @@ Publisher/email/path metadata is deliberately excluded. Copyright-holder contact
 details inside verbatim license text must remain part of that notice.
 """
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -23,6 +24,16 @@ HERMES_SOURCE = ('https://raw.githubusercontent.com/facebook/hermes/'
 
 
 def main():
+    native = json.loads((ROOT / 'scripts/legal/native-notices.json').read_text())
+    react_native = json.loads((ROOT / 'node_modules/react-native/package.json').read_text())
+    if react_native['version'] != native['reactNativeVersion']:
+        raise ValueError('Reconcile native notice sources for the installed React Native version')
+    native_texts = []
+    for notice in native['notices']:
+        data = (ROOT / 'scripts/legal' / notice['file']).read_bytes()
+        if hashlib.sha256(data).hexdigest() != notice['sha256']:
+            raise ValueError(f'Native notice checksum mismatch: {notice["component"]}')
+        native_texts.append((notice, data.decode('utf8')))
     packages = json.loads(INPUT.read_text())
     groups = {}
     unresolved = []
@@ -67,8 +78,9 @@ def main():
         '',
         'This graph includes transitive build tools (including Metro and TypeScript). '
         'It is an inclusive source dependency inventory, not an audit of an iOS/Android '
-        'archive or proof that every listed package ships in an app. Native SDK and '
-        'final archive notices still require verification. License identifiers are '
+        'archive or proof that every listed package ships in an app. A pinned native '
+        'supplement below covers the React Native prebuilt dependency constituents. '
+        'Final archive inventory still requires verification. License identifiers are '
         'package declarations, not a legal compatibility determination.',
         '',
         'Package publisher/email metadata and local filesystem paths are omitted. '
@@ -97,6 +109,21 @@ def main():
         for filename, notice in notices:
             output += [f'Additional `{filename}`:', '', '````text',
                        notice.rstrip('\n'), '````', '']
+    output += [
+        '## Native prebuilt dependency supplement', '',
+        f'React Native {native["reactNativeVersion"]} embeds these constituents in '
+        '`ReactNativeDependencies.framework`. Versions and source tags come from '
+        f'[its prebuild configuration]({native["provenanceUrl"]}). '
+        'Generated CocoaPods facade acknowledgements do not include their original '
+        'upstream notices. These complete, checksum-pinned files supplement the '
+        'installed npm notices above.', '',
+    ]
+    for notice, text in native_texts:
+        output += [
+            f'### {notice["component"]} {notice["version"]}', '',
+            f'License: {notice["license"]}. Source: {notice["sourceUrl"]}', '',
+            '````text', text.rstrip('\n'), '````', '',
+        ]
     OUTPUT.write_text('\n'.join(output))
     print(f'{len(packages)} packages; {len(groups)} groups; unresolved: {", ".join(unresolved)}')
 
