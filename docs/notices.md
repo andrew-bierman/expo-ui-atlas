@@ -2,7 +2,7 @@
 
 Expo UI Atlas is independently maintained by Andrew Bierman. Its original source code is licensed under MIT. Bundled third-party content retains its own terms. Names and trademarks remain their owners’ property; source licensing does not grant trademark rights.
 
-[Complete installed production dependency notices](https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/dependency-notices.md) are also bundled and can be exported from this sheet. The inventory includes JavaScript build tooling reachable from production dependencies; it is not a substitute for inspecting the signed native archive and its native dependencies.
+[Complete dependency notices](https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/dependency-notices.md) are also bundled and can be exported from this sheet. They include the installed JavaScript production graph and original notices for React Native 0.88.0's seven prebuilt native dependency constituents. The JavaScript inventory includes reachable build tooling; it is not a statement that every listed package ships in the app. Compare the native supplement with the final signed archive when upgrading dependencies.
 
 ## Expo UI Atlas
 
