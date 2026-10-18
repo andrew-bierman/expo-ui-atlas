@@ -56,7 +56,7 @@ The app has no backend that reviewers need to start. iOS and Android use differe
 
 ## Fields the owner must complete
 
-- Verify the proposed public URLs after publication: Support `https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md`; Privacy `https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md`. These are configured targets, not yet verified public endpoints.
+- Verify the proposed public URLs after publication: Support `https://biermancollective.com/apps/expo-ui-atlas/support`; Privacy `https://biermancollective.com/apps/expo-ui-atlas/privacy`. These are configured targets, not yet verified public endpoints.
 - Copyright holder/year and any naming authorization.
 - Reviewer contact name, email, phone; sign-in required: No.
 - Exact processed 1.0.0 build number, screenshots, privacy/age-rating/content-rights answers, storefronts, price and release timing.

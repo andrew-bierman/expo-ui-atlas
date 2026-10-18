@@ -2,7 +2,7 @@
 
 Policy version: October 17, 2026
 
-Expo UI Atlas is an independent interactive UI reference app provided by Andrew Bierman.
+Expo UI Atlas is an independent interactive UI reference app provided by Andrew Bierman through Bierman Collective LLC.
 
 ## Information handled by the app
 
@@ -18,10 +18,10 @@ If you choose a native sharing example, the operating system sends the displayed
 
 ## Support and retention
 
-Support is available through [GitHub Issues](https://github.com/andrew-bierman/expo-ui-atlas/issues). GitHub accounts and support interactions are governed by [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The maintainer uses information you choose to submit to respond and improve the app. Public issues remain visible unless removed or redacted; GitHub controls its own retention. Do not post passwords, personal information, or sensitive screenshots in public issues.
+Support is available by email at [admin@biermancollective.com](mailto:admin@biermancollective.com). Information you choose to send, such as your email address, message and diagnostic details, is used to respond and improve the app. Email providers handle correspondence as part of delivering and storing messages. Do not send passwords or sensitive screenshots. Support correspondence is kept only as needed to handle the request and meet applicable obligations.
 
-The app has no publisher-held account or playground data to delete. To request removal or redaction of information you submitted to a support issue, contact the maintainer through that issue without repeating the sensitive information. You can also use GitHub's own editing, deletion, and privacy-request mechanisms. Avoid posting sensitive details to start a privacy request.
+The app has no publisher-held account or playground data to delete. To request removal of support correspondence, email the same address without repeating sensitive information.
 
 ## Changes and contact
 
-This policy will be updated if the app's data handling changes. For questions, [contact Andrew Bierman through the project's issue tracker](https://github.com/andrew-bierman/expo-ui-atlas/issues/new/choose). The same policy is bundled in the app under Guide → Privacy policy.
+This policy will be updated if the app's data handling changes. For questions, [contact Bierman Collective](mailto:admin@biermancollective.com). The same policy is bundled in the app under Guide → Privacy policy.

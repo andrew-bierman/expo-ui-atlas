@@ -35,9 +35,9 @@ Component details open to **Variants**: ready-made live examples for every liste
 
 ## Support, privacy and open source
 
-Read the [support page](docs/support.md), [privacy policy](docs/privacy.md), and [open-source notices](docs/notices.md). The same documents are available offline in Guide. Original app code/assets use the [MIT license](LICENSE); bundled third-party content retains its own licenses. Issues are the public support channel; never post personal information.
+Read the [support page](docs/support.md), [privacy policy](docs/privacy.md), and [open-source notices](docs/notices.md). The same documents are available offline in Guide. Original app code/assets use the [MIT license](LICENSE); bundled third-party content retains its own licenses. Contact [admin@biermancollective.com](mailto:admin@biermancollective.com) for support; do not send passwords or sensitive screenshots.
 
-The repository is being prepared for public release. Follow the [publication checklist](docs/release/open-source.md) before changing visibility. GitHub-rendered Markdown on public `main` provides the planned App Store support/privacy URLs, without a separate website.
+The repository is being prepared for public release. Follow the [publication checklist](docs/release/open-source.md) before changing visibility. The company website hosts the planned App Store [support](https://biermancollective.com/apps/expo-ui-atlas/support) and [privacy](https://biermancollective.com/apps/expo-ui-atlas/privacy) URLs independently of repository visibility. Verify those pages before submission.
 
 ## Ship to the App Store
 

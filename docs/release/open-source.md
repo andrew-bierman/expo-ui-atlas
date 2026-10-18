@@ -4,18 +4,18 @@ The repository is still private. These materials are prepared on the feature bra
 
 ## Public pages
 
-Rendered Markdown in the public `main` branch is the proposed host, so no Pages deployment or custom domain is required:
+The company website provides support and privacy pages independently of repository visibility:
 
 | App Store field | Proposed URL |
 | --- | --- |
-| Support URL | https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md |
-| Privacy Policy URL | https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md |
+| Support URL | https://biermancollective.com/apps/expo-ui-atlas/support |
+| Privacy Policy URL | https://biermancollective.com/apps/expo-ui-atlas/privacy |
 | Marketing URL (optional) | https://github.com/andrew-bierman/expo-ui-atlas |
-| Support contact | https://github.com/andrew-bierman/expo-ui-atlas/issues/new/choose |
+| Support contact | mailto:admin@biermancollective.com |
 
-These links are not public-ready until the files are merged and the repository is public. Validate each URL in a signed-out browser before entering it in App Store Connect or submitting the app. GitHub Issues is the initial support channel; a GitHub account is required to post, never to use the app. Do not post personal information in issues. If Apple requests a direct email/contact channel, supply an approved public contact address rather than an Apple login email.
+Verify the company support/privacy URLs in a signed-out browser after the website pages deploy and before submission. Support is available by business email without a GitHub account. The optional repository marketing URL remains unavailable while the repository is private; do not enter it as a public App Store destination before publication. Repository publication is a separate decision, not a requirement for company-hosted support.
 
-The same privacy/support/notices documents are bundled for offline reading in Guide. Edit `docs/privacy.md`, `docs/support.md`, or `docs/notices.md`, then run `bun run legal:sync`. CI checks for drift. Do not maintain a separately reworded app policy. GitHub Pages can be added later if cleaner URLs are useful; it is not required by this setup.
+The same privacy/support/notices documents are bundled for offline reading in Guide. Edit `docs/privacy.md`, `docs/support.md`, or `docs/notices.md`, then run `bun run legal:sync`. CI checks for drift. Do not maintain a separately reworded app policy. Keep the company-hosted privacy/support pages consistent with these bundled copies.
 
 ## Before changing visibility
 
@@ -24,9 +24,9 @@ The same privacy/support/notices documents are bundled for offline reading in Gu
 - The October 17 history audit covered 18 reachable commits and 398 unique blobs before this public-preparation change. It found no credential tokens, private keys, signed artifacts, tracked environment files or private filesystem paths. A personal Apple login email appears in older `eas.json` history. Current config no longer contains it. Removing a line in a new commit does not remove historical exposure. Before visibility changes, choose explicitly whether that email may be public or sanitize the unpublished history in coordination with all collaborators. Do not force-push or rewrite history casually.
 - Repeat a full-history secret scan immediately before publication, including any added branches/tags and future changes. A scan is evidence for the inspected state, not a guarantee that every future commit is safe. Do not publish local `.agents`, credentials, build artifacts, `.expo`, device captures or signing material. Gitignore excludes local tooling; Apple credentials should be supplied through EAS's managed flow/environment.
 - Keep the existing bundle ID and EAS project ID. These are identifiers, not signing secrets; never copy the maintainer's signing credentials into forks. Fork contributors should link their own Expo project before cloud builds.
-- Enable Issues for support and review moderation/notification settings. If private security reporting is enabled, link its verified reporting URL; do not claim a private reporting channel exists until tested.
+- If enabling Issues after publication, review moderation/notification settings. Business email remains the support channel. If private security reporting is enabled, link its verified reporting URL; do not claim a private reporting channel exists until tested.
 - Once ready, change repository visibility in GitHub Settings → General → Danger Zone. Read GitHub's impact summary. Confirm that source, complete history, issues, Actions logs/artifacts and release assets are suitable for public access. This operation has not been performed by the preparation work.
-- Verify all four URLs above while signed out. Confirm issue forms load, the public policy matches the bundled copy, and the repository detects the MIT license. Then finish the [Apple review runbook](app-store.md).
+- After publication, verify repository links while signed out and confirm the repository detects the MIT license. Independently verify the company support/privacy pages match the bundled copies, then finish the [Apple review runbook](app-store.md).
 
 ## Dependency notices
 
