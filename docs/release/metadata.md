@@ -24,17 +24,17 @@ Prepared copy for 1.0.0. Confirm naming/branding rights and name availability be
 
 **Description:**
 
-Explore Expo UI through a hands-on catalog of native controls and component variations.
+Explore Expo UI through an interactive catalog of native components.
 
-Browse by API family and category, search for a component or interaction, and try ready-made examples directly. Open Customize to experiment with supported props, modifiers, appearance, direction, width, and spacing. Reset an example whenever you want to start again.
+Browse universal Expo UI controls and direct SwiftUI components on iPhone and iPad. Compare ready-made variants, try their interactions, and see how native controls behave on your device.
 
-On iPhone and iPad, universal Expo UI components and direct SwiftUI examples render as real native controls. Jetpack Compose collections explain their Android availability; they do not render Android controls on iOS.
+Explore buttons, pickers, text fields, forms, menus, sheets, charts, shapes, layouts, and more. Open Customize to experiment with supported settings, then reset an example to its starting state.
 
-The catalog includes buttons, pickers, text fields, forms, menus, sheets, navigation, charts, shapes, layouts, and more. Original version-matched Expo reference pages are bundled for offline reading, with links to the official documentation.
+Read original, SDK-matched Expo documentation alongside the examples. Reference text is bundled for offline reading.
 
-No account is required. Experiments stay in memory. The installed app runs on its own without Expo Go or a development server. External documentation links and remote media require an internet connection.
+No account is required. The app has no ads, analytics, tracking, or data collection. Sample inputs and playground settings are used locally on your device.
 
-An independent developer reference by Andrew Bierman. Not affiliated with or endorsed by Expo or Apple. Component and OS availability vary; the catalog does not enumerate every possible native-framework modifier combination.
+Expo UI Atlas is an independent developer tool for iPhone and iPad. Component availability is shown for each platform and can depend on the operating system version.
 
 ## App Review notes
 

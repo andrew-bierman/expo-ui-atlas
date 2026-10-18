@@ -1,6 +1,6 @@
 # Public repository and support links
 
-The repository is still private. Build 1.0.0 (7) is accepted in App Store Connect, and the company-hosted support/privacy pages are public. The app has not been submitted to App Review or publicly released. Repository visibility remains a separate owner decision.
+The repository is still private. Build 1.0.0 (7) is accepted in App Store Connect, and the company-hosted support/privacy pages are public. On owner authorization, exact version 1.0.0 (7) was submitted to App Review and is Waiting for Review with manual release selected. The app is not publicly released. Repository visibility remains a separate owner decision.
 
 ## Public pages
 
