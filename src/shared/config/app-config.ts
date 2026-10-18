@@ -52,6 +52,7 @@ interface AppConfiguration {
     issues: `https://${string}`;
     privacy: `https://${string}`;
     support: `https://${string}`;
+    supportEmail: `mailto:${string}`;
     notices: `https://${string}`;
     dependencyNotices: `https://${string}`;
   };
@@ -110,10 +111,9 @@ export const appConfig = {
   publicResources: {
     repository: 'https://github.com/andrew-bierman/expo-ui-atlas',
     issues: 'https://github.com/andrew-bierman/expo-ui-atlas/issues',
-    privacy:
-      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md',
-    support:
-      'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/support.md',
+    privacy: 'https://biermancollective.com/apps/expo-ui-atlas/privacy',
+    support: 'https://biermancollective.com/apps/expo-ui-atlas/support',
+    supportEmail: 'mailto:admin@biermancollective.com',
     notices:
       'https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/notices.md',
     dependencyNotices:

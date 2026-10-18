@@ -1,8 +1,8 @@
 # Expo UI Atlas support
 
-Expo UI Atlas is an independent interactive reference for Expo UI, maintained by [Andrew Bierman](https://github.com/andrew-bierman).
+Expo UI Atlas is an independent interactive reference for Expo UI, provided by Andrew Bierman through Bierman Collective LLC.
 
-[Report a bug or ask for help](https://github.com/andrew-bierman/expo-ui-atlas/issues/new/choose). Include the app version, device and OS version, collection/example name, and steps to reproduce the problem. Screenshots help; remove personal information before posting. GitHub Issues are public and posting requires a GitHub account. Reading this page and using the app require no account.
+[Email admin@biermancollective.com for help or to report a bug](mailto:admin@biermancollective.com). Include the app version, device and OS version, collection/example name, and steps to reproduce the problem. Screenshots help; remove personal information before posting. No account is required to use the app or contact support.
 
 ## Common questions
 
@@ -16,8 +16,8 @@ Expo UI Atlas is an independent interactive reference for Expo UI, maintained by
 
 **Does it work offline?** The catalog, examples, bundled reference text, privacy policy, support information and notices work offline. External links and remotely referenced media need connectivity.
 
-**Can I contribute?** See [the contribution guide](https://github.com/andrew-bierman/expo-ui-atlas/blob/main/CONTRIBUTING.md). Please discuss substantial API/architecture changes before implementing them.
+**Can I contribute?** Public source code and contribution instructions are planned. The repository is currently private. Email support to discuss a contribution or substantial API/architecture change.
 
-[Privacy policy](https://github.com/andrew-bierman/expo-ui-atlas/blob/main/docs/privacy.md) · [Source code and license](https://github.com/andrew-bierman/expo-ui-atlas)
+[Privacy policy](https://biermancollective.com/apps/expo-ui-atlas/privacy)
 
 Not affiliated with or endorsed by Expo or Apple.
