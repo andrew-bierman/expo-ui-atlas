@@ -4,7 +4,9 @@ name: Native customization defaults and JSON draft recovery
 - runFlow: ../support/open.yaml
 - tapOn:
     id: catalog-u-button
+- waitForAnimationToEnd
 - tapOn: Customize
+- assertVisible: Customize Button
 - scrollUntilVisible:
     element: Apply configuration
 - tapOn: Apply configuration
