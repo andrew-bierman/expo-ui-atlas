@@ -15,3 +15,6 @@ name: Native search and recovery
 - runFlow: ../support/visible-catalog.yaml
 - assertNotVisible: zz-no-such-component
 - takeScreenshot: search-cleared
+- tapOn: Guide
+- assertVisible: Explore native components, ready-made variants, and optional customization.
+- takeScreenshot: search-return-to-guide

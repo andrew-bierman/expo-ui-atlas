@@ -25,6 +25,7 @@ import { NativeSearchBar, SearchField } from '../../../shared/ui';
 export default function Browse() {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
+  const [searchResetVersion, setSearchResetVersion] = useState(0);
   const [family, setFamily] = useState<Family | CatalogFilter.All>(
     CatalogFilter.All,
   );
@@ -42,6 +43,7 @@ export default function Browse() {
   return (
     <>
       <NativeSearchBar
+        resetVersion={searchResetVersion}
         value={query}
         onChange={setQuery}
         placeholder={t('catalog.search')}
@@ -90,6 +92,7 @@ export default function Browse() {
             <ListItem
               onPress={() => {
                 setQuery('');
+                setSearchResetVersion((version) => version + 1);
                 setFamily(CatalogFilter.All);
                 setCategory(CatalogFilter.All);
               }}

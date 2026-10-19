@@ -7,18 +7,20 @@ export function NativeSearchBar({
   value,
   onChange,
   placeholder,
+  resetVersion,
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
+  resetVersion: number;
 }) {
   const ref = useRef<SearchBarCommands>(null);
   useEffect(() => {
-    if (value === '') {
-      ref.current?.clearText();
-      ref.current?.cancelSearch();
-    }
+    if (value === '') ref.current?.clearText();
   }, [value]);
+  useEffect(() => {
+    if (resetVersion > 0) ref.current?.cancelSearch();
+  }, [resetVersion]);
   if (Platform.OS === 'web') return null;
   return (
     <Stack.SearchBar
