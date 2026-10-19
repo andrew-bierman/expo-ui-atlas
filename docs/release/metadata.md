@@ -20,7 +20,7 @@ Local copy draft for the platform-filtered catalog update. This file does not es
 
 **Keywords:** swiftui,components,controls,interface,catalog,reference,react,native,design,developer
 
-**Promotional text:** Explore live native controls, compare ready-made variations, and experiment with component settings. Includes bundled Expo UI reference pages.
+**Promotional text:** Explore live native controls, compare ready-made variations, and experiment with component settings. Includes original Expo UI references.
 
 **Description:**
 
@@ -30,7 +30,7 @@ Browse universal Expo UI controls and direct SwiftUI components on iPhone and iP
 
 Explore buttons, pickers, text fields, forms, menus, sheets, charts, shapes, layouts, and more. Open Customize to experiment with supported settings, then reset an example to its starting state.
 
-Read original, SDK-matched Expo documentation alongside the examples. Reference text is bundled for offline reading.
+Read original, SDK-matched Expo documentation alongside the examples. Selected reference text is available offline; full references open on the official website.
 
 No account is required. The app has no ads, analytics, tracking, or data collection. Sample inputs and playground settings are used locally on your device.
 
@@ -47,11 +47,11 @@ Suggested walkthrough:
 1. Open Catalog. Use search for “Button” or expand Filters to choose Universal / Actions.
 2. Open Button and tap Add a point. The score changes. Tap Reset example to restore it. Scroll to compare the ready-made variations.
 3. Open Customize in the navigation bar. Change controls and preview settings. Apply the shown JSON unchanged or edit supported values; malformed/unsupported values produce a local validation message. Reset restores defaults. Tap Done to return to the component.
-4. Open Docs to read bundled original SDK-matched reference text in a separate sheet. Close with Done.
+4. Open Docs for the original SDK-matched reference. Selected pages read inline; other pages open the official website. Close the sheet with Done.
 5. Return to Catalog and explore SwiftUI collections such as Swift Charts, menus, forms, and sheets. These are real iOS components; availability can depend on the OS version.
-6. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and bundled documentation also work offline; external links/media require connectivity.
+6. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and inline reference text work offline; official website links and external media require connectivity.
 
-The app has no backend that reviewers need to start. The iOS catalog, search, filters and Guide show universal controls and SwiftUI collections. Android-only Compose collections are excluded from iOS, including direct component, Docs and Customize routes. Android shows universal controls and Compose collections instead; Android runtime behavior is not part of the iOS submission. Documentation is attributed to Expo; include the actual bundled license notice and any requested rights documentation with the submission as applicable.
+The app has no backend that reviewers need to start. The catalog, search, API filters and Guide show universal controls and SwiftUI collections available on this device. Documentation pages suitable for inline reading are bundled; other original references open on the official website. Required open-source notices remain available in Guide.
 
 ## Fields the owner must complete
 

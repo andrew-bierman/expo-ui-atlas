@@ -48,3 +48,16 @@ test('preview defaults are reachable by their configured slider steps', () => {
     expect((range.defaultValue - range.min) % range.step).toBe(0);
   }
 });
+
+test('shared Guide and environment copy does not advertise another native platform', () => {
+  const sharedCopy = [
+    appConfig.messages.families.universal.description,
+    ...Object.values(appConfig.messages.guide).flatMap((value) =>
+      typeof value === 'string' ? [value] : Object.values(value),
+    ),
+    ...Object.values(appConfig.messages.environment),
+  ].join(' ');
+  expect(sharedCopy).not.toMatch(
+    /\bandroid\b|jetpack[\s/-]+compose|\bios\b|swift[\s/-]*ui/i,
+  );
+});

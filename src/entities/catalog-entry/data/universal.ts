@@ -61,7 +61,7 @@ export const universalEntries: CatalogEntry[] = [
     Category.Selection,
     ['Picker'],
     ['dropdown', 'wheel', 'selection'],
-    'Wheel appearance is native on iOS; Android and web use their default dropdown.',
+    'Picker appearance follows the supported native implementation.',
   ),
   entry(
     CatalogEntryId.UniversalInput,
@@ -70,7 +70,7 @@ export const universalEntries: CatalogEntry[] = [
     Category.Inputs,
     ['TextInput', 'useNativeState'],
     ['keyboard', 'password', 'form', 'state'],
-    'Native observable writes do not re-render React on iOS or Android. The callback keeps the visible character counter in sync.',
+    'Native observable writes do not re-render React. The callback keeps the visible character counter in sync.',
   ),
   entry(
     CatalogEntryId.UniversalText,
@@ -88,7 +88,7 @@ export const universalEntries: CatalogEntry[] = [
       Category.Content,
       ['Icon'],
       ['symbol', 'image', 'color'],
-      'SF Symbols on iOS and bundled XML vectors on Android. The universal Icon intentionally renders nothing on web.',
+      'Uses the platform-native symbol format. The universal Icon intentionally renders nothing on web.',
     ),
     platforms: [CatalogPlatform.IOS, CatalogPlatform.Android],
   },
@@ -148,6 +148,6 @@ export const universalEntries: CatalogEntry[] = [
     Category.Presentation,
     ['BottomSheet'],
     ['modal', 'dismiss', 'snap', 'overlay'],
-    'On Android arbitrary fraction/height snap points map to the nearest half/full height; these examples use shared snap points.',
+    'These examples use shared half/full snap points.',
   ),
 ];

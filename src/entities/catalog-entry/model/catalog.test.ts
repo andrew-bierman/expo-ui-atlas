@@ -157,3 +157,24 @@ describe('device-scoped discovery and route resolution', () => {
     ).toBeUndefined();
   });
 });
+
+test('the rejected Cards & surfaces route is inaccessible on iOS', () => {
+  expect(
+    findEntry(CatalogEntryId.ComposeContent, CatalogPlatform.IOS),
+  ).toBeUndefined();
+  expect(
+    filterCatalog(
+      catalog,
+      'Cards surfaces',
+      CatalogFilter.All,
+      CatalogFilter.All,
+      CatalogPlatform.IOS,
+    ),
+  ).toEqual([]);
+  expect(
+    findEntry(CatalogEntryId.ComposeContent, CatalogPlatform.Android)?.name,
+  ).toBe('Cards & surfaces');
+  expect(
+    findEntry(CatalogEntryId.SwiftUIButtons, CatalogPlatform.Android),
+  ).toBeUndefined();
+});

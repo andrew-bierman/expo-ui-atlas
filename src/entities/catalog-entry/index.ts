@@ -8,6 +8,7 @@ export {
   findEntry,
 } from './model/catalog';
 export {
+  canReadReferenceInline,
   findReference,
   type ReferenceDocument,
   referenceManifest,

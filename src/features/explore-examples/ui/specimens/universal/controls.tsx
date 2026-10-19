@@ -159,7 +159,7 @@ export function Pickers() {
       >
         {items}
       </Picker>
-      <Text>Wheel on iOS; native dropdown elsewhere</Text>
+      <Text>Alternate picker appearance</Text>
       <Picker selectedValue={value} onValueChange={setValue} appearance="wheel">
         {items}
       </Picker>
