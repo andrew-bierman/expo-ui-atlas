@@ -11,6 +11,12 @@ name: Native search and recovery
 - inputText: zz-no-such-component
 - assertVisible: No matching components.*
 - takeScreenshot: search-empty
+# Replace the 20-character query without refocusing the native search field.
+- eraseText: 20
+- inputText: slider
+- assertVisible:
+    id: catalog-u-slider
+- takeScreenshot: search-replacement
 - tapOn: Clear filters
 - runFlow: ../support/visible-catalog.yaml
 - assertNotVisible: zz-no-such-component
