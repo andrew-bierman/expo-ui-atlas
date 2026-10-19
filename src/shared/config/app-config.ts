@@ -207,7 +207,7 @@ export const appConfig = {
     },
     reference: {
       attribution:
-        'Official Expo documentation · SDK {{sdkVersion}} · Bundled {{date}} · Available offline',
+        'Official Expo documentation · SDK {{sdkVersion}} · Snapshot {{date}}',
       overview:
         'No dedicated component page is indexed for this collection in this SDK. The official family overview is available below.',
       openOfficial: 'Open official page ↗',
