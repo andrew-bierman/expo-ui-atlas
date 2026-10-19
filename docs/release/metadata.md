@@ -1,6 +1,6 @@
 # App Store listing and reviewer notes
 
-Prepared copy for 1.0.0. Confirm naming/branding rights and name availability before using it. Do not paste instructions or unresolved fields into App Store Connect.
+The Description and App Review notes below were saved and read back exactly for the October 19 replacement submission of 1.0.0 (9), now Waiting for Review. Remaining planning fields are not a readback of every App Store Connect setting; do not paste instructions or unresolved fields.
 
 ## Listing copy
 
@@ -20,7 +20,7 @@ Prepared copy for 1.0.0. Confirm naming/branding rights and name availability be
 
 **Keywords:** swiftui,components,controls,interface,catalog,reference,react,native,design,developer
 
-**Promotional text:** Explore live native controls, compare ready-made variations, and experiment with component settings. Includes bundled Expo UI reference pages.
+**Promotional text:** Explore live native controls, compare ready-made variations, and experiment with component settings. Includes original Expo UI references.
 
 **Description:**
 
@@ -30,33 +30,24 @@ Browse universal Expo UI controls and direct SwiftUI components on iPhone and iP
 
 Explore buttons, pickers, text fields, forms, menus, sheets, charts, shapes, layouts, and more. Open Customize to experiment with supported settings, then reset an example to its starting state.
 
-Read original, SDK-matched Expo documentation alongside the examples. Reference text is bundled for offline reading.
+Read original, SDK-matched Expo documentation alongside the examples. Selected reference text is available offline; full references open on the official website.
 
-No account is required. The app has no ads, analytics, tracking, or data collection. Sample inputs and playground settings are used locally on your device.
+No account is required. Sample inputs and playground settings are used locally on your device.
 
-Expo UI Atlas is an independent developer tool for iPhone and iPad. Component availability is shown for each platform and can depend on the operating system version.
+Expo UI Atlas is an independent developer tool for iPhone and iPad. The catalog shows components supported on your device. Availability can also depend on the operating system version.
 
 ## App Review notes
 
-Expo UI Atlas is an interactive reference utility for developers evaluating native UI behavior. The controls are the product: users compare ready-made variations, operate real native controls, and combine supported settings in a local playground. It is not a login-gated service, a WebView wrapper, or an app installer.
+Expo UI Atlas is an interactive reference for exploring native UI controls on iPhone and iPad. No account or setup is required. The catalog and examples work offline; selected documentation reads inline, while full official references and external media require internet access.
 
-No account, purchase, subscription, special hardware, Expo Go installation, or development server is required. All executable examples ship in the binary; the JSON editor only accepts validated values for bundled controls and does not execute downloaded code. Experiments are temporary and Reset restores their starting state.
-
-Suggested walkthrough:
-
-1. Open Catalog. Use search for “Button” or expand Filters to choose Universal / Actions.
-2. Open Button and tap Add a point. The score changes. Tap Reset example to restore it. Scroll to compare the ready-made variations.
-3. Open Customize in the navigation bar. Change controls and preview settings. Apply the shown JSON unchanged or edit supported values; malformed/unsupported values produce a local validation message. Reset restores defaults. Tap Done to return to the component.
-4. Open Docs to read bundled original SDK-matched reference text in a separate sheet. Close with Done.
-5. Return to Catalog and explore SwiftUI collections such as Swift Charts, menus, forms, and sheets. These are real iOS components; availability can depend on the OS version.
-6. Open a Compose collection to see its explicit Android availability notice. Android-only examples are indexed for cross-platform reference and are intentionally not rendered on iOS.
-7. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and bundled documentation also work offline; external links/media require connectivity.
-
-The app has no backend that reviewers need to start. iOS and Android use different platform entrypoints; Android runtime behavior is not part of the iOS submission. Documentation is attributed to Expo; include the actual bundled license notice and any requested rights documentation with the submission as applicable.
+1. In Catalog, search for Button and open it. Tap Add a point, then Reset example.
+2. Open Customize to try supported settings, then tap Done.
+3. Open Docs to read the available reference or open its official website. Tap Done to return.
+4. Return to Catalog to explore SwiftUI collections, or open Guide for usage, privacy, support and open-source notices.
 
 ## Fields the owner must complete
 
-- Verify the proposed public URLs after publication: Support `https://biermancollective.com/apps/expo-ui-atlas/support`; Privacy `https://biermancollective.com/apps/expo-ui-atlas/privacy`. These are configured targets, not yet verified public endpoints.
+- Verify the proposed public URLs after publication: Support `https://biermancollective.com/apps/expo-ui-atlas/support`; Privacy `https://biermancollective.com/apps/expo-ui-atlas/privacy`. Both endpoints are published; support copy must be aligned with this correction before resubmission.
 - Copyright holder/year and any naming authorization.
 - Reviewer contact name, email, phone; sign-in required: No.
 - Exact processed 1.0.0 build number, screenshots, privacy/age-rating/content-rights answers, storefronts, price and release timing.

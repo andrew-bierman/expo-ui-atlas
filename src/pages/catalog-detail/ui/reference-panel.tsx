@@ -1,7 +1,8 @@
 import { type ComponentRef, useRef, useState } from 'react';
-import { Linking, ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import {
   type CatalogEntryId,
+  canReadReferenceInline,
   findReference,
   referenceManifest,
   referencesForEntry,
@@ -59,31 +60,39 @@ export function ReferencePanel({ entryId }: { entryId: CatalogEntryId }) {
               void Linking.openURL(page.sourceUrl);
             }}
           />
-          <MarkdownDocument
-            key={page.id}
-            source={page.markdown.replace(
-              /^This documentation is available as Markdown for AI agents and LLMs\.[^\n]*\n/m,
-              '',
-            )}
-            sourceUrl={page.sourceUrl}
-            onNavigate={(url) => {
-              const linked = findReference(url);
-              const destination = new URL(url);
-              if (!linked || destination.hash) {
-                if (destination.origin !== new URL(page.sourceUrl).origin)
-                  return false;
-                destination.pathname = destination.pathname.replace(
-                  /(?:\/index)?\.md$/,
-                  '/',
-                );
-                void Linking.openURL(destination.href);
+          {canReadReferenceInline(page, Platform.OS) ? (
+            <MarkdownDocument
+              key={page.id}
+              source={page.markdown.replace(
+                /^This documentation is available as Markdown for AI agents and LLMs\.[^\n]*\n/m,
+                '',
+              )}
+              sourceUrl={page.sourceUrl}
+              onNavigate={(url) => {
+                const linked = findReference(url);
+                const destination = new URL(url);
+                if (
+                  !linked ||
+                  !canReadReferenceInline(linked, Platform.OS) ||
+                  destination.hash
+                ) {
+                  if (destination.origin !== new URL(page.sourceUrl).origin)
+                    return false;
+                  destination.pathname = destination.pathname.replace(
+                    /(?:\/index)?\.md$/,
+                    '/',
+                  );
+                  void Linking.openURL(destination.href);
+                  return true;
+                }
+                setSelectedId(linked.id);
+                scroll.current?.scrollTo({ y: 0, animated: false });
                 return true;
-              }
-              setSelectedId(linked.id);
-              scroll.current?.scrollTo({ y: 0, animated: false });
-              return true;
-            }}
-          />
+              }}
+            />
+          ) : (
+            <Body>{t('reference.externalOnly')}</Body>
+          )}
         </>
       ) : (
         <Body>{t('reference.missing')}</Body>

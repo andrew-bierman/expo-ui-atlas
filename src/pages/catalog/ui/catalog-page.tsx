@@ -16,7 +16,7 @@ import {
   catalog,
   categories,
   Family,
-  familyOptions,
+  familyOptionsForPlatform,
   filterCatalog,
 } from '../../../entities/catalog-entry';
 import { appConfig, useTranslation } from '../../../shared/config';
@@ -25,6 +25,7 @@ import { NativeSearchBar, SearchField } from '../../../shared/ui';
 export default function Browse() {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
+  const [searchResetVersion, setSearchResetVersion] = useState(0);
   const [family, setFamily] = useState<Family | CatalogFilter.All>(
     CatalogFilter.All,
   );
@@ -34,7 +35,7 @@ export default function Browse() {
   const [filtersOpen, setFiltersOpen] = useState<boolean>(
     appConfig.catalog.filtersInitiallyOpen,
   );
-  const results = filterCatalog(catalog, query, family, category);
+  const results = filterCatalog(catalog, query, family, category, Platform.OS);
   const filtered =
     query !== '' ||
     family !== CatalogFilter.All ||
@@ -42,7 +43,7 @@ export default function Browse() {
   return (
     <>
       <NativeSearchBar
-        value={query}
+        resetVersion={searchResetVersion}
         onChange={setQuery}
         placeholder={t('catalog.search')}
       />
@@ -66,7 +67,7 @@ export default function Browse() {
                   value={CatalogFilter.All}
                   label={t('catalog.allApis')}
                 />
-                {familyOptions.map((f) => (
+                {familyOptionsForPlatform(Platform.OS).map((f) => (
                   <Picker.Item
                     key={f.id}
                     value={f.id}
@@ -90,6 +91,7 @@ export default function Browse() {
             <ListItem
               onPress={() => {
                 setQuery('');
+                setSearchResetVersion((version) => version + 1);
                 setFamily(CatalogFilter.All);
                 setCategory(CatalogFilter.All);
               }}

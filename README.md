@@ -1,6 +1,6 @@
 # Expo UI Atlas
 
-A hands-on field guide to Expo UI: **65 collections** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Search by component or behavior, filter by API and category, open live specimens, and customize a component when needed. Built with Expo UI and Expo Router native tabs (Catalog and Guide).
+A hands-on field guide to Expo UI: **65 collections across the source inventory** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Each device shows only its supported collections: universal and SwiftUI on iOS, universal and Compose on Android, and universal on web. Search by component or behavior, filter by API and category, open live specimens, and customize a component when needed. Built with Expo UI and Expo Router native tabs (Catalog and Guide).
 
 ## Run
 
@@ -31,7 +31,7 @@ Universal examples use the root `@expo/ui` API; native examples use their direct
 
 See [coverage](docs/coverage.md) for the complete inventory and the distinction between live components, compound slots, utilities, and specialized contexts. Widget-extension APIs cannot be hosted by Expo Go app content. Newer OS effects and worklet orchestration have explicit notes instead of simulated output.
 
-Component details open to **Variants**: ready-made live examples for every listed enum choice and on/off state, with minimum/default/maximum samples for numeric settings. Scroll through the variants directly. **Customize** opens a separate native sheet to combine real props, modifiers, and environment settings. **Docs** opens bundled official Markdown in its own sheet. There are **277 component-specific controls** plus five shared preview controls. Optional native style ranges stay on **Native default** until Override is enabled. Edit/apply JSON to reproduce a configuration; unapplied drafts survive inspector changes, and Reset restores defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
+Component details open to **Variants**: ready-made live examples for every listed enum choice and on/off state, with minimum/default/maximum samples for numeric settings. Scroll through the variants directly. **Customize** opens a separate native sheet to combine real props, modifiers, and environment settings. **Docs** opens a reference sheet: suitable original pages read inline, while pages discussing other native platforms open on the official website. There are **277 component-specific controls** plus five shared preview controls. Optional native style ranges stay on **Native default** until Override is enabled. Edit/apply JSON to reproduce a configuration; unapplied drafts survive inspector changes, and Reset restores defaults. See the [variant matrix](docs/variants.md) for available knobs and scope limits; configurations currently stay in memory.
 
 ## Support, privacy and open source
 

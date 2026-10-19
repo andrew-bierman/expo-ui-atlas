@@ -155,7 +155,7 @@ export const appConfig = {
     families: {
       universal: {
         label: 'Universal',
-        description: 'One API. Native on iOS and Android, with web fallbacks.',
+        description: 'Shared API with native controls on this device.',
       },
       swiftui: {
         label: 'SwiftUI',
@@ -188,7 +188,7 @@ export const appConfig = {
       },
       boundaries: {
         title: 'Know the boundaries.',
-        body: 'Platform and OS notes matter: SwiftUI renders on iOS, Compose on Android, and universal components have web fallbacks. Glass styles need newer iOS. Widget extensions cannot run inside Expo Go. The atlas covers documented app-use variations; not every combination of all native framework modifiers is represented.',
+        body: 'The catalog shows controls available on this device. Some styles require newer operating system versions. Widget extensions cannot run inside Expo Go. The atlas covers documented app-use variations; not every combination of native framework modifiers is represented.',
       },
       specimen: {
         title: 'Read a specimen.',
@@ -207,11 +207,12 @@ export const appConfig = {
     },
     reference: {
       attribution:
-        'Official Expo documentation · SDK {{sdkVersion}} · Bundled {{date}} · Available offline',
+        'Official Expo documentation · SDK {{sdkVersion}} · Snapshot {{date}}',
       overview:
         'No dedicated component page is indexed for this collection in this SDK. The official family overview is available below.',
       openOfficial: 'Open official page ↗',
       missing: 'No bundled reference is available for this collection.',
+      externalOnly: 'Read this reference on the official website.',
       closeNotFound: 'Close this sheet and return to the catalog.',
     },
     examples: {
@@ -248,7 +249,7 @@ export const appConfig = {
     },
     environment: {
       appearance: 'Appearance',
-      accent: 'Native tint / Material seed',
+      accent: 'Native tint',
       direction: 'Layout direction',
       width: 'Preview width (%)',
       padding: 'Preview inset',

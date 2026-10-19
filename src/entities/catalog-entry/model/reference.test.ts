@@ -5,11 +5,12 @@ import expoPackage from '../../../../node_modules/expo/package.json';
 import bundle from '../data/reference/bundle.json';
 import { catalog } from './catalog';
 import {
+  canReadReferenceInline,
   findReference,
   referenceManifest,
   referencesForEntry,
 } from './reference';
-import { CatalogEntryId } from './types';
+import { CatalogEntryId, CatalogPlatform } from './types';
 
 test('offline reference matches installed SDK and retains complete source pages', () => {
   expect(referenceManifest.sdkVersion.split('.')[0]).toBe(
@@ -51,4 +52,29 @@ test('collections resolve specific references rather than generic API prop headi
     ),
   ).toContain('Modifiers');
   expect(findReference('https://example.com/button.md')).toBeUndefined();
+});
+
+test('inline references exclude other-platform content without rewriting originals', () => {
+  for (const platform of [CatalogPlatform.IOS, CatalogPlatform.Android]) {
+    const forbidden =
+      platform === CatalogPlatform.IOS
+        ? /\bandroid\b|jetpack[\s/-]+compose/i
+        : /\bios\b|swift[\s/-]*ui/i;
+    const visible = bundle.pages.filter((page) =>
+      canReadReferenceInline(page, platform),
+    );
+    expect(visible.length).toBeGreaterThan(0);
+    for (const page of visible) expect(page.markdown).not.toMatch(forbidden);
+  }
+  const shared = referencesForEntry(CatalogEntryId.UniversalButton)[0];
+  expect(shared).toBeDefined();
+  if (!shared) throw new Error('Missing original button reference');
+  expect(canReadReferenceInline(shared, CatalogPlatform.IOS)).toBe(false);
+  expect(canReadReferenceInline(shared, CatalogPlatform.Android)).toBe(false);
+  const opposite = referencesForEntry(CatalogEntryId.ComposeContent);
+  for (const page of opposite)
+    expect(canReadReferenceInline(page, CatalogPlatform.IOS)).toBe(false);
+  for (const page of referencesForEntry(CatalogEntryId.SwiftUIButtons))
+    expect(canReadReferenceInline(page, CatalogPlatform.Android)).toBe(false);
+  expect(canReadReferenceInline(shared, 'unsupported')).toBe(false);
 });

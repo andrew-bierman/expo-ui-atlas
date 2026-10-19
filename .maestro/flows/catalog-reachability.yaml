@@ -2,18 +2,29 @@ appId: ${APP_ID}
 name: Native catalog final-row reachability
 ---
 - runFlow: ../support/open.yaml
-- scrollUntilVisible:
-    element:
-      id: catalog-compose-inline-dates
-    visibilityPercentage: 100
-    timeout: 60000
-- takeScreenshot: catalog-bottom
-- tapOn:
-    id: catalog-compose-inline-dates
-- assertVisible: Docs
 - runFlow:
     when:
       platform: ios
     commands:
-      - assertVisible: Available on Android
+      - scrollUntilVisible:
+          element:
+            id: catalog-swiftui-contexts
+          visibilityPercentage: 100
+          timeout: 60000
+      - tapOn:
+          id: catalog-swiftui-contexts
+      - assertVisible: Specialized native contexts
+- runFlow:
+    when:
+      platform: android
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: catalog-compose-inline-dates
+          visibilityPercentage: 100
+          timeout: 60000
+      - tapOn:
+          id: catalog-compose-inline-dates
+- assertVisible: Docs
+- assertVisible: Customize
 - takeScreenshot: catalog-final-entry
