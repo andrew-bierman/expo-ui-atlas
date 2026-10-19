@@ -4,11 +4,9 @@ Draft only. Do not send until the rebuilt replacement binary and screenshots hav
 
 ## Proposed response after verification
 
-Thank you for the review. We have removed the unsupported collections and availability screens identified in your screenshot. The catalog, search, filters and Guide now show only universal controls and direct SwiftUI components available on iPhone and iPad. Direct links to unsupported collections no longer open those component pages or their documentation and customization screens.
+Thank you for the review. We removed unsupported-platform collections and references from the iOS experience, including the Cards & surfaces screen shown in your screenshot. Catalog discovery and direct component, documentation and customization routes now filter unsupported collections. We verified the correction on iPhone and iPad simulators.
 
-We also removed other-platform references from shared in-app guidance. Original documentation pages discussing other platforms open on the official website rather than appearing inline. Required open-source license notices remain accessible in Guide.
-
-The replacement build is [INSERT VERIFIED BUILD NUMBER]. Please review this build using the updated screenshots and review notes.
+The replacement build is 1.0.0 ([VERIFIED PROCESSED BUILD NUMBER]). Please review it with the updated screenshots and notes.
 
 ## Evidence required before sending
 
@@ -19,3 +17,9 @@ The replacement build is [INSERT VERIFIED BUILD NUMBER]. Please review this buil
 - Reciprocal source guards reviewed; Android runtime evidence identified separately if unavailable.
 
 The received October 19 rejection is 2.3.10 Accurate Metadata for iOS 1.0.0 (7), with the instruction “Revise the app’s binary to remove Android references.” The original screenshot and authenticated review evidence are retained locally; this draft does not establish that Apple has accepted a correction.
+
+## Proposed replacement build and upload plan
+
+Propose iOS 1.0.0 (8), subject to checking the highest remote build number immediately before building. Build 7 remains the rejected submission; the local simulator build number 1 is not a store build number. `eas.json` uses remote app versions and automatic incrementing.
+
+After native acceptance and owner authorization for the next release actions: build the verified source with `bunx eas-cli@23.2.0 build --platform ios --profile production`; audit the exact signed archive, then upload that explicit build ID with `bunx eas-cli@23.2.0 submit --platform ios --profile production --id <VERIFIED_EAS_BUILD_ID>`. Do not use `--latest`. After Apple processing, select the matching replacement build and refreshed screenshots, apply the reviewed listing/notes, and send the response only with the verified build number. Upload and App Review resubmission are separate actions and have not been performed by this correction task.
