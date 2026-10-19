@@ -44,7 +44,6 @@ export default function Browse() {
     <>
       <NativeSearchBar
         resetVersion={searchResetVersion}
-        value={query}
         onChange={setQuery}
         placeholder={t('catalog.search')}
       />
