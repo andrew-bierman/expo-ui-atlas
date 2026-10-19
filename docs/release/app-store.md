@@ -1,6 +1,6 @@
 # iOS release and Apple review
 
-Updated October 19, 2026 (America/Denver). Version 1.0.0 (7) was rejected under 2.3.10 Accurate Metadata. Apple requests removal of Android references from the binary. Source corrections and a replacement release are being prepared; no replacement upload or submission has occurred. Manual release remains selected.
+Updated October 19, 2026 (America/Denver). Version 1.0.0 (7) was rejected under 2.3.10 Accurate Metadata. Apple requests removal of Android references from the binary. Source corrections are prepared. Replacement 1.0.0 (9) from `9808282` passed signed-archive audit and its explicit-ID EAS upload finished; Apple processing is verified VALID / ready for beta testing. No App Review resubmission has occurred. Manual release remains selected.
 
 ## Platform-scope update draft
 
