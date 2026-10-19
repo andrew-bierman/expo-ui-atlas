@@ -14,7 +14,10 @@ export function NativeSearchBar({
 }) {
   const ref = useRef<SearchBarCommands>(null);
   useEffect(() => {
-    if (value === '') ref.current?.clearText();
+    if (value === '') {
+      ref.current?.clearText();
+      ref.current?.cancelSearch();
+    }
   }, [value]);
   if (Platform.OS === 'web') return null;
   return (
