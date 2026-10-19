@@ -1,6 +1,6 @@
 # App Store listing and reviewer notes
 
-Local copy draft for the platform-filtered catalog update. This file does not establish the current App Store Connect metadata or Apple reviewer feedback. Do not paste instructions or unresolved fields into App Store Connect.
+The Description and App Review notes below were saved and read back exactly for the October 19 replacement submission of 1.0.0 (9), now Waiting for Review. Remaining planning fields are not a readback of every App Store Connect setting; do not paste instructions or unresolved fields.
 
 ## Listing copy
 

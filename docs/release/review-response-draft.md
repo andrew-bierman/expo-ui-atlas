@@ -1,6 +1,6 @@
 # App Review response draft — 2.3.10
 
-Draft only. Do not send until the rebuilt replacement binary and screenshots have been verified. Replacement 1.0.0 (9) passed signed-archive audit and Apple processing. Updated screenshots/metadata and actual selection remain pending the GUI hold.
+Historical response draft. One response was sent with the replacement submission on October 19 at 5:02 PM MDT. Message count and sender timestamp were verified; exact sent-body readback was unavailable. Do not resend. Build 9 is Waiting for Review. See [the submission receipt](platform-correction-validation.md#replacement-submission-receipt--october-19-2026).
 
 ## Proposed response after verification
 

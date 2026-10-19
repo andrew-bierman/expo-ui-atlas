@@ -1,14 +1,18 @@
 # iOS release and Apple review
 
-Updated October 19, 2026 (America/Denver). Version 1.0.0 (7) was rejected under 2.3.10 Accurate Metadata. Apple requests removal of Android references from the binary. Source corrections are prepared. Replacement 1.0.0 (9) from `9808282` passed signed-archive audit and its explicit-ID EAS upload finished; Apple processing is verified VALID / ready for beta testing. No App Review resubmission has occurred. Manual release remains selected.
+Updated October 19, 2026 (America/Denver). Build 7 was rejected under 2.3.10 Accurate Metadata for Android references. Corrected **1.0.0 (9) is Waiting for Review**, with manual release selected.
 
-## Platform-scope update draft
+## Replacement submission receipt — October 19, 2026
 
-The source update hides opposite-platform collections throughout catalog search, API filters, Guide and direct component/Docs/Customize routes. iOS exposes universal controls and SwiftUI; Android exposes universal controls and Compose; web exposes universal implementations. Legal notices remain bundled regardless of which collections are visible.
+Version **1.0.0 (9)** is **Waiting for Review**, submitted October 19 at 5:02 PM MDT in submission `fd7e090f-8894-440b-83fe-7dc6cf8b64ae`. Exact build source is `9808282b1f0e8bdf1fc09d5474f118b36d455d32`; EAS build `c0a60b44-d815-4f48-be4b-2076f1a0ac9f`. Manual release remains selected. Description and reviewer notes were read back exactly; six new iPhone and six new iPad original screenshot filenames were read back, with Save disabled after saving. Corrected support FAQ is published and verified.
 
-The saved build 7 screenshots and review receipts below describe the previously submitted binary. They do not validate the updated platform-filtered UI. Before a future submission, capture the updated standalone catalog and Guide on iPhone and iPad, check that visible API filters and counts match the platform, and compare every saved screenshot with the intended binary. The local description and walkthrough in [metadata.md](metadata.md) are updated drafts only; no App Store Connect metadata change, upload, reviewer reply or submission is part of this source correction. Authenticated review evidence retrieved October 19 confirms rejection under 2.3.10 Accurate Metadata and requests: “Revise the app’s binary to remove Android references.” The attached screenshot shows Cards & surfaces with an Available on Android notice. The exact collection is compose-content. Current-source iPhone/iPad simulator verification passed; see [the correction validation receipt](platform-correction-validation.md) for exact source, evidence and remaining gates. No replacement binary has been submitted.
+The response was sent once: message count increased from one to two and the sender timestamp was observed at 5:02 PM. The sent-message accordion did not expand through accessibility, so exact sent-body readback remains unverified; no duplicate response was sent. Private local text, screenshot and hash evidence are retained in `.expo/platform-scope-validation/browser-submission-20261019/receipt.json` and its siblings. Approval and public availability are not claimed. The GUI lane is released; no further tests, builds or submissions are part of this receipt reconciliation.
 
-## Current readiness
+## Platform correction
+
+Discovery, API filters, Guide and direct component/reference/customization routes now filter by device availability. iOS shows universal and SwiftUI; Android shows universal and Compose. Original references unsuitable for inline reading open externally; required notices remain bundled. See [validation evidence and limits](platform-correction-validation.md). Older build 7 receipts below are historical, not replacement validation.
+
+## Historical build 7 readiness
 
 | Area | Status |
 | --- | --- |
@@ -24,7 +28,7 @@ The saved build 7 screenshots and review receipts below describe the previously 
 
 ## App Store Connect setup receipt — October 17, 2026
 
-The app record exists under Bierman Collective LLC with limited app access. Version 1.0.0 is **Rejected** under 2.3.10, with manual release selected and sign-in requirements disabled. Description, promotional text, keywords, copyright and reviewer walkthrough are saved. App Information has the subtitle “Explore native UI controls,” Developer Tools as the primary category, and the calculated 4+ age rating. Pricing is free in all storefronts; availability is configured for all 175 countries/regions on release. Apple Silicon Mac and Vision Pro availability are disabled for the initial iPhone/iPad release.
+The app record exists under Bierman Collective LLC with limited app access. At the build 7 rejection, version 1.0.0 was **Rejected** under 2.3.10, with manual release selected and sign-in requirements disabled. Description, promotional text, keywords, copyright and reviewer walkthrough are saved. App Information has the subtitle “Explore native UI controls,” Developer Tools as the primary category, and the calculated 4+ age rating. Pricing is free in all storefronts; availability is configured for all 175 countries/regions on release. Apple Silicon Mac and Vision Pro availability are disabled for the initial iPhone/iPad release.
 
 TestFlight beta description and reviewer walkthrough are saved; review contacts are filled in App Store Connect and TestFlight from the existing Perdiem company contact. The public business support email is documented; the review phone remains omitted from this repository. The version's Support URL points to the company page, and its optional Marketing URL is blank while the repository remains private. TestFlight rejected a blank Marketing URL, so its required field now uses the public company homepage (`https://biermancollective.com`), with a confirmed saved state. The TestFlight and App Store privacy URLs now point to the published company policy. With owner approval, the internal “Owner testing” group contains exactly one tester (the existing account holder) and build 7; automatic distribution is disabled. The initial readback showed the owner invitation as Invited. The owner subsequently reported TestFlight “LGTM,” providing basic owner acceptance. No external group or additional tester was added. This does not replace the full physical-device checklist.
 
