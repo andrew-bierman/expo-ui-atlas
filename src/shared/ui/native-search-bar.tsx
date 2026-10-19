@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router/stack';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
-import type { SearchBarCommands } from 'react-native-screens';
+import type { SearchBarCommands, SearchBarProps } from 'react-native-screens';
 
 export function NativeSearchBar({
   onChange,
@@ -19,6 +19,11 @@ export function NativeSearchBar({
       ref.current?.cancelSearch();
     }
   }, [resetVersion]);
+  const handleChange = useCallback<NonNullable<SearchBarProps['onChangeText']>>(
+    (event) => onChange(event.nativeEvent.text),
+    [onChange],
+  );
+  const handleCancel = useCallback(() => onChange(''), [onChange]);
   if (Platform.OS === 'web') return null;
   return (
     <Stack.SearchBar
@@ -26,8 +31,8 @@ export function NativeSearchBar({
       placeholder={placeholder}
       autoCapitalize="none"
       obscureBackground={false}
-      onChangeText={(event) => onChange(event.nativeEvent.text)}
-      onCancelButtonPress={() => onChange('')}
+      onChangeText={handleChange}
+      onCancelButtonPress={handleCancel}
     />
   );
 }
