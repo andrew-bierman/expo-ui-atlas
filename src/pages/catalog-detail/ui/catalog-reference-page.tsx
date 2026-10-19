@@ -1,5 +1,5 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { Platform } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import { findEntry } from '../../../entities/catalog-entry';
 import { useTranslation } from '../../../shared/config';
 import { Notice } from '../../../shared/ui';
@@ -25,9 +25,11 @@ export function CatalogReferencePage() {
       {entry ? (
         <ReferencePanel entryId={entry.id} />
       ) : (
-        <Notice title={t('catalog.notFound')}>
-          {t('reference.closeNotFound')}
-        </Notice>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <Notice title={t('catalog.notFound')}>
+            {t('reference.closeNotFound')}
+          </Notice>
+        </ScrollView>
       )}
     </>
   );
