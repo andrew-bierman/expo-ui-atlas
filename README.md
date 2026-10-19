@@ -1,6 +1,6 @@
 # Expo UI Atlas
 
-A hands-on field guide to Expo UI: **65 collections** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Search by component or behavior, filter by API and category, open live specimens, and customize a component when needed. Built with Expo UI and Expo Router native tabs (Catalog and Guide).
+A hands-on field guide to Expo UI: **65 collections across the source inventory** spanning universal components, direct SwiftUI, and direct Jetpack Compose. Each device shows only its supported collections: universal and SwiftUI on iOS, universal and Compose on Android, and universal on web. Search by component or behavior, filter by API and category, open live specimens, and customize a component when needed. Built with Expo UI and Expo Router native tabs (Catalog and Guide).
 
 ## Run
 

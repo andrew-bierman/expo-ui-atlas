@@ -16,7 +16,7 @@ import {
   catalog,
   categories,
   Family,
-  familyOptions,
+  familyOptionsForPlatform,
   filterCatalog,
 } from '../../../entities/catalog-entry';
 import { appConfig, useTranslation } from '../../../shared/config';
@@ -34,7 +34,7 @@ export default function Browse() {
   const [filtersOpen, setFiltersOpen] = useState<boolean>(
     appConfig.catalog.filtersInitiallyOpen,
   );
-  const results = filterCatalog(catalog, query, family, category);
+  const results = filterCatalog(catalog, query, family, category, Platform.OS);
   const filtered =
     query !== '' ||
     family !== CatalogFilter.All ||
@@ -66,7 +66,7 @@ export default function Browse() {
                   value={CatalogFilter.All}
                   label={t('catalog.allApis')}
                 />
-                {familyOptions.map((f) => (
+                {familyOptionsForPlatform(Platform.OS).map((f) => (
                   <Picker.Item
                     key={f.id}
                     value={f.id}

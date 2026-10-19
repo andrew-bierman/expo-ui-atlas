@@ -1,4 +1,5 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Platform } from 'react-native';
 import { findEntry } from '../../../entities/catalog-entry';
 import { useTranslation } from '../../../shared/config';
 import { Notice } from '../../../shared/ui';
@@ -6,7 +7,7 @@ import { ReferencePanel } from './reference-panel';
 export function CatalogReferencePage() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const entry = findEntry(id);
+  const entry = findEntry(id, Platform.OS);
   return (
     <>
       <Stack.Screen

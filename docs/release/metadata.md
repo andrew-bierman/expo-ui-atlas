@@ -1,6 +1,6 @@
 # App Store listing and reviewer notes
 
-Prepared copy for 1.0.0. Confirm naming/branding rights and name availability before using it. Do not paste instructions or unresolved fields into App Store Connect.
+Local copy draft for the platform-filtered catalog update. This file does not establish the current App Store Connect metadata or Apple reviewer feedback. Do not paste instructions or unresolved fields into App Store Connect.
 
 ## Listing copy
 
@@ -34,7 +34,7 @@ Read original, SDK-matched Expo documentation alongside the examples. Reference 
 
 No account is required. The app has no ads, analytics, tracking, or data collection. Sample inputs and playground settings are used locally on your device.
 
-Expo UI Atlas is an independent developer tool for iPhone and iPad. Component availability is shown for each platform and can depend on the operating system version.
+Expo UI Atlas is an independent developer tool for iPhone and iPad. The catalog shows components supported on your device. Availability can also depend on the operating system version.
 
 ## App Review notes
 
@@ -49,10 +49,9 @@ Suggested walkthrough:
 3. Open Customize in the navigation bar. Change controls and preview settings. Apply the shown JSON unchanged or edit supported values; malformed/unsupported values produce a local validation message. Reset restores defaults. Tap Done to return to the component.
 4. Open Docs to read bundled original SDK-matched reference text in a separate sheet. Close with Done.
 5. Return to Catalog and explore SwiftUI collections such as Swift Charts, menus, forms, and sheets. These are real iOS components; availability can depend on the OS version.
-6. Open a Compose collection to see its explicit Android availability notice. Android-only examples are indexed for cross-platform reference and are intentionally not rendered on iOS.
-7. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and bundled documentation also work offline; external links/media require connectivity.
+6. Open Guide for scope, usage, and component context. Privacy policy, Support, and Open-source notices open bundled information sheets; dependency notices can be exported through the operating system’s share sheet. Core examples and bundled documentation also work offline; external links/media require connectivity.
 
-The app has no backend that reviewers need to start. iOS and Android use different platform entrypoints; Android runtime behavior is not part of the iOS submission. Documentation is attributed to Expo; include the actual bundled license notice and any requested rights documentation with the submission as applicable.
+The app has no backend that reviewers need to start. The iOS catalog, search, filters and Guide show universal controls and SwiftUI collections. Android-only Compose collections are excluded from iOS, including direct component, Docs and Customize routes. Android shows universal controls and Compose collections instead; Android runtime behavior is not part of the iOS submission. Documentation is attributed to Expo; include the actual bundled license notice and any requested rights documentation with the submission as applicable.
 
 ## Fields the owner must complete
 

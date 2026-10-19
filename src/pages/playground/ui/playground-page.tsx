@@ -11,14 +11,12 @@ import { Notice } from '../../../shared/ui';
 export function PlaygroundPage() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const entry = findEntry(id);
-  const supported = entry?.platforms.some((p) => p === Platform.OS);
-  const examples =
-    entry && supported
-      ? ((entry.family === Family.Universal
-          ? universalExamples
-          : nativeExamples)[entry.id] ?? [])
-      : [];
+  const entry = findEntry(id, Platform.OS);
+  const examples = entry
+    ? ((entry.family === Family.Universal ? universalExamples : nativeExamples)[
+        entry.id
+      ] ?? [])
+    : [];
   return (
     <>
       <Stack.Screen

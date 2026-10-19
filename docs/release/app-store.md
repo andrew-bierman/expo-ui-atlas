@@ -2,6 +2,12 @@
 
 Updated October 17, 2026 (America/Denver). Version 1.0.0 (7) was submitted on owner authorization and is Waiting for Review. This is not Apple approval or a public release; manual release remains selected.
 
+## Platform-scope update draft
+
+The source update hides opposite-platform collections throughout catalog search, API filters, Guide and direct component/Docs/Customize routes. iOS exposes universal controls and SwiftUI; Android exposes universal controls and Compose; web exposes universal implementations. Legal notices remain bundled regardless of which collections are visible.
+
+The saved build 7 screenshots and review receipts below describe the previously submitted binary. They do not validate the updated platform-filtered UI. Before a future submission, capture the updated standalone catalog and Guide on iPhone and iPad, check that visible API filters and counts match the platform, and compare every saved screenshot with the intended binary. The local description and walkthrough in [metadata.md](metadata.md) are updated drafts only; no App Store Connect metadata change, upload, reviewer reply or submission is part of this source correction. Actual Apple reviewer feedback has not been retrieved for this correction, so no rejection cause is inferred here.
+
 ## Current readiness
 
 | Area | Status |

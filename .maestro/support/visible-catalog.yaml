@@ -1,0 +1,16 @@
+appId: ${APP_ID}
+---
+- runFlow:
+    when:
+      platform: ios
+    commands:
+      - extendedWaitUntil:
+          visible: 40 collections
+          timeout: 60000
+- runFlow:
+    when:
+      platform: android
+    commands:
+      - extendedWaitUntil:
+          visible: 39 collections
+          timeout: 60000

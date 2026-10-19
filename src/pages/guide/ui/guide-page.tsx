@@ -1,7 +1,10 @@
 import { FieldGroup, Host, ListItem, Text } from '@expo/ui';
 import { router } from 'expo-router';
-import { Linking } from 'react-native';
-import { catalog, Family } from '../../../entities/catalog-entry';
+import { Linking, Platform } from 'react-native';
+import {
+  catalogForPlatform,
+  familyOptionsForPlatform,
+} from '../../../entities/catalog-entry';
 import { appConfig, useTranslation } from '../../../shared/config';
 import { LegalDocumentId } from '../../../shared/legal';
 
@@ -13,20 +16,22 @@ const resourceLabels = {
 
 export function GuidePage() {
   const { t } = useTranslation();
+  const platformCatalog = catalogForPlatform(Platform.OS);
   return (
     <Host style={{ flex: 1 }}>
       <FieldGroup>
         <FieldGroup.Section title={appConfig.name}>
           <Text>{t('guide.intro')}</Text>
         </FieldGroup.Section>
-        {Object.values(Family).map((family) => (
+        {familyOptionsForPlatform(Platform.OS).map(({ id: family }) => (
           <FieldGroup.Section
             key={family}
             title={t('guide.familyTitle', {
               family: t(`families.${family}.label`),
               countLabel: t('catalog.collections', {
-                count: catalog.filter((entry) => entry.family === family)
-                  .length,
+                count: platformCatalog.filter(
+                  (entry) => entry.family === family,
+                ).length,
               }),
             })}
           >

@@ -12,6 +12,6 @@ name: Native search and recovery
 - assertVisible: No matching components.*
 - takeScreenshot: search-empty
 - tapOn: Clear filters
-- assertVisible: 65 collections
+- runFlow: ../support/visible-catalog.yaml
 - assertNotVisible: zz-no-such-component
 - takeScreenshot: search-cleared

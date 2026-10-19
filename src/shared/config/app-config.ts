@@ -188,7 +188,7 @@ export const appConfig = {
       },
       boundaries: {
         title: 'Know the boundaries.',
-        body: 'Platform and OS notes matter: SwiftUI renders on iOS, Compose on Android, and universal components have web fallbacks. Glass styles need newer iOS. Widget extensions cannot run inside Expo Go. The atlas covers documented app-use variations; not every combination of all native framework modifiers is represented.',
+        body: 'The catalog shows components available on this device: universal controls and SwiftUI on iOS, universal controls and Compose on Android, and universal web implementations on web. OS requirements still apply; glass styles need newer iOS. Widget extensions cannot run inside Expo Go. The atlas covers documented app-use variations; not every combination of all native framework modifiers is represented.',
       },
       specimen: {
         title: 'Read a specimen.',
