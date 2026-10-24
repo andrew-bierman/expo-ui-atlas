@@ -46,7 +46,7 @@
     "legal:sync": "bun scripts/sync-legal.ts"
   },
   "private": true,
-  "packageManager": "bun@1.3.14",
+  "packageManager": "bun@1.4.4",
   "engines": {
     "node": "^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0"
   },
